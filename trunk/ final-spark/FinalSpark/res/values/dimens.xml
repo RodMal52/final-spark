@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="gg">300dip</dimen>
+    <dimen name="gh">250dp</dimen>
+    <dimen name="gf">200dp</dimen>
+</resources>
