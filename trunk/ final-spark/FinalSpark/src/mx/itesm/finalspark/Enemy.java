@@ -52,18 +52,19 @@ public class Enemy extends Character implements Move{
 		    speedY = (int) (speed * Math.sin(direction));
 		}
 		
-		public Object Load_enemy(int type){
+		public  Object Load_enemy(int type){
 			if(type == 1){
-			objEnemy = Modelo.cargarModelo(getBaseContext(),
+			objEnemy = Modelo.cargarModeloMTL(getBaseContext(),
 					"enemy1.obj","objeto.mtl",  1);
+			
 			}else if(type == 2){
-				objEnemy = Modelo.cargarModelo(getBaseContext(),
+				objEnemy = Modelo.cargarModeloMTL(getBaseContext(),
 						"enemy2.obj","objeto.mtl", 1);
 			}else{
-				objEnemy = Modelo.cargarModelo(getBaseContext(),
+				objEnemy = Modelo.cargarModeloMTL(getBaseContext(),
 						"enemy3.obj", "objeto.mtl", 1);//a todos les falta el objeto y la textura
 			}
-					
+			return objEnemy;		
 		}
 		
 		private void Start () {
@@ -87,6 +88,7 @@ public class Enemy extends Character implements Move{
 		private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 		
 		public void shoot() {
+			int a = 0,b =0;
 			Projectile p = new Projectile(centerX + a, centerY + b);//a y b son las coordenadas de donde este el canon de la nave
 			projectiles.add(p);
 		}
