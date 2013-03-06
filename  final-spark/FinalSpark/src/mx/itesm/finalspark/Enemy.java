@@ -1,6 +1,5 @@
 package mx.itesm.finalspark;
 import java.util.ArrayList;
-
 import java.lang.reflect.Field;
 
 import com.threed.jpct.Object3D;
@@ -72,28 +71,6 @@ public class Enemy extends Character implements Move{
 		}
 		
 		
-		public void update() {
-
-			if (Input.touchCount > 0 && 
-			        Input.GetTouch(0).phase == TouchPhase.Moved) {
-			 
-			 
-			        // Get movement of the finger since last frame
-			        touchDeltaPosition:Vector2 = Input.GetTouch(0).deltaPosition;
-			 
-			        touchPosition:Vector3;
-			 
-			        touchPosition.Set(touchDeltaPosition.x, 
-			                     transform.position.y, 
-			                     touchDeltaPosition.y);
-			 
-			 
-			        // Move object across XY plane
-			        transform.position = Vector3.Lerp(transform.position,
-			                                   touchPosition, 
-			                                   Time.deltaTime*speed);
-			    }
-		}
 
 		public void moveRight() {
 			speedX = 6;
