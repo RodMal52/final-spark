@@ -1,8 +1,10 @@
 package mx.itesm.finalspark;
 
+import android.app.Activity;
+
 import com.threed.jpct.Object3D;
 
-public class Character {
+public class Character extends Activity {
 
 	private int maxHealth, currentHealth, power, speedX, centerX, centerY;
 	private Object3D nave;
