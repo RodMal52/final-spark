@@ -4,10 +4,10 @@ import android.app.Activity;
 
 import com.threed.jpct.Object3D;
 
-public class Character extends Activity {
+public class Character extends Sprite {
 
-	private int maxHealth, currentHealth, power, speedX, centerX, centerY;
-	private Object3D nave;
+
+	private int maxHealth, currentHealth, power;
 
 	public int getMaxHealth() {
 		return maxHealth;
@@ -27,34 +27,10 @@ public class Character extends Activity {
 
 	public int getPower() {
 		return power;
-	}
+	}		
 
 	public void setPower(int power) {
 		this.power = power;
-	}
-
-	public int getSpeedX() {
-		return speedX;
-	}
-
-	public void setSpeedX(int speedX) {
-		this.speedX = speedX;
-	}
-
-	public int getCenterX() {
-		return centerX;
-	}
-
-	public void setCenterX(int centerX) {
-		this.centerX = centerX;
-	}
-
-	public int getCenterY() {
-		return centerY;
-	}
-
-	public void setCenterY(int centerY) {
-		this.centerY = centerY;
 	}
 
 	public void die() {
@@ -62,4 +38,5 @@ public class Character extends Activity {
 
 	public void attack() {
 	}
+	
 }
