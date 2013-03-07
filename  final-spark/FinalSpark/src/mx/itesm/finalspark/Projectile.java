@@ -1,16 +1,22 @@
 package mx.itesm.finalspark;
 
-public class Projectile {
+import com.threed.jpct.Object3D;
+
+public class Projectile extends Character{
 	private int x, y, speedX;
 	private boolean visible;
 	private int damage;
+	private Object3D objProjectile;
 	
 	
 	public Projectile(int startX, int startY){
 		x = startX;
 		y = startY;
 		speedX = 7;
+		objProjectile = Modelo.cargarModeloMTL(getBaseContext(),
+				"projectile.obj","projectile.mtl",  1);
 		visible = true;
+		
 	}
 
 	public void update(){
