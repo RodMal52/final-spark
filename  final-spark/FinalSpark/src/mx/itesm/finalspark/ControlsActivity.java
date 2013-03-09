@@ -22,8 +22,8 @@ public class ControlsActivity extends Activity {
 	}
 	
 	public void mostrarGame (View view){
-		Intent intent = new Intent(this,GameActivity.class);
-		this.startActivity(intent);
+		Intent intent = new Intent(this,Juego.class);
+		startActivity(intent);
 	}
 
 }
