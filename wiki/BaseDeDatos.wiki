@@ -2,6 +2,7 @@ En el proyecto se creó la clase DBAdapter.java. En ella se encuentran los méto
 
 package mx.itesm.finalspark;
 
+
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
