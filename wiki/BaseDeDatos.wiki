@@ -4,9 +4,13 @@ package mx.itesm.finalspark;
 
 
 import android.app.Activity;
+
 import android.database.Cursor;
+
 import android.os.Bundle;
+
 import android.widget.Toast;
+
 
 public class DatabasesActivity extends Activity {
     /** Llamado cuando la actividad es creada por primera vez **/
