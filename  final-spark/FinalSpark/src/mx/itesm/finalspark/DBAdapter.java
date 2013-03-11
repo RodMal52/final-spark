@@ -74,7 +74,7 @@ public class DBAdapter {
         }
         
         //Insertar un contacto a la base de datos
-        public long insertContact(String nombre, int score) 
+        public long insertPlayer(String nombre, int score) 
         {
             ContentValues initialValues = new ContentValues();
             initialValues.put(KEY_NOMBRE, nombre);
@@ -83,18 +83,18 @@ public class DBAdapter {
         }        
         
         //Eliminar un jugador particular de la base de datos
-        public boolean deleteContact(long rowId) 
+        public boolean deletePlayer(long rowId) 
         {
             return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
         }
         //Obtener los jugadores de la base de datos
-        public Cursor getAllContacts()
+        public Cursor getAllPlayers()
         {
             return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NOMBRE,
                     KEY_SCORE}, null, null, null, null, null);
         }
         //Obtiene un contacto específico de la base de datos
-        public Cursor getContact(long rowId) throws SQLException 
+        public Cursor getPlayer(long rowId) throws SQLException 
         {        
             Cursor mCursor =
                     db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
@@ -106,7 +106,7 @@ public class DBAdapter {
             return mCursor;
         } 
       //Actualiza la información de un contacto.
-        public boolean updateContact(long rowId, String nombre, int score) 
+        public boolean updatePlayer(long rowId, String nombre, int score) 
         {
             ContentValues args = new ContentValues();
             args.put(KEY_NOMBRE, nombre);
