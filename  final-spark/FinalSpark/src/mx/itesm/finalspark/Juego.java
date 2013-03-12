@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,6 +16,8 @@ import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.RGBColor;
+import com.threed.jpct.Texture;
+import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
 import com.threed.jpct.util.MemoryHelper;
 
@@ -21,6 +25,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class Juego extends Activity {
 	private static Juego main;
@@ -32,9 +38,8 @@ public class Juego extends Activity {
 	private Camera camara;
 
 	// Agregamos objetos en el mundo
-	private Object3D objAvion;
+	private Object3D objNave;
 	private Object3D misil;
-
 
 	// Para guardar el desplazamiento del touch (pixeles)
 	@SuppressWarnings("unused")
@@ -54,6 +59,11 @@ public class Juego extends Activity {
 			copiar(main);
 		}
 		super.onCreate(savedInstanceState);
+		// Pantalla completa
+		requestWindowFeature(Window.FEATURE_NO_TITLE); // Título de la Actividad
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN); // Barra de estado
+		// *********************************
 		mGLView = new GLSurfaceView(getApplicationContext());
 		renderer = new Renderer();
 		mGLView.setRenderer(renderer);
@@ -104,7 +114,7 @@ public class Juego extends Activity {
 		if (evento.getAction() == MotionEvent.ACTION_DOWN) { // Inicia touch
 			xPos = evento.getX();
 			yPos = evento.getY();
-			// SimpleVector position = objAvion.getTransformedCenter();
+			// SimpleVector position = objNave.getTransformedCenter();
 			// Log.d("position", position + "");
 			return true;
 		}
@@ -132,52 +142,51 @@ public class Juego extends Activity {
 		public void onDrawFrame(GL10 gl) { // ACTUALIZACIONES
 
 			// ACTUALIZAR objetos
-			boolean flagOutOfBounds= false;
-			
-			if (objAvion.getTransformedCenter().x < 100
-					&& objAvion.getTransformedCenter().x > -100
-					&& objAvion.getTransformedCenter().y < 155
-					&& objAvion.getTransformedCenter().y > -148) {
-				if (offsetHorizontal != 0) {
-					objAvion.translate(0, offsetHorizontal, 0);
+			boolean flagOutOfBounds = false;
 
+			if (objNave.getTransformedCenter().x < 100
+					&& objNave.getTransformedCenter().x > -100
+					&& objNave.getTransformedCenter().y < 155
+					&& objNave.getTransformedCenter().y > -148) {
+				if (offsetHorizontal != 0) {
+					objNave.translate(0, offsetHorizontal, 0);
 					offsetHorizontal = 0;
 				}
 
 				if (offsetVertical != 0) {
-					objAvion.translate(offsetVertical, 0, 0);
+					objNave.translate(offsetVertical, 0, 0);
 					offsetVertical = 0;
 				}
 
-			}else {
-				flagOutOfBounds =true;
+			} else {
+				flagOutOfBounds = true;
 			}
-			
-			if (flagOutOfBounds){
-				if (objAvion.getTransformedCenter().x > 100){
-					objAvion.translate((float) -0.5, 0, 0);
-					flagOutOfBounds =false;
+
+			if (flagOutOfBounds) {
+				if (objNave.getTransformedCenter().x > 100) {
+					objNave.translate((float) -0.5, 0, 0);
+					flagOutOfBounds = false;
 				}
-				if (objAvion.getTransformedCenter().x < -100){
-					objAvion.translate((float) 0.5, 0, 0);
-					flagOutOfBounds =false;
+				if (objNave.getTransformedCenter().x < -100) {
+					objNave.translate((float) 0.5, 0, 0);
+					flagOutOfBounds = false;
 				}
-				if (objAvion.getTransformedCenter().y < -148){
-					objAvion.translate(0, (float) .5, 0);
-					flagOutOfBounds =false;
+				if (objNave.getTransformedCenter().y < -148) {
+					objNave.translate(0, (float) .5, 0);
+					flagOutOfBounds = false;
 				}
-				if (objAvion.getTransformedCenter().y > 155){
-					objAvion.translate(0, (float) -.5, 0);
-					flagOutOfBounds =false;
+				if (objNave.getTransformedCenter().y > 155) {
+					objNave.translate(0, (float) -.5, 0);
+					flagOutOfBounds = false;
 				}
-				
+
 			}
-			
 
 			// final
 			buffer.clear(colorFondo); // Borrar el buffer
 			mundo.renderScene(buffer);// C‡lculos sobre los objetos a dibujar
 			mundo.draw(buffer); // Redibuja todos los objetos
+			
 			buffer.display(); // Actualiza en pantalla
 
 			// cuenta fps
@@ -206,24 +215,21 @@ public class Juego extends Activity {
 				colorFondo = new RGBColor(0x0, 0x0, 0x0);
 
 				// Carga el avi—n
-				objAvion = Modelo.cargarModeloMTL(getBaseContext(),
+				objNave = Modelo.cargarModeloMTL(getBaseContext(),
 						"freedom3000.obj", "freedom3000.obj.mtl", 1);
-				objAvion.rotateY(3.141592f);
-				objAvion.rotateX((float) (1.5));
+				objNave.rotateY(3.141592f);
+				objNave.rotateX((float) (1.5));
 				// carga el misil
-				misil = Modelo.cargarModelo(getBaseContext(), "misil.obj",
-						null);
+				misil = Modelo
+						.cargarModelo(getBaseContext(), "misil.obj", null);
 
-				objAvion.addChild(misil);
+				objNave.addChild(misil);
 				misil.scale((float) .25);
-				misil.setOrigin(objAvion.getTransformedCenter());
+				misil.setOrigin(objNave.getTransformedCenter());
 				misil.translate(0, -15, 0);
 				mundo.addObject(misil);
-				
-				
-				// Lo rota para que quede en la posici—n correcta
 
-				mundo.addObject(objAvion);
+				mundo.addObject(objNave);
 
 				// Para manejar la c‡mara
 				camara = mundo.getCamera();
