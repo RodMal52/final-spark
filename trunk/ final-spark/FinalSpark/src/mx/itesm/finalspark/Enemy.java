@@ -18,6 +18,10 @@ public class Enemy extends Character implements Move{
 		private int x,y;
 		private Object3D objEnemy;
 		
+		public Enemy(int type){
+			
+		}
+		
 		public void move(){
 			
 		    x += speedX;
@@ -55,22 +59,23 @@ public class Enemy extends Character implements Move{
 		public  Object Load_enemy(int type){
 			if(type == 1){
 			objEnemy = Modelo.cargarModeloMTL(getBaseContext(),
-					"enemy1.obj","objeto.mtl",  1);
+					"celspider.obj","celspider.mtl",  1);
 			
 			}else if(type == 2){
 				objEnemy = Modelo.cargarModeloMTL(getBaseContext(),
 						"enemy2.obj","objeto.mtl", 1);
 			}else{
 				objEnemy = Modelo.cargarModeloMTL(getBaseContext(),
-						"enemy3.obj", "objeto.mtl", 1);//a todos les falta el objeto y la textura
+						"robot.obj", "robot.mtl", 1);//a todos les falta el objeto y la textura
 			}
 			return objEnemy;		
+			
 		}
 		
 		private void Start () {
-			 
+			
+
 		}
-		
 		
 
 		public void moveRight() {

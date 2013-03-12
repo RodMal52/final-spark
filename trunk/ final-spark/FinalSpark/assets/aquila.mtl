@@ -1,0 +1,15 @@
+# Blender MTL File: 'aquila.blend'
+# Material Count: 1
+
+newmtl mi_dante_weapons_angel.001
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd t_dante_weapons_angel_d.tga
+map_Ks t_dante_weapons_angel_s.tga
+map_Ke t_dante_weapons_angel_m.tga
+map_Disp t_dante_weapons_angel_n.tga
