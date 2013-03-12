@@ -19,7 +19,7 @@ public class Projectile extends Character{
 		
 	}
 	
-	public void move(float interpolation) {
+	/*public void move(float interpolation) {
 
 		switch(facing) {
 	      case 0: y += speedY*interpolation; break;
@@ -39,7 +39,7 @@ public class Projectile extends Character{
 	            x += speedX*Math.cos(Math.PI/4)*interpolation;
 	            break;
 	      }
-	   }
+	   }*/
 
 	public void update(){
 		x += speedY;
