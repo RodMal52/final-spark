@@ -150,18 +150,18 @@ public class Juego extends Activity {
 			if (agregarObjeto) {
 				//Object3D obj = Modelo.cargarModeloMTL(getBaseContext(),
 					//	"aquila.obj", "aquila.mtl", 5);
-				Object3D misil  = Primitives.getSphere(3);
+				Object3D misil  = Primitives.getCube(2);
 				misil.strip();
 				misil.build();
 				misil.setOrigin(objNave.getTransformedCenter());
 				
-				Object3D misilIzq  = Primitives.getSphere(3);
+				Object3D misilIzq  = Primitives.getCube(2);
 				misilIzq.strip();
 				misilIzq.build();
 				misilIzq.setOrigin(objNave.getTransformedCenter());
 				misilIzq.translate(-10,	3, 0);
 				
-				Object3D misilDer  = Primitives.getSphere(3);
+				Object3D misilDer  = Primitives.getCube(2);
 				misilDer.strip();
 				misilDer.build();
 				misilDer.setOrigin(objNave.getTransformedCenter());
