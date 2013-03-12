@@ -44,6 +44,7 @@ public class Juego extends Activity {
 	private Object3D objNave;
 	private Object3D misil;
 	private ArrayList<Object3D> ArrayOfProjectiles;
+	private boolean agregarObjeto;
 
 	// Para guardar el desplazamiento del touch (pixeles)
 	@SuppressWarnings("unused")
@@ -118,15 +119,16 @@ public class Juego extends Activity {
 		if (evento.getAction() == MotionEvent.ACTION_DOWN) { // Inicia touch
 			xPos = evento.getX();
 			yPos = evento.getY();
-			// SimpleVector position = objNave.getTransformedCenter();
-			// Log.d("position", position + "");
+
 			return true;
 		}
 
 		if (evento.getAction() == MotionEvent.ACTION_UP) { // Termina touch
-			xPos = -1;
-			yPos = -1;
+
+			agregarObjeto = true;
+
 			return true;
+
 		}
 
 		if (evento.getAction() == MotionEvent.ACTION_MOVE) { // Drag
@@ -144,6 +146,31 @@ public class Juego extends Activity {
 
 		@Override
 		public void onDrawFrame(GL10 gl) { // ACTUALIZACIONES
+
+			if (agregarObjeto) {
+				Object3D obj = Modelo.cargarModeloMTL(getBaseContext(),
+						"aquila.obj", "aquila.mtl", 5);
+				obj.setOrigin(objNave.getTransformedCenter());
+
+				// Mover
+				ArrayOfProjectiles.add(obj); // Agrega a la el objeto
+				mundo.addObject(obj);
+				agregarObjeto = false;
+			}
+
+			// ACTUALIZAR cámara
+			for (int contarObjetos = 0; contarObjetos < ArrayOfProjectiles
+					.size(); contarObjetos++) {
+				Object3D proyectil = ArrayOfProjectiles.get(contarObjetos);
+				proyectil.rotateZ(0.1f);
+				proyectil.translate(0, -5.0f, 0);
+				if (proyectil.getTransformedCenter().y < -145) {
+					mundo.removeObject(proyectil);
+					ArrayOfProjectiles.remove(contarObjetos);
+				}
+
+
+			}
 
 			// ACTUALIZAR objetos
 			boolean flagOutOfBounds = false;
@@ -190,7 +217,7 @@ public class Juego extends Activity {
 			buffer.clear(colorFondo); // Borrar el buffer
 			mundo.renderScene(buffer);// C‡lculos sobre los objetos a dibujar
 			mundo.draw(buffer); // Redibuja todos los objetos
-			
+
 			buffer.display(); // Actualiza en pantalla
 
 			// cuenta fps
@@ -220,7 +247,7 @@ public class Juego extends Activity {
 
 				// Carga el avi—n
 				objNave = Modelo.cargarModeloMTL(getBaseContext(),
-						"freedom3000.obj", "freedom3000.obj.mtl", 1);
+						"freedom3000.obj", "freedom3000.mtl", 1);
 				objNave.rotateY(3.141592f);
 				objNave.rotateX((float) (1.5));
 				// carga el misil
@@ -235,6 +262,8 @@ public class Juego extends Activity {
 
 				mundo.addObject(objNave);
 
+				ArrayOfProjectiles = new ArrayList<Object3D>();// projectile//
+
 				// Para manejar la c‡mara
 				camara = mundo.getCamera();
 				camara.moveCamera(Camera.CAMERA_MOVEOUT, 200);
@@ -245,14 +274,7 @@ public class Juego extends Activity {
 					main = Juego.this;
 				}
 			}
-			
-			ArrayOfProjectiles = new ArrayList<Object3D>();//projectile//
-			Object3D obj = Modelo.cargarModeloMTL(getBaseContext(), "aquila.obj","aquila.mtl",1);
-			
-			ArrayOfProjectiles.add(obj);	// Agrega a la el objeto 
-			mundo.addObject(obj);
-			
-				
+
 		}
 
 		@Override
