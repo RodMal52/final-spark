@@ -119,13 +119,13 @@ public class Juego extends Activity {
 		if (evento.getAction() == MotionEvent.ACTION_DOWN) { // Inicia touch
 			xPos = evento.getX();
 			yPos = evento.getY();
-
+			agregarObjeto = true;
 			return true;
 		}
 
 		if (evento.getAction() == MotionEvent.ACTION_UP) { // Termina touch
 
-			agregarObjeto = true;
+			
 
 			return true;
 
@@ -148,13 +148,33 @@ public class Juego extends Activity {
 		public void onDrawFrame(GL10 gl) { // ACTUALIZACIONES
 
 			if (agregarObjeto) {
-				Object3D obj = Modelo.cargarModeloMTL(getBaseContext(),
-						"aquila.obj", "aquila.mtl", 5);
-				obj.setOrigin(objNave.getTransformedCenter());
+				//Object3D obj = Modelo.cargarModeloMTL(getBaseContext(),
+					//	"aquila.obj", "aquila.mtl", 5);
+				Object3D misil  = Primitives.getSphere(3);
+				misil.strip();
+				misil.build();
+				misil.setOrigin(objNave.getTransformedCenter());
+				
+				Object3D misilIzq  = Primitives.getSphere(3);
+				misilIzq.strip();
+				misilIzq.build();
+				misilIzq.setOrigin(objNave.getTransformedCenter());
+				misilIzq.translate(-10,	3, 0);
+				
+				Object3D misilDer  = Primitives.getSphere(3);
+				misilDer.strip();
+				misilDer.build();
+				misilDer.setOrigin(objNave.getTransformedCenter());
+				misilDer.translate(10,	3, 0);
 
 				// Mover
-				ArrayOfProjectiles.add(obj); // Agrega a la el objeto
-				mundo.addObject(obj);
+				ArrayOfProjectiles.add(misil);// Agrega a la el misileto
+				ArrayOfProjectiles.add(misilIzq);
+				ArrayOfProjectiles.add(misilDer);
+				
+				mundo.addObject(misil);
+				mundo.addObject(misilIzq);
+				mundo.addObject(misilDer);
 				agregarObjeto = false;
 			}
 
@@ -251,14 +271,14 @@ public class Juego extends Activity {
 				objNave.rotateY(3.141592f);
 				objNave.rotateX((float) (1.5));
 				// carga el misil
-				misil = Modelo
+				/*misil = Modelo
 						.cargarModelo(getBaseContext(), "misil.obj", null);
 
 				objNave.addChild(misil);
 				misil.scale((float) .25);
 				misil.setOrigin(objNave.getTransformedCenter());
 				misil.translate(0, -15, 0);
-				mundo.addObject(misil);
+				mundo.addObject(misil);*/
 
 				mundo.addObject(objNave);
 
