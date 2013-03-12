@@ -1,6 +1,8 @@
 package mx.itesm.finalspark;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -15,6 +17,7 @@ import android.opengl.GLSurfaceView;
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Object3D;
+import com.threed.jpct.Primitives;
 import com.threed.jpct.RGBColor;
 import com.threed.jpct.Texture;
 import com.threed.jpct.TextureManager;
@@ -40,6 +43,7 @@ public class Juego extends Activity {
 	// Agregamos objetos en el mundo
 	private Object3D objNave;
 	private Object3D misil;
+	private ArrayList<Object3D> ArrayOfProjectiles;
 
 	// Para guardar el desplazamiento del touch (pixeles)
 	@SuppressWarnings("unused")
@@ -241,6 +245,14 @@ public class Juego extends Activity {
 					main = Juego.this;
 				}
 			}
+			
+			ArrayOfProjectiles = new ArrayList<Object3D>();//projectile//
+			Object3D obj = Modelo.cargarModeloMTL(getBaseContext(), "aquila.obj","aquila.mtl",1);
+			
+			ArrayOfProjectiles.add(obj);	// Agrega a la el objeto 
+			mundo.addObject(obj);
+			
+				
 		}
 
 		@Override
@@ -268,4 +280,5 @@ public class Juego extends Activity {
 
 		}
 	};
+
 }
