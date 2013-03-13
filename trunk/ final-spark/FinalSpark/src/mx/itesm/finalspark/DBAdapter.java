@@ -15,7 +15,7 @@ public class DBAdapter {
 	    static final String TAG = "DBAdapter";
 	    static final String DATABASE_NAME = "Score";
 	    static final String DATABASE_TABLE = "jugadores";
-	    static final int DATABASE_VERSION = 2;
+	    static final int DATABASE_VERSION = 3;
 	    //Contiene la declaración para crear la base de datos.
 	    static final String DATABASE_CREATE =
             "create table jugadores (_id integer primary key autoincrement, "
@@ -112,6 +112,13 @@ public class DBAdapter {
             args.put(KEY_NOMBRE, nombre);
             args.put(KEY_SCORE, score);
             return db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
-        }        
+        }     
+        
+        //Obtiene los 10 primeros
+        public Cursor getTen() throws SQLException 
+        {        
+            return db.query(DATABASE_TABLE, new String[] {KEY_ROWID,
+                   KEY_NOMBRE, KEY_SCORE}, null, null,null,null,KEY_SCORE+" DESC");
+        }
         
 }
