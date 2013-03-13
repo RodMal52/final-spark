@@ -1,12 +1,12 @@
 package mx.itesm.finalspark;
 
-// Imports de paqueteria de Java
+// Imports de paquetería de Java
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-//Imports de paqueteria de Android
+//Imports de paquetería de Android
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,7 +19,7 @@ import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
-//Imports de paqueteria Jpct-AE 
+//Imports de paquetería Jpct-AE 
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Object3D;
@@ -55,17 +55,18 @@ public class Juego extends Activity {
 			copiar(main);
 		}
 		super.onCreate(savedInstanceState);
+		//**********************************************************************************************************************************
+		//***********************   PANTALLA COMPLETA **************************************************************************************
+		//**********************************************************************************************************************************
+		requestWindowFeature(Window.FEATURE_NO_TITLE);	// Título de la Actividad
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+		                       WindowManager.LayoutParams.FLAG_FULLSCREEN); // Barra de estado
 		mGLView = new GLSurfaceView(getApplicationContext());
 		renderer = new Renderer();
 		mGLView.setRenderer(renderer);
 		setContentView(mGLView);
 		
-		//**********************************************************************************************************************************
-		//***********************   PANTALLA COMPLETA **************************************************************************************
-		//**********************************************************************************************************************************
-		requestWindowFeature(Window.FEATURE_NO_TITLE); // Título de la Actividad
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN); // Barra de estado
+
 	}
 
 	@Override
@@ -175,7 +176,7 @@ public class Juego extends Activity {
 
 						
 			//**********************************************************************************************************************************
-			//***********************   MOVIMIENTO NAVE Y COLISION OCN BORDES  *****************************************************************
+			//***********************   MOVIMIENTO NAVE Y COLISION CON BORDES  *****************************************************************
 			//**********************************************************************************************************************************
 
 			if (objNave.getTransformedCenter().x < 100
@@ -284,7 +285,7 @@ public class Juego extends Activity {
 				objNave.rotateX((float) (1.5));
 				mundo.addObject(objNave);
 				arregloDeProyectiles = new ArrayList<Object3D>();// Inicializa arreglo de proyectiles
-
+				
 				//**********************************************************************************************************************************
 				//***********************   MANEJO DE CÁMARA ***********************************************************************************************
 				//**********************************************************************************************************************************
