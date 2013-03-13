@@ -2,6 +2,7 @@ package mx.itesm.finalspark;
 
 // Imports de paquetería de Java
 import java.lang.reflect.Field;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -16,9 +17,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.Window;
-import android.view.WindowManager;
-
 //Imports de paquetería Jpct-AE 
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
@@ -39,6 +37,7 @@ public class Juego extends Activity {
 	private Object3D objNave; //Modelo de la nave
 	@SuppressWarnings("unused")
 	private Object3D misil; // Modelo del misil
+	private Object3D objEnemigo; //Modelo enemigo
 	private ArrayList<Object3D> arregloDeProyectiles; //Arreglo de misiles
 	private boolean agregarObjeto;  // Valor booleano para comprobar  si se agregan misiles
 	private int fps; // contador frames
@@ -55,18 +54,10 @@ public class Juego extends Activity {
 			copiar(main);
 		}
 		super.onCreate(savedInstanceState);
-		//**********************************************************************************************************************************
-		//***********************   PANTALLA COMPLETA **************************************************************************************
-		//**********************************************************************************************************************************
-		requestWindowFeature(Window.FEATURE_NO_TITLE);	// Título de la Actividad
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-		                       WindowManager.LayoutParams.FLAG_FULLSCREEN); // Barra de estado
 		mGLView = new GLSurfaceView(getApplicationContext());
 		renderer = new Renderer();
 		mGLView.setRenderer(renderer);
 		setContentView(mGLView);
-		
-
 	}
 
 	@Override
@@ -176,6 +167,12 @@ public class Juego extends Activity {
 
 			}
 
+			//**********************************************************************************************************************************
+			//***********************    COLISION CON Enemigo  *****************************************************************
+			//**********************************************************************************************************************************
+			
+			
+			
 						
 			//**********************************************************************************************************************************
 			//***********************   MOVIMIENTO NAVE Y COLISION CON BORDES  *****************************************************************
@@ -289,12 +286,20 @@ public class Juego extends Activity {
 				arregloDeProyectiles = new ArrayList<Object3D>();// Inicializa arreglo de proyectiles
 				
 				//**********************************************************************************************************************************
+				//***********************   CARGA DEL MODELO DE ENEMIGOS ****************************************************************************
+				//**********************************************************************************************************************************
+				objEnemigo = Modelo.cargarModeloMTL(getBaseContext(), "robot.obj",	"robot.mtl",(float) 0.03);
+				objEnemigo.rotateY(3.141592f);
+				objEnemigo.rotateZ(3.141592f);
+				objEnemigo.rotateX((float) (-1.5));
+				objEnemigo.translate(0, -120, 0);
+				mundo.addObject(objEnemigo);
+				//**********************************************************************************************************************************
 				//***********************   MANEJO DE CÁMARA ***********************************************************************************************
 				//**********************************************************************************************************************************
 				camara = mundo.getCamera();
 				camara.moveCamera(Camera.CAMERA_MOVEOUT, 200);
 				camara.moveCamera(Camera.CAMERA_MOVEUP, 3);
-				
 				//**********************************************************************************************************************************
 				//***********************   MEMORIA  ***********************************************************************************************
 				//**********************************************************************************************************************************
