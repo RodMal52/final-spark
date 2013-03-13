@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.lang.reflect.Field;
 
 import com.threed.jpct.Object3D;
+import com.threed.jpct.Primitives;
 
 public class Enemy extends Character implements Move{
 	
@@ -56,20 +57,21 @@ public class Enemy extends Character implements Move{
 		    speedY = (int) (speed * Math.sin(direction));
 		}
 		
-		public  Object Load_enemy(int type){
+		public Object3D Load_enemy(int type){
 			if(type == 1){
-			objEnemy = Modelo.cargarModeloMTL(getBaseContext(),
-					"celspider.obj","celspider.mtl",  1);
-			
+				/*objEnemy = Modelo.cargarModeloMTL(getBaseContext(),
+					"celspider.obj","celspider.mtl",  1);*/
+				objEnemy = Primitives.getCone(5);
 			}else if(type == 2){
-				objEnemy = Modelo.cargarModeloMTL(getBaseContext(),
-						"enemy2.obj","objeto.mtl", 1);
+				/*objEnemy = Modelo.cargarModeloMTL(getBaseCntext(),
+						"enemy2.obj","objeto.mtl", 1);*/
+				objEnemy = Primitives.getCube(7);
 			}else{
-				objEnemy = Modelo.cargarModeloMTL(getBaseContext(),
-						"robot.obj", "robot.mtl", 1);//a todos les falta el objeto y la textura
+				/*objEnemy = Modelo.cargarModeloMTL(getBaseContext(),
+						"robot.obj", "robot.mtl", 1);//a todos les falta el objeto y la textura*/
+				objEnemy = Primitives.getSphere(15);
 			}
 			return objEnemy;		
-			
 		}
 		
 		private void Start () {
