@@ -14,5 +14,8 @@
     <string name="title_activity_pause">PauseActivity</string>
     <string name="punto">.</string>
     <string name="pause">pause</string>
+    <string name="gameover">Game Over</string>
+    <string name="rmenu">Main Menu</string>
+    <string name="title_activity_game_over">GameOverActivity</string>
 
 </resources>
