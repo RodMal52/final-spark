@@ -13,9 +13,11 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 //Imports de paquetería Jpct-AE 
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
@@ -53,6 +55,11 @@ public class Juego extends Activity {
 	private float offsetVertical = 0; // Izquierda-derecha
 	private float offsetHorizontal = 0; // Arriba-abajo
 	private int disparos = 0;
+	
+	public void mostrarGameOver (View view){
+		Intent intent = new Intent(this,GameOverActivity.class);
+		this.startActivity(intent);
+	}
 
 	// --------------------------------------------------------------------------------------------------------------------------------------
 	// -------------------------- Método onCreate()
@@ -106,6 +113,14 @@ public class Juego extends Activity {
 		super.onStop();
 	}
 
+	// --------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------- Método onDestroy()
+		// -------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------------------------------------
+	@Override 
+	protected void onDestroy(){
+		super.onDestroy();
+	}
 	// --------------------------------------------------------------------------------------------------------------------------------------
 	// -------------------------- Método copiar()
 	// -------------------------------------------------------------------------------------
@@ -333,11 +348,11 @@ public class Juego extends Activity {
 					&& (objNave.getTransformedCenter().x) > (objEnemigo.getTransformedCenter().x - 24)
 					&& (objNave.getTransformedCenter().y) > (objEnemigo.getTransformedCenter().y - 52)
 					&& (objNave.getTransformedCenter().y) < (objEnemigo.getTransformedCenter().y + 52)) {
-				// mundo.removeObject(objEnemigo);
-				// mundo.removeObject(objNave);
-				// Intent intent = new Intent(this,SettingsActivity.class);
-				// this.startActivity(intent);
-				finish();
+				View view = null;
+				mostrarGameOver(view);
+				main = null;				
+				
+				//finish();
 			}
 
 			// **********************************************************************************************************************************

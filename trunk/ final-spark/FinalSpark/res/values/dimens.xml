@@ -3,4 +3,5 @@
     <dimen name="gg">300dip</dimen>
     <dimen name="gh">250dp</dimen>
     <dimen name="gf">200dp</dimen>
+    <dimen name="ggkk">58dp</dimen>
 </resources>
