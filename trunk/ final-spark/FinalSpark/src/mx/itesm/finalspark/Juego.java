@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 //Imports de paquetería de Android
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -18,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 //Imports de paquetería Jpct-AE 
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
@@ -48,6 +52,7 @@ public class Juego extends Activity {
 	private int contadorEnemigos = 0;
 	private boolean enemigoMuerto = false;
 	private boolean noMasEnemigos = true;
+	private boolean hayJefe = false;
 	@SuppressWarnings("unused")
 	private float xPos = -1;
 	@SuppressWarnings("unused")
@@ -55,9 +60,11 @@ public class Juego extends Activity {
 	private float offsetVertical = 0; // Izquierda-derecha
 	private float offsetHorizontal = 0; // Arriba-abajo
 	private int disparos = 0;
-	
-	public void mostrarGameOver (View view){
-		Intent intent = new Intent(this,GameOverActivity.class);
+	private int puntaje = 0;
+	private int puntajeFinal = 0;
+
+	public void mostrarGameOver(View view) {
+		Intent intent = new Intent(this, GameOverActivity.class);
 		this.startActivity(intent);
 	}
 
@@ -114,13 +121,14 @@ public class Juego extends Activity {
 	}
 
 	// --------------------------------------------------------------------------------------------------------------------------------------
-		// -------------------------- Método onDestroy()
-		// -------------------------------------------------------------------------------------
-		// --------------------------------------------------------------------------------------------------------------------------------------
-	@Override 
-	protected void onDestroy(){
+	// -------------------------- Método onDestroy()
+	// -------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------------------------------------------------
+	@Override
+	protected void onDestroy() {
 		super.onDestroy();
 	}
+
 	// --------------------------------------------------------------------------------------------------------------------------------------
 	// -------------------------- Método copiar()
 	// -------------------------------------------------------------------------------------
@@ -147,6 +155,7 @@ public class Juego extends Activity {
 			xPos = evento.getX();
 			yPos = evento.getY();
 			agregarObjeto = true;
+			disparos = 0;
 			return true;
 		}
 		if (evento.getAction() == MotionEvent.ACTION_UP) { // Termina touch
@@ -174,17 +183,34 @@ public class Juego extends Activity {
 		@Override
 		public void onDrawFrame(GL10 gl) { // ACTUALIZACIONES
 
+			if (puntaje == 300) {
+				/*
+				 * objEnemigo = Modelo.cargarModeloMTL(getBaseContext(),
+				 * "robot.obj", "robot.mtl", (float) 0.03);
+				 */
+				objEnemigo = Primitives.getCone(20);
+				objEnemigo.rotateY(3.141592f);
+				objEnemigo.rotateZ(3.141592f);
+				//objEnemigo.rotateX((float) (-1.5));
+				objEnemigo.translate(0, -120, 0);
+				mundo.addObject(objEnemigo);
+				hayJefe = true;
+				puntaje = 0;
+				enemigoMuerto = false;
+				contadorDañoEnemigo = 0;
+			}
+
 			// **********************************************************************************************************************************
 			// *********************** MISILES
 			// ***********************************************************************************************
 			// **********************************************************************************************************************************
 
 			disparos++;
-			
-			if (disparos > 3){
+
+			if (disparos > 3) {
 				disparos = 0;
 			}
-			
+
 			if (agregarObjeto && (disparos == 0)) {
 
 				Object3D misil = Primitives.getCube((float) .5);
@@ -292,18 +318,20 @@ public class Juego extends Activity {
 				proyectil.rotateZ(0.1f);
 				proyectil.translate(0, -5.0f, 0);
 
-				if (!enemigoMuerto
-						&& proyectil.getTransformedCenter().x < (objEnemigo
-								.getTransformedCenter().x + 24)
-						&& proyectil.getTransformedCenter().x > (objEnemigo
-								.getTransformedCenter().x - 24)
-						&& proyectil.getTransformedCenter().y > (objEnemigo
-								.getTransformedCenter().y - 42)
-						&& proyectil.getTransformedCenter().y < (objEnemigo
-								.getTransformedCenter().y + 42)) {
-					mundo.removeObject(proyectil);
-					arregloDeProyectiles.remove(contarObjetos);
-					contadorDañoEnemigo++;
+				if (hayJefe) {
+					if (!enemigoMuerto
+							&& proyectil.getTransformedCenter().x < (objEnemigo
+									.getTransformedCenter().x + 24)
+							&& proyectil.getTransformedCenter().x > (objEnemigo
+									.getTransformedCenter().x - 24)
+							&& proyectil.getTransformedCenter().y > (objEnemigo
+									.getTransformedCenter().y - 42)
+							&& proyectil.getTransformedCenter().y < (objEnemigo
+									.getTransformedCenter().y + 42)) {
+						mundo.removeObject(proyectil);
+						arregloDeProyectiles.remove(contarObjetos);
+						contadorDañoEnemigo++;
+					}
 				}
 
 				for (int contarEnemigos = 0; contarEnemigos < arregloDeEnemigos
@@ -321,8 +349,14 @@ public class Juego extends Activity {
 						mundo.removeObject(arregloDeEnemigos
 								.get(contarEnemigos));
 						arregloDeEnemigos.remove(contarEnemigos);
+						if (!hayJefe) {
+							puntaje = puntaje + 10;
+						}
+						puntajeFinal = puntajeFinal + 10;
+
 						contadorEnemigos--;
 					}
+					
 				}
 
 				if (proyectil.getTransformedCenter().y < -205) {
@@ -332,29 +366,36 @@ public class Juego extends Activity {
 			}
 
 			// Revisa si el enemigo debe morir y si la nave ha chocado con él
-
-			if (!enemigoMuerto && contadorDañoEnemigo > 45) {
-				mundo.removeObject(objEnemigo);
-				enemigoMuerto = true;
+			if (hayJefe) {
+				if (!enemigoMuerto && contadorDañoEnemigo > 45) {
+					mundo.removeObject(objEnemigo);
+					enemigoMuerto = true;
+					hayJefe = false;
+					puntaje = 0;
+					puntajeFinal = puntajeFinal + 100;
+				}
 			}
-
 			// **********************************************************************************************************************************
 			// *********************** COLISION CON Enemigo
 			// *********************************************************************************
 			// **********************************************************************************************************************************
+			if (hayJefe) {
+				if (!enemigoMuerto
+						&& (objNave.getTransformedCenter().x) < (objEnemigo
+								.getTransformedCenter().x + 24)
+						&& (objNave.getTransformedCenter().x) > (objEnemigo
+								.getTransformedCenter().x - 24)
+						&& (objNave.getTransformedCenter().y) > (objEnemigo
+								.getTransformedCenter().y - 52)
+						&& (objNave.getTransformedCenter().y) < (objEnemigo
+								.getTransformedCenter().y + 52)) {
+					View view = null;
+					mostrarGameOver(view);
+					main = null;
 
-			if (!enemigoMuerto
-					&& (objNave.getTransformedCenter().x) < (objEnemigo.getTransformedCenter().x + 24)
-					&& (objNave.getTransformedCenter().x) > (objEnemigo.getTransformedCenter().x - 24)
-					&& (objNave.getTransformedCenter().y) > (objEnemigo.getTransformedCenter().y - 52)
-					&& (objNave.getTransformedCenter().y) < (objEnemigo.getTransformedCenter().y + 52)) {
-				View view = null;
-				mostrarGameOver(view);
-				main = null;				
-				
-				//finish();
+					// finish();
+				}
 			}
-
 			// **********************************************************************************************************************************
 			// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
 			// *****************************************************************
@@ -547,7 +588,8 @@ public class Juego extends Activity {
 				mundo = new World();
 				mundo.setAmbientLight(255, 255, 255);
 				colorFondo = new RGBColor(0x0, 0x0, 0x0);
-
+				
+				
 				// **********************************************************************************************************************************
 				// *********************** CARGA DEL MODELO DE LA NAVE
 				// ****************************************************************************
@@ -566,13 +608,13 @@ public class Juego extends Activity {
 				// *********************** CARGA DEL MODELO DE ENEMIGOS
 				// ****************************************************************************
 				// **********************************************************************************************************************************
-				objEnemigo = Modelo.cargarModeloMTL(getBaseContext(),
-						"robot.obj", "robot.mtl", (float) 0.03);
-				objEnemigo.rotateY(3.141592f);
-				objEnemigo.rotateZ(3.141592f);
-				objEnemigo.rotateX((float) (-1.5));
-				objEnemigo.translate(0, -120, 0);
-				mundo.addObject(objEnemigo);
+				/*
+				 * objEnemigo = Modelo.cargarModeloMTL(getBaseContext(),
+				 * "robot.obj", "robot.mtl", (float) 0.03);
+				 * objEnemigo.rotateY(3.141592f); objEnemigo.rotateZ(3.141592f);
+				 * objEnemigo.rotateX((float) (-1.5)); objEnemigo.translate(0,
+				 * -120, 0); mundo.addObject(objEnemigo);
+				 */
 
 				arregloDeEnemigos = new ArrayList<Object3D>();// Inicializa
 																// arreglo de
