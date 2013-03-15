@@ -87,32 +87,6 @@ public class DBAdapter {
         {
             return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
         }
-        //Obtener los jugadores de la base de datos
-        public Cursor getAllPlayers()
-        {
-            return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NOMBRE,
-                    KEY_SCORE}, null, null, null, null, null);
-        }
-        //Obtiene un contacto específico de la base de datos
-        public Cursor getPlayer(long rowId) throws SQLException 
-        {        
-            Cursor mCursor =
-                    db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                    KEY_NOMBRE, KEY_SCORE}, KEY_ROWID + "=" + rowId, null,
-                    null, null, null, null);
-            if (mCursor != null) {
-                mCursor.moveToFirst();
-            }
-            return mCursor;
-        } 
-      //Actualiza la información de un contacto.
-        public boolean updatePlayer(long rowId, String nombre, int score) 
-        {
-            ContentValues args = new ContentValues();
-            args.put(KEY_NOMBRE, nombre);
-            args.put(KEY_SCORE, score);
-            return db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
-        }     
         
         //Obtiene los 10 primeros
         public Cursor getTen() throws SQLException 
