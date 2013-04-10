@@ -6,29 +6,35 @@ import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 //Imports de paquetería de Android
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 //Imports de paquetería Jpct-AE 
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 import com.threed.jpct.RGBColor;
+import com.threed.jpct.Texture;
+import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
+import com.threed.jpct.util.BitmapHelper;
 import com.threed.jpct.util.MemoryHelper;
 
 public class Juego extends Activity {
@@ -39,14 +45,14 @@ public class Juego extends Activity {
 	private World mundo; // Un escenario de nuestro juego
 	private RGBColor colorFondo; // Color de fondo :)
 	private Camera camara; // Cámara
-	private Object3D objNave; // Modelo de la nave
 	@SuppressWarnings("unused")
 	private Object3D misil; // Modelo del misil
 	private Object3D objEnemigo; // Modelo enemigo
 	private ArrayList<Object3D> arregloDeProyectiles; // Arreglo de misiles
 	private ArrayList<Object3D> arregloDeEnemigos; // Arreglo de enemigos
-	private boolean agregarObjeto; // Valor booleano para comprobar si se
-									// agregan misiles
+	private boolean agregarObjeto; // Valor booleano para comprobar si se agregan misiles
+	private MediaPlayer player;
+	private Jugador jugador; 
 	private int fps; // contador frames
 	private int contadorDañoEnemigo = 0; // HP enemigo
 	private int contadorEnemigos = 0;
@@ -62,7 +68,14 @@ public class Juego extends Activity {
 	private int disparos = 0;
 	private int puntaje = 0;
 	private int puntajeFinal = 0;
-
+	private Bitmap bitmap;
+	private Canvas canvas;
+	private Paint p;
+	private int[] pixeles; //sustituye la textura
+	private boolean juegoEstaPausado;	//Manejo de pausa
+	private ProgressDialog dialogoEspera; 	//dialogo de espera
+	private Bitmap backGround;
+		
 	public void mostrarGameOver(View view) {
 		Intent intent = new Intent(this, GameOverActivity.class);
 		this.startActivity(intent);
@@ -76,9 +89,19 @@ public class Juego extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		if (main != null) { // Si ya existe el juego, copiar sus campos
 			copiar(main);
+		}else{
+			dialogoEspera = ProgressDialog.show(this, "Aviso", "LOADING...");
 		}
+		juegoEstaPausado = false;
 		super.onCreate(savedInstanceState);
 		mGLView = new GLSurfaceView(getApplicationContext());
+		bitmap = Bitmap.createBitmap(128,64,Bitmap.Config.ARGB_8888);
+		canvas = new Canvas(bitmap);
+		p = new Paint();
+		pixeles = new int [128*64*4];
+		
+
+//		TextureManager.getInstance().addTexture("textureBG", new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.space3)), 2048, 2048)));
 		renderer = new Renderer();
 		mGLView.setRenderer(renderer);
 		setContentView(mGLView);
@@ -107,6 +130,7 @@ public class Juego extends Activity {
 		sm.registerListener(miListener,
 				sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				sm.SENSOR_DELAY_GAME);
+		
 	}
 
 	// --------------------------------------------------------------------------------------------------------------------------------------
@@ -117,7 +141,12 @@ public class Juego extends Activity {
 	protected void onStop() {
 		SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sm.unregisterListener(miListener);
+		if (player != null && player.isPlaying()){
+			player.stop();
+			player.release();
+		}
 		super.onStop();
+		
 	}
 
 	// --------------------------------------------------------------------------------------------------------------------------------------
@@ -216,19 +245,19 @@ public class Juego extends Activity {
 				Object3D misil = Primitives.getCube((float) .5);
 				misil.strip();
 				misil.build();
-				misil.setOrigin(objNave.getTransformedCenter());
+				misil.setOrigin(jugador.getObjNave().getTransformedCenter());
 				misil.translate(0, -2, 0);
 
 				Object3D misilIzq = Primitives.getCube((float) .5);
 				misilIzq.strip();
 				misilIzq.build();
-				misilIzq.setOrigin(objNave.getTransformedCenter());
+				misilIzq.setOrigin(jugador.getObjNave().getTransformedCenter());
 				misilIzq.translate(-9, 1, 0);
 
 				Object3D misilDer = Primitives.getCube((float) .5);
 				misilDer.strip();
 				misilDer.build();
-				misilDer.setOrigin(objNave.getTransformedCenter());
+				misilDer.setOrigin(jugador.getObjNave().getTransformedCenter());
 				misilDer.translate(9, 1, 0);
 				arregloDeProyectiles.add(misil);// Agrega a la el misileto
 				arregloDeProyectiles.add(misilIzq);
@@ -307,6 +336,7 @@ public class Juego extends Activity {
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
+				
 			}
 			// Revisa si el proyectil ha salido del mundo o colisionado con
 			// algún enemigo
@@ -381,13 +411,13 @@ public class Juego extends Activity {
 			// **********************************************************************************************************************************
 			if (hayJefe) {
 				if (!enemigoMuerto
-						&& (objNave.getTransformedCenter().x) < (objEnemigo
+						&& (jugador.getObjNave().getTransformedCenter().x) < (objEnemigo
 								.getTransformedCenter().x + 24)
-						&& (objNave.getTransformedCenter().x) > (objEnemigo
+						&& (jugador.getObjNave().getTransformedCenter().x) > (objEnemigo
 								.getTransformedCenter().x - 24)
-						&& (objNave.getTransformedCenter().y) > (objEnemigo
+						&& (jugador.getObjNave().getTransformedCenter().y) > (objEnemigo
 								.getTransformedCenter().y - 52)
-						&& (objNave.getTransformedCenter().y) < (objEnemigo
+						&& (jugador.getObjNave().getTransformedCenter().y) < (objEnemigo
 								.getTransformedCenter().y + 52)) {
 					View view = null;
 					mostrarGameOver(view);
@@ -399,162 +429,22 @@ public class Juego extends Activity {
 			// **********************************************************************************************************************************
 			// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
 			// *****************************************************************
-			// **********************************************************************************************************************************
-
-			if (objNave.getTransformedCenter().x < 100
-					&& objNave.getTransformedCenter().x > -100
-					&& objNave.getTransformedCenter().y < 155
-					&& objNave.getTransformedCenter().y > -148) {
-				if (offsetVertical != 0) {
-					objNave.translate(0, offsetVertical, 0);
-					offsetVertical = 0;
-				}
-
-				if (offsetHorizontal != 0) {
-					objNave.translate(offsetHorizontal, 0, 0);
-					offsetHorizontal = 0;
-				}
-
-			} else {
-
-				if (objNave.getTransformedCenter().x > 100) {
-
-					if (offsetHorizontal < 0) {
-						objNave.translate(offsetHorizontal, 0, 0);
-						offsetHorizontal = 0;
-					}
-
-					if (objNave.getTransformedCenter().y < -148) {
-
-						if (offsetVertical > 0) {
-							objNave.translate(0, offsetVertical, 0);
-							offsetVertical = 0;
-						}
-
-					} else if (objNave.getTransformedCenter().y > 155) {
-
-						if (offsetVertical < 0) {
-							objNave.translate(0, offsetVertical, 0);
-							offsetVertical = 0;
-						}
-
-					} else {
-
-						if (offsetVertical != 0) {
-							objNave.translate(0, offsetVertical, 0);
-							offsetVertical = 0;
-						}
-
-					}
-
-				}
-
-				// ---------------------------------------------------------------------------
-
-				if (objNave.getTransformedCenter().x < -100) {
-
-					if (offsetHorizontal > 0) {
-						objNave.translate(offsetHorizontal, 0, 0);
-						offsetHorizontal = 0;
-					}
-
-					if (objNave.getTransformedCenter().y < -148) {
-
-						if (offsetVertical > 0) {
-							objNave.translate(0, offsetVertical, 0);
-							offsetVertical = 0;
-						}
-
-					} else if (objNave.getTransformedCenter().y > 155) {
-
-						if (offsetVertical < 0) {
-							objNave.translate(0, offsetVertical, 0);
-							offsetVertical = 0;
-						}
-
-					} else {
-
-						if (offsetVertical != 0) {
-							objNave.translate(0, offsetVertical, 0);
-							offsetVertical = 0;
-						}
-
-					}
-
-				}
-
-				// ---------------------------------------------------------------------------
-
-				if (objNave.getTransformedCenter().y < -148) {
-
-					if (offsetVertical > 0) {
-						objNave.translate(0, offsetVertical, 0);
-						offsetVertical = 0;
-					}
-
-					if (objNave.getTransformedCenter().x > 100) {
-
-						if (offsetHorizontal < 0) {
-							objNave.translate(offsetHorizontal, 0, 0);
-							offsetHorizontal = 0;
-						}
-
-					} else if (objNave.getTransformedCenter().x < -100) {
-
-						if (offsetHorizontal > 0) {
-							objNave.translate(offsetHorizontal, 0, 0);
-							offsetHorizontal = 0;
-						}
-
-					} else {
-
-						if (offsetHorizontal != 0) {
-							objNave.translate(offsetHorizontal, 0, 0);
-							offsetHorizontal = 0;
-						}
-
-					}
-
-				}
-
-				// ---------------------------------------------------------------------------
-
-				if (objNave.getTransformedCenter().y > 155) {
-					if (offsetVertical < 0) {
-						objNave.translate(0, offsetVertical, 0);
-						offsetVertical = 0;
-					}
-
-					if (objNave.getTransformedCenter().x > 100) {
-
-						if (offsetHorizontal < 0) {
-							objNave.translate(offsetHorizontal, 0, 0);
-							offsetHorizontal = 0;
-						}
-
-					} else if (objNave.getTransformedCenter().x < -100) {
-
-						if (offsetHorizontal > 0) {
-							objNave.translate(offsetHorizontal, 0, 0);
-							offsetHorizontal = 0;
-						}
-
-					} else {
-						if (offsetHorizontal != 0) {
-							objNave.translate(offsetHorizontal, 0, 0);
-							offsetHorizontal = 0;
-						}
-					}
-				}
-			}
+			// **********************************************************************************************************************************		
+			jugador.mover(offsetHorizontal, offsetVertical);
+			generarImagenScore();
 
 			// **********************************************************************************************************************************
 			// *********************** BUFFER
 			// ***********************************************************************************************
 			// **********************************************************************************************************************************
+			
 			buffer.clear(colorFondo); // Borrar el buffer
+			backGround = BitmapFactory.decodeResource(getResources(),R.drawable.space3);
+			Texture textura = new Texture(backGround);
+			TextureManager.getInstance().addTexture("space",textura);
 			mundo.renderScene(buffer);// Cálculos sobre los objetos a dibujar
 			mundo.draw(buffer); // Redibuja todos los objetos
+			buffer.blit(pixeles, 128, 64, 0, 0, 150, 20, 128, 64, true);
 			buffer.display(); // Actualiza en pantalla
 
 			// **********************************************************************************************************************************
@@ -587,38 +477,25 @@ public class Juego extends Activity {
 				// **********************************************************************************************************************************
 				mundo = new World();
 				mundo.setAmbientLight(255, 255, 255);
-				colorFondo = new RGBColor(0x0, 0x0, 0x0);
-				
+				colorFondo = new RGBColor(0, 0, 0, 0);
 				
 				// **********************************************************************************************************************************
 				// *********************** CARGA DEL MODELO DE LA NAVE
 				// ****************************************************************************
 				// **********************************************************************************************************************************
-				objNave = Modelo.cargarModeloMTL(getBaseContext(),
+				/*objNave = Modelo.cargarModeloMTL(getBaseContext(),
 						"freedom3000.obj", "freedom3000.mtl", 1);
 				objNave.rotateY(3.141592f);
-				objNave.rotateX((float) (1.5));
-				mundo.addObject(objNave);
-				arregloDeProyectiles = new ArrayList<Object3D>();// Inicializa
-																	// arreglo
-																	// de
-																	// proyectiles
+				objNave.rotateX((float) (1.5));*/
+				jugador = new Jugador(getBaseContext()); 
+				mundo.addObject(jugador.getObjNave());
+				arregloDeProyectiles = new ArrayList<Object3D>();// Inicializa arreglo de proyectiles
 
 				// **********************************************************************************************************************************
 				// *********************** CARGA DEL MODELO DE ENEMIGOS
 				// ****************************************************************************
 				// **********************************************************************************************************************************
-				/*
-				 * objEnemigo = Modelo.cargarModeloMTL(getBaseContext(),
-				 * "robot.obj", "robot.mtl", (float) 0.03);
-				 * objEnemigo.rotateY(3.141592f); objEnemigo.rotateZ(3.141592f);
-				 * objEnemigo.rotateX((float) (-1.5)); objEnemigo.translate(0,
-				 * -120, 0); mundo.addObject(objEnemigo);
-				 */
-
-				arregloDeEnemigos = new ArrayList<Object3D>();// Inicializa
-																// arreglo de
-																// enemigos
+				arregloDeEnemigos = new ArrayList<Object3D>();// Inicializa arreglo de enemigos
 				// **********************************************************************************************************************************
 				// *********************** MANEJO DE CÁMARA
 				// ***********************************************************************************************
@@ -634,6 +511,8 @@ public class Juego extends Activity {
 				if (main == null) {
 					main = Juego.this;
 				}
+				dialogoEspera.dismiss();
+				reproducirSonido();
 			}
 
 		}
@@ -652,6 +531,32 @@ public class Juego extends Activity {
 	// ********************** ACELERÓMETRO
 	// ******************************************************************************************
 	// **********************************************************************************************************************************
+	private void reproducirSonido(){
+		try{
+			if (player != null && player.isPlaying()){
+				player.stop();
+				player.release();
+			}
+			player = new MediaPlayer();
+			AssetFileDescriptor descriptor = getAssets().openFd("gamemusic.mp3");
+			player.setDataSource(descriptor.getFileDescriptor(),descriptor.getStartOffset(), descriptor.getLength());
+			descriptor.close();
+			player.prepare();
+			player.setVolume(0.5f, 0.5f);
+			player.setLooping(false);
+			player.start();
+		}catch (Exception e){
+			Log.d("Error","MP3");
+		}
+	}
+	public void generarImagenScore(){
+		canvas.drawARGB(255, 0, 0, 0);
+		p.setColor(0xFF00FF00);
+		p.setTextSize(24);
+		canvas.drawText("Score:"+puntajeFinal, 40, 30, p);
+		bitmap.getPixels(pixeles, 0, 128, 0, 0, 128, 64);
+	}
+	
 	final SensorEventListener miListener = new SensorEventListener() {
 
 		@Override
