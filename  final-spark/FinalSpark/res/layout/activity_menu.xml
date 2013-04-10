@@ -24,6 +24,7 @@
         android:layout_below="@+id/space1"
         android:layout_marginBottom="142dp" />
 
+    
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

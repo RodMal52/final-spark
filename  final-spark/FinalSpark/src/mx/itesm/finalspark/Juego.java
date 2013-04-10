@@ -74,7 +74,6 @@ public class Juego extends Activity {
 	private int[] pixeles; //sustituye la textura
 	private boolean juegoEstaPausado;	//Manejo de pausa
 	private ProgressDialog dialogoEspera; 	//dialogo de espera
-	private Bitmap backGround;
 		
 	public void mostrarGameOver(View view) {
 		Intent intent = new Intent(this, GameOverActivity.class);
@@ -95,10 +94,10 @@ public class Juego extends Activity {
 		juegoEstaPausado = false;
 		super.onCreate(savedInstanceState);
 		mGLView = new GLSurfaceView(getApplicationContext());
-		bitmap = Bitmap.createBitmap(128,64,Bitmap.Config.ARGB_8888);
+		bitmap = Bitmap.createBitmap(256,64,Bitmap.Config.ARGB_8888);
 		canvas = new Canvas(bitmap);
 		p = new Paint();
-		pixeles = new int [128*64*4];
+		pixeles = new int [256*64*4];
 		
 
 //		TextureManager.getInstance().addTexture("textureBG", new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.space3)), 2048, 2048)));
@@ -439,12 +438,10 @@ public class Juego extends Activity {
 			// **********************************************************************************************************************************
 			
 			buffer.clear(colorFondo); // Borrar el buffer
-			backGround = BitmapFactory.decodeResource(getResources(),R.drawable.space3);
-			Texture textura = new Texture(backGround);
-			TextureManager.getInstance().addTexture("space",textura);
+			
 			mundo.renderScene(buffer);// Cálculos sobre los objetos a dibujar
 			mundo.draw(buffer); // Redibuja todos los objetos
-			buffer.blit(pixeles, 128, 64, 0, 0, 150, 20, 128, 64, true);
+			buffer.blit(pixeles, 256, 64, 0, 0, 250, 20, 256, 64, true);
 			buffer.display(); // Actualiza en pantalla
 
 			// **********************************************************************************************************************************
@@ -554,7 +551,7 @@ public class Juego extends Activity {
 		p.setColor(0xFF00FF00);
 		p.setTextSize(24);
 		canvas.drawText("Score:"+puntajeFinal, 40, 30, p);
-		bitmap.getPixels(pixeles, 0, 128, 0, 0, 128, 64);
+		bitmap.getPixels(pixeles, 0, 256, 0, 0, 256, 64);
 	}
 	
 	final SensorEventListener miListener = new SensorEventListener() {
