@@ -1,12 +1,17 @@
 package mx.itesm.finalspark;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
 public class ControlsActivity extends Activity {
+	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +28,9 @@ public class ControlsActivity extends Activity {
 	
 	public void mostrarGame (View view){
 		Intent intent = new Intent(this,Juego.class);
-		startActivity(intent);
-	}
 
-}
+		startActivity(intent);
+	}}
+	
+	
+	
