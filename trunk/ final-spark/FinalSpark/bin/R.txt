@@ -38,8 +38,11 @@ int drawable pausescreen 0x7f020013
 int drawable reset 0x7f020014
 int drawable settings 0x7f020015
 int drawable ship 0x7f020016
-int drawable spacebkgd 0x7f020017
-int drawable splash 0x7f020018
+int drawable space 0x7f020017
+int drawable space2 0x7f020018
+int drawable space3 0x7f020019
+int drawable spacebkgd 0x7f02001a
+int drawable splash 0x7f02001b
 int id FrameLayout1 0x7f04001a
 int id RelativeLayout1 0x7f040015
 int id alignBounds 0x7f040002
