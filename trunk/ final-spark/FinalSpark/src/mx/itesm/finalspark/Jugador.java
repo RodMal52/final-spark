@@ -1,23 +1,60 @@
 package mx.itesm.finalspark;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 
 import com.threed.jpct.Object3D;
+import com.threed.jpct.Primitives;
 
 public class Jugador {
 	private int daño=10;
 	private int vida = 100;
 	private Object3D objNave;
+	public Object3D misil;
+	public Object3D misilIzq;
+	public Object3D misilDer;
+	public ArrayList<Object3D> arregloDeProyectiles;
 	
 	public Jugador(Context contexto){
 		objNave = Modelo.cargarModeloMTL(contexto,
 				"freedom3000.obj", "freedom3000.mtl", 1);
 		objNave.rotateY(3.141592f);
 		objNave.rotateX((float) (1.5));
+		arregloDeProyectiles = new ArrayList<Object3D>();
 	}
 	
 	public Object3D getObjNave() {
 		return objNave;
+	}
+	
+	public int getDaño() {
+		return daño;
+	}
+	public int getVida() {
+		return vida;
+	}
+	public void disparar(){
+		misil = Primitives.getCube((float) .5);
+		misil.strip();
+		misil.build();
+		misil.setOrigin(objNave.getTransformedCenter());
+		misil.translate(0, -2, 0);
+
+		misilIzq = Primitives.getCube((float) .5);
+		misilIzq.strip();
+		misilIzq.build();
+		misilIzq.setOrigin(objNave.getTransformedCenter());
+		misilIzq.translate(-9, 1, 0);
+
+		misilDer = Primitives.getCube((float) .5);
+		misilDer.strip();
+		misilDer.build();
+		misilDer.setOrigin(objNave.getTransformedCenter());
+		misilDer.translate(9, 1, 0);
+		arregloDeProyectiles.add(misil);// Agrega a la el misileto
+		arregloDeProyectiles.add(misilIzq);
+		arregloDeProyectiles.add(misilDer);
 	}
 	
 	public void mover(float offsetHorizontal, float offsetVertical){
