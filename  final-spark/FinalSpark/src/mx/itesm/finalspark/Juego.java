@@ -31,10 +31,12 @@ import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 import com.threed.jpct.RGBColor;
+import com.threed.jpct.SimpleVector;
 import com.threed.jpct.Texture;
 import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
 import com.threed.jpct.util.BitmapHelper;
+
 import com.threed.jpct.util.MemoryHelper;
 
 public class Juego extends Activity {
@@ -45,10 +47,7 @@ public class Juego extends Activity {
 	private World mundo; // Un escenario de nuestro juego
 	private RGBColor colorFondo; // Color de fondo :)
 	private Camera camara; // Cámara
-	@SuppressWarnings("unused")
-	private Object3D misil; // Modelo del misil
 	private Object3D objEnemigo; // Modelo enemigo
-	private ArrayList<Object3D> arregloDeProyectiles; // Arreglo de misiles
 	private ArrayList<Object3D> arregloDeEnemigos; // Arreglo de enemigos
 	private boolean agregarObjeto; // Valor booleano para comprobar si se agregan misiles
 	private MediaPlayer player;
@@ -95,8 +94,6 @@ public class Juego extends Activity {
 		canvas = new Canvas(bitmap);
 		p = new Paint();
 		pixeles = new int [256*64*4];
-		
-
 		TextureManager.getInstance().addTexture("textureBG", new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.space2)), 1024, 1024)));
 		renderer = new Renderer();
 		mGLView.setRenderer(renderer);
@@ -135,13 +132,11 @@ public class Juego extends Activity {
 		super.onStop();
 		
 	}
-
 	// -------------------------- Método onDestroy()
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 	}
-
 	// -------------------------- Método copiar()
 	private void copiar(Object src) {
 		try {
@@ -204,31 +199,10 @@ public class Juego extends Activity {
 			}
 
 			if (agregarObjeto && (disparos == 0)) {
-
-				Object3D misil = Primitives.getCube((float) .5);
-				misil.strip();
-				misil.build();
-				misil.setOrigin(jugador.getObjNave().getTransformedCenter());
-				misil.translate(0, -2, 0);
-
-				Object3D misilIzq = Primitives.getCube((float) .5);
-				misilIzq.strip();
-				misilIzq.build();
-				misilIzq.setOrigin(jugador.getObjNave().getTransformedCenter());
-				misilIzq.translate(-9, 1, 0);
-
-				Object3D misilDer = Primitives.getCube((float) .5);
-				misilDer.strip();
-				misilDer.build();
-				misilDer.setOrigin(jugador.getObjNave().getTransformedCenter());
-				misilDer.translate(9, 1, 0);
-				arregloDeProyectiles.add(misil);// Agrega a la el misileto
-				arregloDeProyectiles.add(misilIzq);
-				arregloDeProyectiles.add(misilDer);
-
-				mundo.addObject(misil);
-				mundo.addObject(misilIzq);
-				mundo.addObject(misilDer);
+				jugador.disparar();
+				mundo.addObject(jugador.misil);
+				mundo.addObject(jugador.misilIzq);
+				mundo.addObject(jugador.misilDer);
 			}
 
 			// *********************** GENERACIÓN ALEATORIA DE ENEMIGOS
@@ -285,9 +259,7 @@ public class Juego extends Activity {
 
 				noMasEnemigos = false;
 			}
-
 			// Revisa si los enemigos han muerto
-
 			if (contadorEnemigos == 0) {
 				noMasEnemigos = true;
 			}
@@ -295,15 +267,13 @@ public class Juego extends Activity {
 			for (Object3D cubo : arregloDeEnemigos) {
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
-				cubo.rotateX(0.01f);
-				
+				cubo.rotateX(0.01f);	
 			}
 			// Revisa si el proyectil ha salido del mundo o colisionado con algún enemigo
-
-			for (int contarObjetos = 0; contarObjetos < arregloDeProyectiles
+			for (int contarObjetos = 0; contarObjetos < jugador.arregloDeProyectiles
 					.size(); contarObjetos++) {
 
-				Object3D proyectil = arregloDeProyectiles.get(contarObjetos);
+				Object3D proyectil = jugador.arregloDeProyectiles.get(contarObjetos);
 				proyectil.rotateZ(0.1f);
 				proyectil.translate(0, -5.0f, 0);
 
@@ -318,7 +288,7 @@ public class Juego extends Activity {
 							&& proyectil.getTransformedCenter().y < (objEnemigo
 									.getTransformedCenter().y + 42)) {
 						mundo.removeObject(proyectil);
-						arregloDeProyectiles.remove(contarObjetos);
+						jugador.arregloDeProyectiles.remove(contarObjetos);
 						contadorDañoEnemigo++;
 					}
 				}
@@ -334,7 +304,7 @@ public class Juego extends Activity {
 							&& proyectil.getTransformedCenter().y < (arregloDeEnemigos
 									.get(contarEnemigos).getTransformedCenter().y + 10)) {
 						mundo.removeObject(proyectil);
-						arregloDeProyectiles.remove(contarObjetos);
+						jugador.arregloDeProyectiles.remove(contarObjetos);
 						mundo.removeObject(arregloDeEnemigos
 								.get(contarEnemigos));
 						arregloDeEnemigos.remove(contarEnemigos);
@@ -350,7 +320,7 @@ public class Juego extends Activity {
 
 				if (proyectil.getTransformedCenter().y < -205) {
 					mundo.removeObject(proyectil);
-					arregloDeProyectiles.remove(contarObjetos);
+					jugador.arregloDeProyectiles.remove(contarObjetos);
 				}
 			}
 
@@ -421,16 +391,12 @@ public class Juego extends Activity {
 				
 				jugador = new Jugador(getBaseContext()); 
 				mundo.addObject(jugador.getObjNave());
-				arregloDeProyectiles = new ArrayList<Object3D>();// Inicializa arreglo de proyectiles
-
 				// *********************** CARGA DEL MODELO DE ENEMIGOS
 				arregloDeEnemigos = new ArrayList<Object3D>();// Inicializa arreglo de enemigos
-				
 				// *********************** MANEJO DE CÁMARA
 				camara = mundo.getCamera();
 				camara.moveCamera(Camera.CAMERA_MOVEOUT, 200);
 				camara.moveCamera(Camera.CAMERA_MOVEUP, 3);
-
 				// *********************** MEMORIA
 				MemoryHelper.compact();
 				if (main == null) {
@@ -441,14 +407,11 @@ public class Juego extends Activity {
 			}
 
 		}
-
 		// -------------------------- Método onSurfaceChanged()
-
 		@Override
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		}
 	}
-
 	// ********************** ACELERÓMETRO
 	private void reproducirSonido(){
 		try{
