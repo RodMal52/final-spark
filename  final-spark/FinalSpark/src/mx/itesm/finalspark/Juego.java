@@ -48,6 +48,7 @@ public class Juego extends Activity {
 	private RGBColor colorFondo; // Color de fondo :)
 	private Camera camara; // Cámara
 	private Object3D objEnemigo; // Modelo enemigo
+	private Object3D background;
 	private ArrayList<Object3D> arregloDeEnemigos; // Arreglo de enemigos
 	private boolean agregarObjeto; // Valor booleano para comprobar si se agregan misiles
 	private MediaPlayer player;
@@ -94,7 +95,9 @@ public class Juego extends Activity {
 		canvas = new Canvas(bitmap);
 		p = new Paint();
 		pixeles = new int [256*64*4];
-		TextureManager.getInstance().addTexture("textureBG", new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.space2)), 1024, 1024)));
+		
+		
+		//TextureManager.getInstance().addTexture("textureBG", new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.space2)), 1024, 1024)));
 		renderer = new Renderer();
 		mGLView.setRenderer(renderer);
 		setContentView(mGLView);
@@ -303,6 +306,7 @@ public class Juego extends Activity {
 									.get(contarEnemigos).getTransformedCenter().y - 10)
 							&& proyectil.getTransformedCenter().y < (arregloDeEnemigos
 									.get(contarEnemigos).getTransformedCenter().y + 10)) {
+						
 						mundo.removeObject(proyectil);
 						jugador.arregloDeProyectiles.remove(contarObjetos);
 						mundo.removeObject(arregloDeEnemigos
@@ -353,11 +357,10 @@ public class Juego extends Activity {
 			// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
 			jugador.mover(offsetHorizontal, offsetVertical);
 			generarImagenScore();
-
 			// *********************** BUFFER
 			
 			buffer.clear(colorFondo); // Borrar el buffer
-			buffer.blit(TextureManager.getInstance().getTexture("textureBG"), 1024, 1024, 0, 0, 1024, 1024, false);
+			//buffer.blit(TextureManager.getInstance().getTexture("textureBG"), 1024, 1024, 0, 0, 1024, 1024, false);
 			mundo.renderScene(buffer);// Cálculos sobre los objetos a dibujar
 			mundo.draw(buffer); // Redibuja todos los objetos
 			buffer.blit(pixeles, 256, 64, 0, 0, 250, 20, 256, 64, true);
@@ -382,11 +385,25 @@ public class Juego extends Activity {
 			buffer = new FrameBuffer(gl, width, height);
 			if (main == null) {
 				
-				// *********************** CRECIÓN DE MUNDO Y LUZ
+		 		// *********************** CRECIÓN DE MUNDO Y LUZ
 				mundo = new World();
 				mundo.setAmbientLight(255, 255, 255);
 				colorFondo = new RGBColor(0, 0, 0, 0);
 				
+				
+				Texture textura = new Texture(
+						BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(
+								R.drawable.space8)), 1024, 1024));
+				// pisoverde.jpg es el nombre que se encuentra en el archivo .mtl
+				TextureManager.getInstance().addTexture("space8.jpg",textura);
+				
+				background = Modelo.cargarModeloMTL(getBaseContext(),
+						"space.obj", "space.mtl",2);
+				background.rotateX((float) (3.1415/2));
+				
+				background.translate(0,0, 150);
+
+				mundo.addObject(background)	;			
 				// *********************** CARGA DEL MODELO DE LA NAVE
 				
 				jugador = new Jugador(getBaseContext()); 
