@@ -1,5 +1,7 @@
 package mx.itesm.finalspark;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.database.Cursor;
@@ -15,14 +17,12 @@ public class HighscoresActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_highscores);
 		BDAdaptador bases = new BDAdaptador(this);
-		TextView tvscore =(TextView) findViewById(R.id.tvscore);
 		
 		bases.abrir();
 		Cursor c = bases.obtenerJugadores();
 		if(c.moveToFirst())
 		{
 			do {
-				tvscore.setText(c.getString(1) + c.getString(2) + "\n");
 				Desplegar(c);
 			} while (c.moveToNext());
 		}
@@ -31,6 +31,10 @@ public class HighscoresActivity extends Activity {
 	
 	public void Desplegar(Cursor c)
 	{
+		TextView tvscore =(TextView) findViewById(R.id.tvscore);
+		
+		tvscore.setText(c.getString(1) + c.getString(2));
+		
         Toast.makeText(this,
                 "id: " + c.getString(0) + "\n" +
                 "Jugador: " + c.getString(1) + "\n" +

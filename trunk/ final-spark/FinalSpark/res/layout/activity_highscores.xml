@@ -9,8 +9,7 @@
         android:id="@+id/tvscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="Score"
         android:textAppearance="?android:attr/textAppearanceLarge" />
