@@ -5,7 +5,7 @@
     tools:context=".GameOverActivity" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tvscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/button1"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/tvscore"
         android:layout_marginTop="14dp"
         android:text="@string/nameuser"
         android:textAppearance="?android:attr/textAppearanceLarge" />

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.database.Cursor;
 import android.view.Menu;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class HighscoresActivity extends Activity {
@@ -12,13 +13,15 @@ public class HighscoresActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_highscores);
-BDAdaptador bases = new BDAdaptador(this);
+		BDAdaptador bases = new BDAdaptador(this);
+		EditText tvscore =(EditText) findViewById(R.id.tvscore);
 		
 		bases.abrir();
 		Cursor c = bases.obtenerJugadores();
 		if(c.moveToFirst())
 		{
 			do {
+				tvscore.setText(c.getString(1) + c.getString(2));
 				Desplegar(c);
 			} while (c.moveToNext());
 		}
