@@ -22,7 +22,7 @@ public class HighscoresActivity extends Activity {
 		if(c.moveToFirst())
 		{
 			do {
-				tvscore.setText(c.getString(1) + c.getString(2));
+				tvscore.setText(c.getString(1) + c.getString(2) + "\n");
 				Desplegar(c);
 			} while (c.moveToNext());
 		}
