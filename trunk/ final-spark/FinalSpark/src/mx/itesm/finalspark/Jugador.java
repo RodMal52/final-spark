@@ -7,7 +7,7 @@ import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 
 public class Jugador  {
-	private int daño=10;
+	private int dano=10;
 	private int vida = 100;
 	private Object3D objNave;
 	public Object3D misil;
@@ -28,8 +28,8 @@ public class Jugador  {
 	}
 	
 	
-	public int getDaño() {
-		return daño;
+	public int getDano() {
+		return dano;
 	}
 	public int getVida() {
 		return vida;

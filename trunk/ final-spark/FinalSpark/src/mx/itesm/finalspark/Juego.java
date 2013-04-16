@@ -1,6 +1,6 @@
 package mx.itesm.finalspark;
 
-// Imports de paquetería de Java
+// Imports de paqueterï¿½a de Java
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -9,7 +9,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-//Imports de paquetería de Android
+//Imports de paqueterï¿½a de Android
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -24,7 +24,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-//Imports de paquetería Jpct-AE 
+//Imports de paqueterï¿½a Jpct-AE 
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Object3D;
@@ -44,7 +44,7 @@ public class Juego extends Activity {
 	private FrameBuffer buffer; // Buffer para trazar
 	private World mundo; // Un escenario de nuestro juego
 	private RGBColor colorFondo; // Color de fondo :)
-	private Camera camara; // Cámara
+	private Camera camara; // Cï¿½mara
 	private Object3D objEnemigo; // Modelo enemigo
 	private Object3D background;
 	private ArrayList<Object3D> arregloDeEnemigos; // Arreglo de enemigos
@@ -52,7 +52,7 @@ public class Juego extends Activity {
 	private MediaPlayer player;
 	private Jugador jugador; 
 	private int fps; // contador frames
-	private int contadorDañoEnemigo = 0; // HP enemigo
+	private int contadorDanoEnemigo = 0; // HP enemigo
 	private int contadorEnemigos = 0;
 	private boolean enemigoMuerto = false;
 	private boolean noMasEnemigos = true;
@@ -80,7 +80,7 @@ public class Juego extends Activity {
 	}
 
 	
-	// -------------------------- Método onCreate()
+	// -------------------------- Mï¿½todo onCreate()
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		if (main != null) { // Si ya existe el juego, copiar sus campos
@@ -99,14 +99,14 @@ public class Juego extends Activity {
 		setContentView(mGLView);
 	}
 
-	// -------------------------- Método onPause()
+	// -------------------------- Mï¿½todo onPause()
 	@Override
 	protected void onPause() {
 		super.onPause();
 		mGLView.onPause();
 	}
 
-	// -------------------------- Método onResume()
+	// -------------------------- Mï¿½todo onResume()
 	@SuppressWarnings("static-access")
 	@Override
 	protected void onResume() {
@@ -120,7 +120,7 @@ public class Juego extends Activity {
 		
 	}
 
-	// -------------------------- Método onStop()
+	// -------------------------- Mï¿½todo onStop()
 	@Override
 	protected void onStop() {
 		SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -134,12 +134,12 @@ public class Juego extends Activity {
 		Log.d("ACELEROMETRO", "DESREGISTRA");
 		
 	}
-	// -------------------------- Método onDestroy()
+	// -------------------------- Mï¿½todo onDestroy()
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 	}
-	// -------------------------- Método copiar()
+	// -------------------------- Mï¿½todo copiar()
 	private void copiar(Object src) {
 		try {
 			Field[] fs = src.getClass().getDeclaredFields();
@@ -177,7 +177,7 @@ public class Juego extends Activity {
 
 		private long tiempo = System.currentTimeMillis();
 
-		// -------------------------- Método onDrawFrame()
+		// -------------------------- Mï¿½todo onDrawFrame()
 		@Override
 		public void onDrawFrame(GL10 gl) { // ACTUALIZACIONES
 
@@ -190,7 +190,7 @@ public class Juego extends Activity {
 				hayJefe = true;
 				puntaje = 0;
 				enemigoMuerto = false;
-				contadorDañoEnemigo = 0;
+				contadorDanoEnemigo = 0;
 			}
 
 			// *********************** MISILES
@@ -207,7 +207,7 @@ public class Juego extends Activity {
 				mundo.addObject(jugador.misilDer);
 			}
 
-			// *********************** GENERACIÓN ALEATORIA DE ENEMIGOS
+			// *********************** GENERACIï¿½N ALEATORIA DE ENEMIGOS
 
 			if (noMasEnemigos) {
 
@@ -273,7 +273,7 @@ public class Juego extends Activity {
 				
 							
 			}
-			// Revisa si el proyectil ha salido del mundo o colisionado con algún enemigo
+			// Revisa si el proyectil ha salido del mundo o colisionado con algï¿½n enemigo
 			for (int contarObjetos = 0; contarObjetos < jugador.arregloDeProyectiles
 					.size(); contarObjetos++) {
 
@@ -293,7 +293,7 @@ public class Juego extends Activity {
 									.getTransformedCenter().y + 42)) {
 						mundo.removeObject(proyectil);
 						jugador.arregloDeProyectiles.remove(contarObjetos);
-						contadorDañoEnemigo++;
+						contadorDanoEnemigo++;
 					}
 				}
 
@@ -331,9 +331,9 @@ public class Juego extends Activity {
 				}
 			}
 
-			// Revisa si el enemigo debe morir y si la nave ha chocado con él
+			// Revisa si el enemigo debe morir y si la nave ha chocado con ï¿½l
 			if (hayJefe) {
-				if (!enemigoMuerto && contadorDañoEnemigo > 45) {
+				if (!enemigoMuerto && contadorDanoEnemigo > 45) {
 					mundo.removeObject(objEnemigo);
 					enemigoMuerto = true;
 					hayJefe = false;
@@ -364,7 +364,7 @@ public class Juego extends Activity {
 			// *********************** BUFFER
 			
 			buffer.clear(colorFondo); // Borrar el buffer
-			mundo.renderScene(buffer);// Cálculos sobre los objetos a dibujar
+			mundo.renderScene(buffer);// Cï¿½lculos sobre los objetos a dibujar
 			mundo.draw(buffer); // Redibuja todos los objetos
 			buffer.blit(pixeles, 256, 64, 0, 0, 250, 20, 256, 64, true);
 			buffer.display(); // Actualiza en pantalla
@@ -378,7 +378,7 @@ public class Juego extends Activity {
 			fps++;
 		}
 
-		// -------------------------- Método onSurfaceChanged()
+		// -------------------------- Mï¿½todo onSurfaceChanged()
 
 		@Override
 		public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -388,7 +388,7 @@ public class Juego extends Activity {
 			buffer = new FrameBuffer(gl, width, height);
 			if (main == null) {
 				
-		 		// *********************** CRECIÓN DE MUNDO Y LUZ
+		 		// *********************** CRECIï¿½N DE MUNDO Y LUZ
 				mundo = new World();
 				mundo.setAmbientLight(255, 255, 255);
 				colorFondo = new RGBColor(0, 0, 0, 0);
@@ -413,7 +413,7 @@ public class Juego extends Activity {
 				mundo.addObject(jugador.getObjNave());
 				// *********************** CARGA DEL MODELO DE ENEMIGOS
 				arregloDeEnemigos = new ArrayList<Object3D>();// Inicializa arreglo de enemigos
-				// *********************** MANEJO DE CÁMARA
+				// *********************** MANEJO DE Cï¿½MARA
 				camara = mundo.getCamera();
 				camara.moveCamera(Camera.CAMERA_MOVEOUT, 200);
 				camara.moveCamera(Camera.CAMERA_MOVEUP, 3);
@@ -427,12 +427,12 @@ public class Juego extends Activity {
 			}
 
 		}
-		// -------------------------- Método onSurfaceChanged()
+		// -------------------------- Mï¿½todo onSurfaceChanged()
 		@Override
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		}
 	}
-	// ********************** ACELERÓMETRO
+	// ********************** ACELERï¿½METRO
 	private void reproducirSonido(){
 		try{
 			if (player != null && player.isPlaying()){
