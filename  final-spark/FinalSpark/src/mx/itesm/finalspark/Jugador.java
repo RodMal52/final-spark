@@ -3,11 +3,10 @@ package mx.itesm.finalspark;
 import java.util.ArrayList;
 
 import android.content.Context;
-
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 
-public class Jugador {
+public class Jugador  {
 	private int daño=10;
 	private int vida = 100;
 	private Object3D objNave;
@@ -27,6 +26,7 @@ public class Jugador {
 	public Object3D getObjNave() {
 		return objNave;
 	}
+	
 	
 	public int getDaño() {
 		return daño;
