@@ -270,7 +270,7 @@ public class Juego extends Activity {
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
-				cubo.translate((jugador.getObjNave().getTransformedCenter().x)/500-(cubo.getTransformedCenter().x)/500 ,(jugador.getObjNave().getTransformedCenter().y)/500-(cubo.getTransformedCenter().y)/500, 0);
+				cubo.translate((jugador.getObjNave().getTransformedCenter().x)/50-(cubo.getTransformedCenter().x)/50 ,(jugador.getObjNave().getTransformedCenter().y)/50-(cubo.getTransformedCenter().y)/50, 0);
 							
 			}
 			// Revisa si el proyectil ha salido del mundo o colisionado con alg�n enemigo
