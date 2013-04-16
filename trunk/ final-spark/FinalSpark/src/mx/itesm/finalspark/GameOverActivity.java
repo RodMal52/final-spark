@@ -7,11 +7,17 @@ import android.view.Menu;
 import android.view.View;
 
 public class GameOverActivity extends Activity {
-
+	private int puntos;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game_over);
+		BDAdaptador base = new BDAdaptador(this);
+		
+		base.abrir();
+		long id = base.guardarPuntos("Alejandro", puntos);
+		base.cerrar();
 	}
 
 	@Override
@@ -22,6 +28,7 @@ public class GameOverActivity extends Activity {
 	}
 	public void mostrarMenu (View view){
 		Intent intent = new Intent(this,MenuActivity.class);
+		puntos = getIntent().getIntExtra("Puntaje", 0);
 		this.startActivity(intent);
 	}
 }

@@ -7,7 +7,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 //Imports de paquetería de Android
@@ -31,7 +30,6 @@ import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 import com.threed.jpct.RGBColor;
-import com.threed.jpct.SimpleVector;
 import com.threed.jpct.Texture;
 import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
@@ -72,14 +70,16 @@ public class Juego extends Activity {
 	private Canvas canvas;
 	private Paint p;
 	private int[] pixeles; //sustituye la textura
-	private boolean juegoEstaPausado;	//Manejo de pausa
 	private ProgressDialog dialogoEspera; 	//dialogo de espera
 		
 	public void mostrarGameOver(View view) {
 		Intent intent = new Intent(this, GameOverActivity.class);
+		intent.putExtra("Puntaje", puntajeFinal);
+
 		this.startActivity(intent);
 	}
 
+	
 	// -------------------------- Método onCreate()
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,16 +88,12 @@ public class Juego extends Activity {
 		}else{
 			dialogoEspera = ProgressDialog.show(this, "Aviso", "LOADING...");
 		}
-		juegoEstaPausado = false;
 		super.onCreate(savedInstanceState);
 		mGLView = new GLSurfaceView(getApplicationContext());
 		bitmap = Bitmap.createBitmap(256,64,Bitmap.Config.ARGB_8888);
 		canvas = new Canvas(bitmap);
 		p = new Paint();
 		pixeles = new int [256*64*4];
-		
-		
-		//TextureManager.getInstance().addTexture("textureBG", new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.space2)), 1024, 1024)));
 		renderer = new Renderer();
 		mGLView.setRenderer(renderer);
 		setContentView(mGLView);
@@ -120,6 +116,7 @@ public class Juego extends Activity {
 		sm.registerListener(miListener,
 				sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				sm.SENSOR_DELAY_GAME);
+		Log.d("ACELEROMETRO", "REGISTRA");
 		
 	}
 
@@ -127,12 +124,14 @@ public class Juego extends Activity {
 	@Override
 	protected void onStop() {
 		SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-		sm.unregisterListener(miListener);
+		
+		//sm.unregisterListener(miListener);
 		if (player != null && player.isPlaying()){
 			player.stop();
 			player.release();
 		}
 		super.onStop();
+		Log.d("ACELEROMETRO", "DESREGISTRA");
 		
 	}
 	// -------------------------- Método onDestroy()
@@ -270,7 +269,10 @@ public class Juego extends Activity {
 			for (Object3D cubo : arregloDeEnemigos) {
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
-				cubo.rotateX(0.01f);	
+				cubo.rotateX(0.01f);
+				
+				cubo.translate((float)Math.sin(360*Math.random()),(float) Math.cos(360*Math.random()), 0);
+				
 			}
 			// Revisa si el proyectil ha salido del mundo o colisionado con algún enemigo
 			for (int contarObjetos = 0; contarObjetos < jugador.arregloDeProyectiles
@@ -352,6 +354,7 @@ public class Juego extends Activity {
 					View view = null;
 					mostrarGameOver(view);
 					main = null;
+					
 				}
 			}
 			// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
@@ -360,7 +363,6 @@ public class Juego extends Activity {
 			// *********************** BUFFER
 			
 			buffer.clear(colorFondo); // Borrar el buffer
-			//buffer.blit(TextureManager.getInstance().getTexture("textureBG"), 1024, 1024, 0, 0, 1024, 1024, false);
 			mundo.renderScene(buffer);// Cálculos sobre los objetos a dibujar
 			mundo.draw(buffer); // Redibuja todos los objetos
 			buffer.blit(pixeles, 256, 64, 0, 0, 250, 20, 256, 64, true);
@@ -456,7 +458,7 @@ public class Juego extends Activity {
 		bitmap.getPixels(pixeles, 0, 256, 0, 0, 256, 64);
 	}
 	
-	final SensorEventListener miListener = new SensorEventListener() {
+	  final SensorEventListener miListener = new SensorEventListener() {
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {

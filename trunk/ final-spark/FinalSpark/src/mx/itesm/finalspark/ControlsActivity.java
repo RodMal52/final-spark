@@ -30,6 +30,7 @@ public class ControlsActivity extends Activity {
 		Intent intent = new Intent(this,Juego.class);
 
 		startActivity(intent);
+		finish();
 	}}
 	
 	
