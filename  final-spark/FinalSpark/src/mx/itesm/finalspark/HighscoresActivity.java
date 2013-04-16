@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.database.Cursor;
 import android.view.Menu;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class HighscoresActivity extends Activity {
@@ -31,9 +31,12 @@ public class HighscoresActivity extends Activity {
 	
 	public void Desplegar(Cursor c)
 	{
-		TextView tvscore =(TextView) findViewById(R.id.tvscore);
-		
-		tvscore.setText(c.getString(1) + c.getString(2));
+		ListView lvlista = (ListView) findViewById(R.id.lista);
+		final ArrayList<String> lista = new ArrayList<String>();
+		for (int i = 0; i <= 10; ++i) {
+		      lista.add(c.getString(1)+c.getString(2));
+		    }
+		lvlista.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lista));
 		
         Toast.makeText(this,
                 "id: " + c.getString(0) + "\n" +
