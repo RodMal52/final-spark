@@ -272,13 +272,13 @@ public class Juego extends Activity {
 				cubo.rotateX(0.01f);
 				cubo.translate((jugador.getObjNave().getTransformedCenter().x)/50-(cubo.getTransformedCenter().x)/50 ,(jugador.getObjNave().getTransformedCenter().y)/50-(cubo.getTransformedCenter().y)/50, 0);
 				if((jugador.getObjNave().getTransformedCenter().x) < (cubo
-								.getTransformedCenter().x+5)
+								.getTransformedCenter().x+10)
 						&& (jugador.getObjNave().getTransformedCenter().x) >(cubo
-								.getTransformedCenter().x-5 )
+								.getTransformedCenter().x-10 )
 								&&(jugador.getObjNave().getTransformedCenter().y) < (cubo
-										.getTransformedCenter().y+5)
+										.getTransformedCenter().y+10)
 										&& (jugador.getObjNave().getTransformedCenter().y) >(cubo
-												.getTransformedCenter().y-5 )){
+												.getTransformedCenter().y-10 )){
 					View view = null;
 					mostrarGameOver(view);
 					main = null;
@@ -322,8 +322,8 @@ public class Juego extends Activity {
 						
 							mundo.removeObject(proyectil);
 							jugador.arregloDeProyectiles.remove(contarObjetos);
-							mundo.removeObject(arregloDeEnemigos
-									.get(contarEnemigos));
+											
+							mundo.removeObject(arregloDeEnemigos.get(contarEnemigos));
 							arregloDeEnemigos.remove(contarEnemigos);								
 						
 						
