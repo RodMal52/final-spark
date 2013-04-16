@@ -271,6 +271,25 @@ public class Juego extends Activity {
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
 				cubo.translate((jugador.getObjNave().getTransformedCenter().x)/50-(cubo.getTransformedCenter().x)/50 ,(jugador.getObjNave().getTransformedCenter().y)/50-(cubo.getTransformedCenter().y)/50, 0);
+				
+				for (int contarEnemigos = 0; contarEnemigos < arregloDeEnemigos
+						.size(); contarEnemigos++) {
+					
+					if (cubo.getTransformedCenter().x < (arregloDeEnemigos
+							.get(contarEnemigos).getTransformedCenter().x + 10)
+							&& cubo.getTransformedCenter().x > (arregloDeEnemigos
+									.get(contarEnemigos).getTransformedCenter().x - 10)
+							&& cubo.getTransformedCenter().y > (arregloDeEnemigos
+									.get(contarEnemigos).getTransformedCenter().y - 10)
+							&& cubo.getTransformedCenter().y < (arregloDeEnemigos
+									.get(contarEnemigos).getTransformedCenter().y + 10)) {
+						
+						cubo.translate(1,1,0);
+						
+					}
+					 
+				}
+				
 				if((jugador.getObjNave().getTransformedCenter().x) < (cubo
 								.getTransformedCenter().x+10)
 						&& (jugador.getObjNave().getTransformedCenter().x) >(cubo
@@ -308,9 +327,10 @@ public class Juego extends Activity {
 						contadorDanoEnemigo++;
 					}
 				}
-
+				
 				for (int contarEnemigos = 0; contarEnemigos < arregloDeEnemigos
 						.size(); contarEnemigos++) {
+					
 					if (proyectil.getTransformedCenter().x < (arregloDeEnemigos
 							.get(contarEnemigos).getTransformedCenter().x + 10)
 							&& proyectil.getTransformedCenter().x > (arregloDeEnemigos
