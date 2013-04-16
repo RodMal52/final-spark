@@ -3,7 +3,6 @@ package mx.itesm.finalspark;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -20,8 +19,7 @@ public class GameOverActivity extends Activity {
 		
 		puntos = getIntent().getExtras().getInt("Puntaje");
 		base.abrir();
-		Log.d("HOLAAA", tfNombre.getText().toString());
-		base.guardarPuntos(""+tfNombre.getText().toString(), puntos);
+		base.guardarPuntos(tfNombre.getText().toString(), puntos);
 		base.cerrar();
 	}
 
