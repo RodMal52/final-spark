@@ -17,5 +17,6 @@
     <string name="gameover">Game Over</string>
     <string name="rmenu">Main Menu</string>
     <string name="title_activity_game_over">GameOverActivity</string>
+    <string name="nameuser">User name:</string>
 
 </resources>

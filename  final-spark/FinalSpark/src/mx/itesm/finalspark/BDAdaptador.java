@@ -92,7 +92,7 @@ public class BDAdaptador {
         public Cursor obtenerJugadores() throws SQLException 
         {        
             return db.query(DATABASE_TABLE, new String[] {KEY_ROWID,
-                   KEY_NOMBRE, KEY_SCORE}, null, null,null,null,KEY_SCORE+" DESC");
+                   KEY_NOMBRE, KEY_SCORE}, null, null,null,null,KEY_SCORE+" DESC", "10");
         }
         
 }

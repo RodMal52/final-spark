@@ -271,8 +271,7 @@ public class Juego extends Activity {
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
 				
-				cubo.translate((float)Math.sin(360*Math.random()),(float) Math.cos(360*Math.random()), 0);
-				
+							
 			}
 			// Revisa si el proyectil ha salido del mundo o colisionado con algún enemigo
 			for (int contarObjetos = 0; contarObjetos < jugador.arregloDeProyectiles
@@ -309,11 +308,13 @@ public class Juego extends Activity {
 							&& proyectil.getTransformedCenter().y < (arregloDeEnemigos
 									.get(contarEnemigos).getTransformedCenter().y + 10)) {
 						
-						mundo.removeObject(proyectil);
-						jugador.arregloDeProyectiles.remove(contarObjetos);
-						mundo.removeObject(arregloDeEnemigos
-								.get(contarEnemigos));
-						arregloDeEnemigos.remove(contarEnemigos);
+							mundo.removeObject(proyectil);
+							jugador.arregloDeProyectiles.remove(contarObjetos);
+							mundo.removeObject(arregloDeEnemigos
+									.get(contarEnemigos));
+							arregloDeEnemigos.remove(contarEnemigos);								
+						
+						
 						if (!hayJefe) {
 							puntaje = puntaje + 10;
 						}
