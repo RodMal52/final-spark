@@ -1,17 +1,38 @@
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bkgrd"
+    android:columnCount="2"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
     tools:context=".HighscoresActivity" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="148dp"
+        android:text="@string/Highscores"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/ggkk" />
 
     <ListView
         android:id="@+id/lista"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
-"
-        </ListView> 
+        android:paddingBottom="@dimen/gf"
+        android:paddingLeft="@dimen/gg"
+        android:paddingRight="@dimen/gf"
+        android:textAlignment="center" >
+
+    </ListView>
 
 </RelativeLayout>
