@@ -271,7 +271,19 @@ public class Juego extends Activity {
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
 				cubo.translate((jugador.getObjNave().getTransformedCenter().x)/50-(cubo.getTransformedCenter().x)/50 ,(jugador.getObjNave().getTransformedCenter().y)/50-(cubo.getTransformedCenter().y)/50, 0);
-							
+				if((jugador.getObjNave().getTransformedCenter().x) < (cubo
+								.getTransformedCenter().x+5)
+						&& (jugador.getObjNave().getTransformedCenter().x) >(cubo
+								.getTransformedCenter().x-5 )
+								&&(jugador.getObjNave().getTransformedCenter().y) < (cubo
+										.getTransformedCenter().y+5)
+										&& (jugador.getObjNave().getTransformedCenter().y) >(cubo
+												.getTransformedCenter().y-5 )){
+					View view = null;
+					mostrarGameOver(view);
+					main = null;
+					
+				}
 			}
 			// Revisa si el proyectil ha salido del mundo o colisionado con alg�n enemigo
 			for (int contarObjetos = 0; contarObjetos < jugador.arregloDeProyectiles
