@@ -3,8 +3,10 @@ package mx.itesm.finalspark;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.EditText;
 
 public class GameOverActivity extends Activity {
 	private int puntos;
@@ -14,9 +16,12 @@ public class GameOverActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game_over);
 		BDAdaptador base = new BDAdaptador(this);
+		EditText tfNombre = (EditText) findViewById(R.id.tfNombre);
 		
+		puntos = getIntent().getExtras().getInt("Puntaje");
 		base.abrir();
-		long id = base.guardarPuntos("Alejandro", puntos);
+		Log.d("HOLAAA", tfNombre.getText().toString());
+		base.guardarPuntos(""+tfNombre.getText().toString(), puntos);
 		base.cerrar();
 	}
 
@@ -28,7 +33,7 @@ public class GameOverActivity extends Activity {
 	}
 	public void mostrarMenu (View view){
 		Intent intent = new Intent(this,MenuActivity.class);
-		puntos = getIntent().getIntExtra("Puntaje", 0);
+		
 		this.startActivity(intent);
 	}
 }
