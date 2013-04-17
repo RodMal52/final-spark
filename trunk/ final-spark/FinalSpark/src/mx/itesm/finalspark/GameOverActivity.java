@@ -6,21 +6,22 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class GameOverActivity extends Activity {
 	private int puntos;
+	private EditText tfNombre;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game_over);
-		BDAdaptador base = new BDAdaptador(this);
-		EditText tfNombre = (EditText) findViewById(R.id.tfNombre);
+		
+		
 		
 		puntos = getIntent().getExtras().getInt("Puntaje");
-		base.abrir();
-		base.guardarPuntos(tfNombre.getText().toString(), puntos);
-		base.cerrar();
+		
+		
 	}
 
 	@Override
@@ -30,8 +31,18 @@ public class GameOverActivity extends Activity {
 		return true;
 	}
 	public void mostrarMenu (View view){
-		Intent intent = new Intent(this,MenuActivity.class);
+		tfNombre = (EditText) findViewById(R.id.tfNombre);
+		if (tfNombre.getText().length()!=0){
+			Intent intent = new Intent(this,MenuActivity.class);
+			BDAdaptador base = new BDAdaptador(this);
+			base.abrir();
+			base.guardarPuntos(tfNombre.getText().toString(), puntos);
+			base.cerrar();
+			this.startActivity(intent);
+			
+		}else {
+			Toast.makeText(this, "Introduzca un nombre de usuario válido", Toast.LENGTH_LONG).show();
+		}
 		
-		this.startActivity(intent);
 	}
 }

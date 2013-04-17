@@ -19,5 +19,7 @@
     <string name="title_activity_game_over">GameOverActivity</string>
     <string name="nameuser">User name:</string>
     <string name="Highscores">Highscores</string>
+    <string name="guardar">Guardar puntaje y regresar</string>
+    <string name="usuario">Nombre de usuario</string>
 
 </resources>
