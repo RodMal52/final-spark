@@ -16,9 +16,7 @@ public class Enemigo {
 	private Object3D enemigo5;
 
 	public Enemigo() {
-		arregloDeEnemigos = new ArrayList<Object3D>();// Inicializa arreglo de
-														// enemigos
-
+		arregloDeEnemigos = new ArrayList<Object3D>();// Inicializa arreglo de enemigos
 	}
 
 	public int getDano() {

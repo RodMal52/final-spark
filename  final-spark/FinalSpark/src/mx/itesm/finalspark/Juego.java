@@ -37,8 +37,9 @@ import com.threed.jpct.util.BitmapHelper;
 
 import com.threed.jpct.util.MemoryHelper;
 
-public class Juego extends Activity {
+public class Juego extends Activity implements SensorEventListener{
 	private static Juego main;
+	private int contador;
 	private GLSurfaceView mGLView; // Contenedor para dibujar
 	private Renderer renderer; // El objeto que hace los trazos
 	private FrameBuffer buffer; // Buffer para trazar
@@ -86,7 +87,7 @@ public class Juego extends Activity {
 		if (main != null) { // Si ya existe el juego, copiar sus campos
 			copiar(main);
 		}else{
-			dialogoEspera = ProgressDialog.show(this, "Aviso", "LOADING...");
+			dialogoEspera = ProgressDialog.show(this, "Final Spark", "Cargando...");
 		}
 		super.onCreate(savedInstanceState);
 		mGLView = new GLSurfaceView(getApplicationContext());
@@ -113,7 +114,7 @@ public class Juego extends Activity {
 		super.onResume();
 		mGLView.onResume();
 		SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-		sm.registerListener(miListener,
+		sm.registerListener(this,
 				sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				sm.SENSOR_DELAY_GAME);
 		Log.d("ACELEROMETRO", "REGISTRA");
@@ -125,7 +126,7 @@ public class Juego extends Activity {
 	protected void onStop() {
 		SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
 		
-		//sm.unregisterListener(miListener);
+		sm.unregisterListener(this);
 		if (player != null && player.isPlaying()){
 			player.stop();
 			player.release();
@@ -194,8 +195,9 @@ public class Juego extends Activity {
 			}
 
 			// *********************** MISILES
-			disparos++;
 
+			disparos++;
+			
 			if (disparos > 3) {
 				disparos = 0;
 			}
@@ -207,7 +209,7 @@ public class Juego extends Activity {
 				mundo.addObject(jugador.misilDer);
 			}
 
-			// *********************** GENERACI�N ALEATORIA DE ENEMIGOS
+			// *********************** GENERACION ALEATORIA DE ENEMIGOS
 
 			if (noMasEnemigos) {
 				enemigo.generarEnemigos();
@@ -243,6 +245,7 @@ public class Juego extends Activity {
 					View view = null;
 					mostrarGameOver(view);
 					main = null;
+					//dialogoEspera.dismiss();
 					
 				}
 			}
@@ -264,6 +267,7 @@ public class Juego extends Activity {
 									.getTransformedCenter().y - 42)
 							&& proyectil.getTransformedCenter().y < (objEnemigo
 									.getTransformedCenter().y + 42)) {
+						
 						mundo.removeObject(proyectil);
 						jugador.arregloDeProyectiles.remove(contarObjetos);
 						contadorDanoEnemigo++;
@@ -280,8 +284,12 @@ public class Juego extends Activity {
 									.get(contarEnemigos).getTransformedCenter().y - 10)
 							&& proyectil.getTransformedCenter().y < (enemigo.arregloDeEnemigos
 									.get(contarEnemigos).getTransformedCenter().y + 10)) {
+							contador++;
+							jugador.arregloDeProyectiles.remove(contarObjetos);
+							Log.d("EnemigoEliminar", ("El enemigo " + contarEnemigos + " se ha eliminado"));
+							Log.d("ProyectilColision", ("El proyectil " + contador + " chocó"));
 							mundo.removeObject(proyectil);
-							jugador.arregloDeProyectiles.remove(contarObjetos);	
+							Log.d("ProyectilEliminar", ("El proyectil " + contador + " se ha eliminado"));	
 
 							mundo.removeObject(enemigo.arregloDeEnemigos.get(contarEnemigos));
 							enemigo.arregloDeEnemigos.remove(contarEnemigos);
@@ -327,6 +335,7 @@ public class Juego extends Activity {
 					View view = null;
 					mostrarGameOver(view);
 					main = null;
+					//dialogoEspera.dismiss();
 					
 				}
 			}
@@ -350,7 +359,7 @@ public class Juego extends Activity {
 			fps++;
 		}
 
-		// -------------------------- M�todo onSurfaceChanged()
+		// -------------------------- Metodo onSurfaceChanged()
 
 		@Override
 		public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -360,6 +369,7 @@ public class Juego extends Activity {
 			buffer = new FrameBuffer(gl, width, height);
 			if (main == null) {
 				
+				Log.d("Main", "El main no existe");
 		 		// *********************** CRECI�N DE MUNDO Y LUZ
 				mundo = new World();
 				mundo.setAmbientLight(255, 255, 255);
@@ -424,7 +434,7 @@ public class Juego extends Activity {
 		canvas.drawText("Score:"+puntajeFinal, 40, 30, p);
 		bitmap.getPixels(pixeles, 0, 256, 0, 0, 256, 64);
 	}
-	  final SensorEventListener miListener = new SensorEventListener() {
+	  SensorEventListener miListener = new SensorEventListener() {
 		@Override
 		public void onSensorChanged(SensorEvent event) {
 			switch (event.sensor.getType()) {
@@ -439,5 +449,6 @@ public class Juego extends Activity {
 
 		}
 	};
+
 
 }
