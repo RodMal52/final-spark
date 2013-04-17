@@ -39,6 +39,7 @@ public class GameOverActivity extends Activity {
 			base.guardarPuntos(tfNombre.getText().toString(), puntos);
 			base.cerrar();
 			this.startActivity(intent);
+			this.finish();
 			
 		}else {
 			Toast.makeText(this, "Introduzca un nombre de usuario válido", Toast.LENGTH_LONG).show();

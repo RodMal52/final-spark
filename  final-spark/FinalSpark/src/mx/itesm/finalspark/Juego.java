@@ -37,7 +37,7 @@ import com.threed.jpct.util.BitmapHelper;
 
 import com.threed.jpct.util.MemoryHelper;
 
-public class Juego extends Activity implements SensorEventListener{
+public class Juego extends Activity implements SensorEventListener {
 	private static Juego main;
 	private int contador;
 	private GLSurfaceView mGLView; // Contenedor para dibujar
@@ -70,9 +70,9 @@ public class Juego extends Activity implements SensorEventListener{
 	private Bitmap bitmap;
 	private Canvas canvas;
 	private Paint p;
-	private int[] pixeles; //sustituye la textura
-	private ProgressDialog dialogoEspera; 	//dialogo de espera
-		
+	private int[] pixeles; // sustituye la textura
+	private ProgressDialog dialogoEspera; // dialogo de espera
+
 	public void mostrarGameOver(View view) {
 		Intent intent = new Intent(this, GameOverActivity.class);
 		intent.putExtra("Puntaje", puntajeFinal);
@@ -80,21 +80,21 @@ public class Juego extends Activity implements SensorEventListener{
 		this.startActivity(intent);
 	}
 
-	
 	// -------------------------- M�todo onCreate()
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (main != null) { // Si ya existe el juego, copiar sus campos
+		if (main != null ) { // Si ya existe el juego, copiar sus campos
 			copiar(main);
-		}else{
-			dialogoEspera = ProgressDialog.show(this, "Final Spark", "Cargando...");
+		} else {
+			dialogoEspera = ProgressDialog.show(this, "Final Spark",
+					"Cargando...");
 		}
 		super.onCreate(savedInstanceState);
 		mGLView = new GLSurfaceView(getApplicationContext());
-		bitmap = Bitmap.createBitmap(256,64,Bitmap.Config.ARGB_8888);
+		bitmap = Bitmap.createBitmap(256, 64, Bitmap.Config.ARGB_8888);
 		canvas = new Canvas(bitmap);
 		p = new Paint();
-		pixeles = new int [256*64*4];
+		pixeles = new int[256 * 64 * 4];
 		renderer = new Renderer();
 		mGLView.setRenderer(renderer);
 		setContentView(mGLView);
@@ -118,28 +118,30 @@ public class Juego extends Activity implements SensorEventListener{
 				sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				sm.SENSOR_DELAY_GAME);
 		Log.d("ACELEROMETRO", "REGISTRA");
-		
+
 	}
 
 	// -------------------------- M�todo onStop()
 	@Override
 	protected void onStop() {
 		SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-		
+
 		sm.unregisterListener(this);
-		if (player != null && player.isPlaying()){
+		if (player != null && player.isPlaying()) {
 			player.stop();
 			player.release();
 		}
 		super.onStop();
 		Log.d("ACELEROMETRO", "DESREGISTRA");
-		
+
 	}
+
 	// -------------------------- M�todo onDestroy()
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 	}
+
 	// -------------------------- M�todo copiar()
 	private void copiar(Object src) {
 		try {
@@ -153,7 +155,8 @@ public class Juego extends Activity implements SensorEventListener{
 		}
 	}
 
-	// *********************** TOUCH EVENT*************************************************************************************
+	// *********************** TOUCH
+	// EVENT*************************************************************************************
 	@Override
 	public boolean onTouchEvent(MotionEvent evento) {
 		if (evento.getAction() == MotionEvent.ACTION_DOWN) { // Inicia touch
@@ -183,10 +186,10 @@ public class Juego extends Activity implements SensorEventListener{
 		public void onDrawFrame(GL10 gl) { // ACTUALIZACIONES
 
 			if (puntaje == 300) {
-				objEnemigo = Primitives.getCone(20);
-				objEnemigo.rotateY(3.141592f);
-				objEnemigo.rotateZ(3.141592f);
-				objEnemigo.translate(0, -120, 0);
+				objEnemigo = Modelo.cargarModelo(getBaseContext(), "mantis.obj", null);
+				objEnemigo.rotateX(3.141592f/2);
+				objEnemigo.scale(0.25f);
+				objEnemigo.translate(0, -90, 0);
 				mundo.addObject(objEnemigo);
 				hayJefe = true;
 				puntaje = 0;
@@ -197,7 +200,7 @@ public class Juego extends Activity implements SensorEventListener{
 			// *********************** MISILES
 
 			disparos++;
-			
+
 			if (disparos > 3) {
 				disparos = 0;
 			}
@@ -232,28 +235,33 @@ public class Juego extends Activity implements SensorEventListener{
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
-				cubo.translate((jugador.getObjNave().getTransformedCenter().x)/50-(cubo.getTransformedCenter().x)/50 ,(jugador.getObjNave().getTransformedCenter().y)/50-(cubo.getTransformedCenter().y)/50, 0);
-								
-				if((jugador.getObjNave().getTransformedCenter().x) < (cubo
-								.getTransformedCenter().x+10)
-						&& (jugador.getObjNave().getTransformedCenter().x) >(cubo
-								.getTransformedCenter().x-10 )
-								&&(jugador.getObjNave().getTransformedCenter().y) < (cubo
-										.getTransformedCenter().y+10)
-										&& (jugador.getObjNave().getTransformedCenter().y) >(cubo
-												.getTransformedCenter().y-10 )){
+				cubo.translate((jugador.getObjNave().getTransformedCenter().x)
+						/ 50 - (cubo.getTransformedCenter().x) / 50,
+						(jugador.getObjNave().getTransformedCenter().y) / 50
+								- (cubo.getTransformedCenter().y) / 50, 0);
+
+				if ((jugador.getObjNave().getTransformedCenter().x) < (cubo
+						.getTransformedCenter().x + 10)
+						&& (jugador.getObjNave().getTransformedCenter().x) > (cubo
+								.getTransformedCenter().x - 10)
+						&& (jugador.getObjNave().getTransformedCenter().y) < (cubo
+								.getTransformedCenter().y + 10)
+						&& (jugador.getObjNave().getTransformedCenter().y) > (cubo
+								.getTransformedCenter().y - 10)) {
 					View view = null;
 					mostrarGameOver(view);
-					main = null;
-					//dialogoEspera.dismiss();
 					
+					main = null;
+					// dialogoEspera.dismiss();
+
 				}
 			}
-			// Revisa si el proyectil ha salido del mundo o colisionado con alg�n enemigo
-			for (int contarObjetos = 0; contarObjetos < jugador.arregloDeProyectiles
-					.size(); contarObjetos++) {
+			// Revisa si el proyectil ha salido del mundo o colisionado con
+			// alg�n enemigo
+			for (int contarObjetos = jugador.arregloDeProyectiles.size() - 1; contarObjetos >= 0; contarObjetos--) {
 
-				Object3D proyectil = jugador.arregloDeProyectiles.get(contarObjetos);
+				Object3D proyectil = jugador.arregloDeProyectiles
+						.get(contarObjetos);
 				proyectil.rotateZ(0.1f);
 				proyectil.translate(0, -5.0f, 0);
 
@@ -267,14 +275,14 @@ public class Juego extends Activity implements SensorEventListener{
 									.getTransformedCenter().y - 42)
 							&& proyectil.getTransformedCenter().y < (objEnemigo
 									.getTransformedCenter().y + 42)) {
-						
+
 						mundo.removeObject(proyectil);
 						jugador.arregloDeProyectiles.remove(contarObjetos);
 						contadorDanoEnemigo++;
+						continue;
 					}
 				}
-				for (int contarEnemigos = 0; contarEnemigos < enemigo.arregloDeEnemigos
-						.size(); contarEnemigos++) {
+				for (int contarEnemigos = enemigo.arregloDeEnemigos.size() - 1; contarEnemigos >= 0; contarEnemigos--) {
 
 					if (proyectil.getTransformedCenter().x < (enemigo.arregloDeEnemigos
 							.get(contarEnemigos).getTransformedCenter().x + 10)
@@ -284,30 +292,29 @@ public class Juego extends Activity implements SensorEventListener{
 									.get(contarEnemigos).getTransformedCenter().y - 10)
 							&& proyectil.getTransformedCenter().y < (enemigo.arregloDeEnemigos
 									.get(contarEnemigos).getTransformedCenter().y + 10)) {
-							contador++;
-							jugador.arregloDeProyectiles.remove(contarObjetos);
-							Log.d("EnemigoEliminar", ("El enemigo " + contarEnemigos + " se ha eliminado"));
-							Log.d("ProyectilColision", ("El proyectil " + contador + " chocó"));
-							mundo.removeObject(proyectil);
-							Log.d("ProyectilEliminar", ("El proyectil " + contador + " se ha eliminado"));	
+						jugador.arregloDeProyectiles.remove(contarObjetos);
+						mundo.removeObject(proyectil);
+						mundo.removeObject(enemigo.arregloDeEnemigos
+								.get(contarEnemigos));
+						enemigo.arregloDeEnemigos.remove(contarEnemigos);
 
-							mundo.removeObject(enemigo.arregloDeEnemigos.get(contarEnemigos));
-							enemigo.arregloDeEnemigos.remove(contarEnemigos);
-							
-						
 						if (!hayJefe) {
 							puntaje = puntaje + 10;
 						}
 						puntajeFinal = puntajeFinal + 10;
-
 						contadorEnemigos--;
+						proyectil = null;
+						break;
 					}
-					
-				}
 
+				}
+				if (proyectil == null) {
+					continue;
+				}
 				if (proyectil.getTransformedCenter().y < -205) {
 					mundo.removeObject(proyectil);
 					jugador.arregloDeProyectiles.remove(contarObjetos);
+					
 				}
 			}
 
@@ -335,15 +342,14 @@ public class Juego extends Activity implements SensorEventListener{
 					View view = null;
 					mostrarGameOver(view);
 					main = null;
-					//dialogoEspera.dismiss();
-					
+
 				}
 			}
 			// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
 			jugador.mover(offsetHorizontal, offsetVertical);
 			generarImagenScore();
 			// *********************** BUFFER
-			
+
 			buffer.clear(colorFondo); // Borrar el buffer
 			mundo.renderScene(buffer);// C�lculos sobre los objetos a dibujar
 			mundo.draw(buffer); // Redibuja todos los objetos
@@ -368,25 +374,23 @@ public class Juego extends Activity implements SensorEventListener{
 			}
 			buffer = new FrameBuffer(gl, width, height);
 			if (main == null) {
-				
-				Log.d("Main", "El main no existe");
-		 		// *********************** CRECI�N DE MUNDO Y LUZ
+
+				// *********************** CRECI�N DE MUNDO Y LUZ
 				mundo = new World();
 				mundo.setAmbientLight(255, 255, 255);
 				colorFondo = new RGBColor(0, 0, 0, 0);
-				
-				
-				Texture textura = new Texture(
-						BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(
+
+				Texture textura = new Texture(BitmapHelper.rescale(
+						BitmapHelper.convert(getResources().getDrawable(
 								R.drawable.space8)), 1024, 1024));
-				TextureManager.getInstance().addTexture("space8.jpg",textura);
+				TextureManager.getInstance().addTexture("space8.jpg", textura);
 				background = Modelo.cargarModeloMTL(getBaseContext(),
-						"space.obj", "space.mtl",2);
-				background.rotateX((float) (3.1415/2));
-				background.translate(0,0, 150);
-				mundo.addObject(background)	;			
+						"space.obj", "space.mtl", 2);
+				background.rotateX((float) (3.1415 / 2));
+				background.translate(0, 0, 150);
+				mundo.addObject(background);
 				// *********************** CARGA DEL MODELO DE LA NAVE
-				jugador = new Jugador(getBaseContext()); 
+				jugador = new Jugador(getBaseContext());
 				mundo.addObject(jugador.getObjNave());
 				enemigo = new Enemigo();
 				// *********************** MANEJO DE C�MARA
@@ -403,52 +407,55 @@ public class Juego extends Activity implements SensorEventListener{
 			}
 
 		}
+
 		// -------------------------- M�todo onSurfaceChanged()
 		@Override
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		}
 	}
+
 	// ********************** ACELER�METRO
-	private void reproducirSonido(){
-		try{
-			if (player != null && player.isPlaying()){
+	private void reproducirSonido() {
+		try {
+			if (player != null && player.isPlaying()) {
 				player.stop();
 				player.release();
 			}
 			player = new MediaPlayer();
-			AssetFileDescriptor descriptor = getAssets().openFd("gamemusic.mp3");
-			player.setDataSource(descriptor.getFileDescriptor(),descriptor.getStartOffset(), descriptor.getLength());
+			AssetFileDescriptor descriptor = getAssets()
+					.openFd("gamemusic.mp3");
+			player.setDataSource(descriptor.getFileDescriptor(),
+					descriptor.getStartOffset(), descriptor.getLength());
 			descriptor.close();
 			player.prepare();
 			player.setVolume(0.5f, 0.5f);
 			player.setLooping(false);
 			player.start();
-		}catch (Exception e){
-			Log.d("Error","MP3");
+		} catch (Exception e) {
+			Log.d("Error", "MP3");
 		}
 	}
-	public void generarImagenScore(){
+
+	public void generarImagenScore() {
 		canvas.drawARGB(255, 0, 0, 0);
 		p.setColor(0xFF00FF00);
 		p.setTextSize(24);
-		canvas.drawText("Score:"+puntajeFinal, 40, 30, p);
+		canvas.drawText("Score:" + puntajeFinal, 40, 30, p);
 		bitmap.getPixels(pixeles, 0, 256, 0, 0, 256, 64);
 	}
-	  SensorEventListener miListener = new SensorEventListener() {
-		@Override
-		public void onSensorChanged(SensorEvent event) {
-			switch (event.sensor.getType()) {
-			case Sensor.TYPE_ACCELEROMETER:
-				offsetVertical = (float) (event.values[0] / 0.5);
-				offsetHorizontal = (float) (event.values[1] / .5);
-				break;
-			}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		switch (event.sensor.getType()) {
+		case Sensor.TYPE_ACCELEROMETER:
+			offsetVertical = (float) (event.values[0] / 0.5);
+			offsetHorizontal = (float) (event.values[1] / .5);
+			break;
 		}
-		@Override
-		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+	}
 
-		}
-	};
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-
-}
+	}
+};
