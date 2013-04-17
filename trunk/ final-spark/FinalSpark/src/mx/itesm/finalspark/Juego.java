@@ -47,10 +47,10 @@ public class Juego extends Activity {
 	private Camera camara; // C�mara
 	private Object3D objEnemigo; // Modelo enemigo
 	private Object3D background;
-	private ArrayList<Object3D> arregloDeEnemigos; // Arreglo de enemigos
 	private boolean agregarObjeto; // Valor booleano para comprobar si se agregan misiles
 	private MediaPlayer player;
-	private Jugador jugador; 
+	private Jugador jugador;
+	private Enemigo enemigo;
 	private int fps; // contador frames
 	private int contadorDanoEnemigo = 0; // HP enemigo
 	private int contadorEnemigos = 0;
@@ -210,52 +210,12 @@ public class Juego extends Activity {
 			// *********************** GENERACI�N ALEATORIA DE ENEMIGOS
 
 			if (noMasEnemigos) {
-
-				Object3D enemigo1 = Primitives.getCube(7);
-				enemigo1.strip();
-				enemigo1.build();
-				float xa = (float) (Math.random() * (100));
-				float ya = (float) (Math.random() * (-130));
-				enemigo1.translate(xa, ya, 0);
-
-				Object3D enemigo2 = Primitives.getCube(7);
-				enemigo2.strip();
-				enemigo2.build();
-				xa = (float) (Math.random() * -(100));
-				ya = (float) (Math.random() * (-90));
-				enemigo2.translate(xa, ya, 0);
-
-				Object3D enemigo3 = Primitives.getCube(7);
-				enemigo3.strip();
-				enemigo3.build();
-				xa = (float) (Math.random() * (50));
-				ya = (float) (Math.random() * (-150));
-				enemigo3.translate(xa, ya, 0);
-
-				Object3D enemigo4 = Primitives.getCube(7);
-				enemigo4.strip();
-				enemigo4.build();
-				xa = (float) (Math.random() * (40));
-				ya = (float) (Math.random() * (-110));
-				enemigo4.translate(xa, ya, 0);
-
-				Object3D enemigo5 = Primitives.getCube(7);
-				enemigo5.strip();
-				enemigo5.build();
-				xa = (float) (Math.random() * (50));
-				ya = (float) (Math.random() * (-165));
-				enemigo5.translate(xa, ya, 0);
-
-				arregloDeEnemigos.add(enemigo1);// Agrega a la lista el enemigo
-				arregloDeEnemigos.add(enemigo2);
-				arregloDeEnemigos.add(enemigo3);
-				arregloDeEnemigos.add(enemigo4);
-				arregloDeEnemigos.add(enemigo5);
-				mundo.addObject(enemigo1);
-				mundo.addObject(enemigo2);
-				mundo.addObject(enemigo3);
-				mundo.addObject(enemigo4);
-				mundo.addObject(enemigo5);
+				enemigo.generarEnemigos();
+				mundo.addObject(enemigo.getEnemigo1());
+				mundo.addObject(enemigo.getEnemigo2());
+				mundo.addObject(enemigo.getEnemigo3());
+				mundo.addObject(enemigo.getEnemigo4());
+				mundo.addObject(enemigo.getEnemigo5());
 
 				contadorEnemigos = 5;
 
@@ -266,7 +226,7 @@ public class Juego extends Activity {
 				noMasEnemigos = true;
 			}
 
-			for (Object3D cubo : arregloDeEnemigos) {
+			for (Object3D cubo : enemigo.arregloDeEnemigos) {
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
 				cubo.rotateX(0.01f);
@@ -309,25 +269,23 @@ public class Juego extends Activity {
 						contadorDanoEnemigo++;
 					}
 				}
-				
-				for (int contarEnemigos = 0; contarEnemigos < arregloDeEnemigos
+				for (int contarEnemigos = 0; contarEnemigos < enemigo.arregloDeEnemigos
 						.size(); contarEnemigos++) {
-					
-					if (proyectil.getTransformedCenter().x < (arregloDeEnemigos
+
+					if (proyectil.getTransformedCenter().x < (enemigo.arregloDeEnemigos
 							.get(contarEnemigos).getTransformedCenter().x + 10)
-							&& proyectil.getTransformedCenter().x > (arregloDeEnemigos
+							&& proyectil.getTransformedCenter().x > (enemigo.arregloDeEnemigos
 									.get(contarEnemigos).getTransformedCenter().x - 10)
-							&& proyectil.getTransformedCenter().y > (arregloDeEnemigos
+							&& proyectil.getTransformedCenter().y > (enemigo.arregloDeEnemigos
 									.get(contarEnemigos).getTransformedCenter().y - 10)
-							&& proyectil.getTransformedCenter().y < (arregloDeEnemigos
+							&& proyectil.getTransformedCenter().y < (enemigo.arregloDeEnemigos
 									.get(contarEnemigos).getTransformedCenter().y + 10)) {
-						
 							mundo.removeObject(proyectil);
-							jugador.arregloDeProyectiles.remove(contarObjetos);
-											
-							mundo.removeObject(arregloDeEnemigos.get(contarEnemigos));
-							arregloDeEnemigos.remove(contarEnemigos);								
-						
+							jugador.arregloDeProyectiles.remove(contarObjetos);	
+
+							mundo.removeObject(enemigo.arregloDeEnemigos.get(contarEnemigos));
+							enemigo.arregloDeEnemigos.remove(contarEnemigos);
+							
 						
 						if (!hayJefe) {
 							puntaje = puntaje + 10;
@@ -411,22 +369,16 @@ public class Juego extends Activity {
 				Texture textura = new Texture(
 						BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(
 								R.drawable.space8)), 1024, 1024));
-				// pisoverde.jpg es el nombre que se encuentra en el archivo .mtl
 				TextureManager.getInstance().addTexture("space8.jpg",textura);
-				
 				background = Modelo.cargarModeloMTL(getBaseContext(),
 						"space.obj", "space.mtl",2);
 				background.rotateX((float) (3.1415/2));
-				
 				background.translate(0,0, 150);
-
 				mundo.addObject(background)	;			
 				// *********************** CARGA DEL MODELO DE LA NAVE
-				
 				jugador = new Jugador(getBaseContext()); 
 				mundo.addObject(jugador.getObjNave());
-				// *********************** CARGA DEL MODELO DE ENEMIGOS
-				arregloDeEnemigos = new ArrayList<Object3D>();// Inicializa arreglo de enemigos
+				enemigo = new Enemigo();
 				// *********************** MANEJO DE C�MARA
 				camara = mundo.getCamera();
 				camara.moveCamera(Camera.CAMERA_MOVEOUT, 200);
@@ -472,9 +424,7 @@ public class Juego extends Activity {
 		canvas.drawText("Score:"+puntajeFinal, 40, 30, p);
 		bitmap.getPixels(pixeles, 0, 256, 0, 0, 256, 64);
 	}
-	
 	  final SensorEventListener miListener = new SensorEventListener() {
-
 		@Override
 		public void onSensorChanged(SensorEvent event) {
 			switch (event.sensor.getType()) {
@@ -484,7 +434,6 @@ public class Juego extends Activity {
 				break;
 			}
 		}
-
 		@Override
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
