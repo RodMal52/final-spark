@@ -22,7 +22,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="140dp"
         android:onClick="mostrarMenu"
-        android:text="@string/rmenu" />
+        android:text="@string/guardar" />
 
     <EditText
         android:id="@+id/tfNombre"
@@ -43,7 +43,7 @@
         android:layout_alignRight="@+id/button1"
         android:layout_below="@+id/tvscore"
         android:layout_marginTop="14dp"
-        android:text="@string/nameuser"
+        android:text="@string/usuario"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
