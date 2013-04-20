@@ -14,9 +14,22 @@ public class Enemigo {
 	private Object3D enemigo3;
 	private Object3D enemigo4;
 	private Object3D enemigo5;
+	public Object3D misil;
+	public Object3D misil2;
+	public Object3D misil3;
+	public Object3D misil4;
+	public Object3D misil5;
+	public ArrayList<Object3D> arregloDeProyectiles;
+	public boolean enemigo1Existe = false;
+	public boolean enemigo2Existe = false;
+	public boolean enemigo3Existe = false;
+	public boolean enemigo4Existe = false;
+	public boolean enemigo5Existe = false;
 
 	public Enemigo() {
 		arregloDeEnemigos = new ArrayList<Object3D>();// Inicializa arreglo de enemigos
+														
+		arregloDeProyectiles = new ArrayList<Object3D>();
 	}
 
 	public int getDano() {
@@ -47,6 +60,67 @@ public class Enemigo {
 		return vida;
 	}
 
+	public void mover(Object3D object) {
+		for (Object3D cubo : arregloDeEnemigos) {
+			cubo.rotateX(0.01f);
+			cubo.rotateX(0.01f);
+			cubo.rotateX(0.01f);
+			cubo.translate(
+					(object.getTransformedCenter().x) / 50
+							- (cubo.getTransformedCenter().x) / 50,
+					(object.getTransformedCenter().y) / 50
+							- (cubo.getTransformedCenter().y) / 50, 0);
+
+		}
+	}
+
+	public void disparar() {
+		if (enemigo1Existe) {
+			misil = Primitives.getCube((float) .5);
+			misil.strip();
+			misil.build();
+			misil.setOrigin(enemigo1.getTransformedCenter());
+			misil.translate(0, 2, 0);
+			arregloDeProyectiles.add(misil);
+		}
+		if (enemigo2Existe) {
+			misil2 = Primitives.getCube((float) .5);
+			misil2.strip();
+			misil2.build();
+			misil2.setOrigin(enemigo2.getTransformedCenter());
+			misil2.translate(0, 2, 0);
+			arregloDeProyectiles.add(misil2);
+		}
+		if (enemigo3Existe) {
+			misil3 = Primitives.getCube((float) .5);
+			misil3.strip();
+			misil3.build();
+			misil3.setOrigin(enemigo3.getTransformedCenter());
+			misil3.translate(0, 2, 0);
+			arregloDeProyectiles.add(misil3);
+		}
+		if (enemigo4Existe) {
+			misil4 = Primitives.getCube((float) .5);
+			misil4.strip();
+			misil4.build();
+			misil4.setOrigin(enemigo4.getTransformedCenter());
+			misil4.translate(0, 2, 0);
+			arregloDeProyectiles.add(misil4);
+		}
+		if (enemigo5Existe) {
+			misil5 = Primitives.getCube((float) .5);
+			misil5.strip();
+			misil5.build();
+			misil5.setOrigin(enemigo5.getTransformedCenter());
+			misil5.translate(0, 2, 0);
+			arregloDeProyectiles.add(misil5);
+		}
+	}
+
+	public Object3D getMisil() {
+		return misil;
+	}
+
 	public void generarEnemigos() {
 		enemigo1 = Primitives.getCube(7);
 		enemigo1.strip();
@@ -54,6 +128,7 @@ public class Enemigo {
 		float xa = (float) (Math.random() * (100));
 		float ya = (float) (Math.random() * (-130));
 		enemigo1.translate(xa, ya, 0);
+		enemigo1Existe = true;
 
 		enemigo2 = Primitives.getCube(7);
 		enemigo2.strip();
@@ -61,6 +136,7 @@ public class Enemigo {
 		xa = (float) (Math.random() * -(100));
 		ya = (float) (Math.random() * (-90));
 		enemigo2.translate(xa, ya, 0);
+		enemigo2Existe = true;
 
 		enemigo3 = Primitives.getCube(7);
 		enemigo3.strip();
@@ -68,6 +144,7 @@ public class Enemigo {
 		xa = (float) (Math.random() * (50));
 		ya = (float) (Math.random() * (-150));
 		enemigo3.translate(xa, ya, 0);
+		enemigo3Existe = true;
 
 		enemigo4 = Primitives.getCube(7);
 		enemigo4.strip();
@@ -75,6 +152,7 @@ public class Enemigo {
 		xa = (float) (Math.random() * (40));
 		ya = (float) (Math.random() * (-110));
 		enemigo4.translate(xa, ya, 0);
+		enemigo4Existe = true;
 
 		enemigo5 = Primitives.getCube(7);
 		enemigo5.strip();
@@ -82,6 +160,7 @@ public class Enemigo {
 		xa = (float) (Math.random() * (50));
 		ya = (float) (Math.random() * (-165));
 		enemigo5.translate(xa, ya, 0);
+		enemigo5Existe = true;
 
 		arregloDeEnemigos.add(enemigo1);// Agrega a la lista el enemigo
 		arregloDeEnemigos.add(enemigo2);

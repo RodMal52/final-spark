@@ -24,7 +24,7 @@ public class HighscoresActivity extends Activity {
 		if (c.moveToFirst()) {
 
 			for (int i = 1; i <= 10; i++) {
-				lista.add(i + ".- \t" +c.getString(0)+ c.getString(1) + "\t\t\t"
+				lista.add(i + ".- \t" + c.getString(1) + "\t\t\t"
 						+ c.getString(2));
 				Desplegar(c);
 				c.moveToNext();
