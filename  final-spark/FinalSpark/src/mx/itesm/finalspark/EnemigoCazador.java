@@ -1,19 +1,15 @@
 package mx.itesm.finalspark;
 
 import java.util.ArrayList;
-
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 
 public class EnemigoCazador extends Enemigo {
-	private int dano = 5;
-	private int vida = 15;
-	private Object3D enemigo;
-	public Object3D misil;
-	public ArrayList<Object3D> arregloDeProyectiles;
-	public boolean enemigoExiste = false;
+	
 
 	public EnemigoCazador() {
+		dano = 5;
+		vida = 15;
 		arregloDeProyectiles = new ArrayList<Object3D>();
 		enemigo = Primitives.getCube(7);
 		enemigo.strip();
@@ -22,7 +18,6 @@ public class EnemigoCazador extends Enemigo {
 		float ya = (float) (Math.random() * (-130));
 		enemigo.translate(xa, ya, 0);
 		enemigoExiste = true;
-
 	}
 
 	public void setVida(int vida) {
@@ -43,26 +38,21 @@ public class EnemigoCazador extends Enemigo {
 
 	public void mover(Object3D object) {
 		Object3D cubo = enemigo;
-			cubo.rotateX(0.01f);
-			cubo.rotateX(0.01f);
-			cubo.rotateX(0.01f);
-			cubo.translate(
-					(object.getTransformedCenter().x) / 50
-							- (cubo.getTransformedCenter().x) / 50,
-					(object.getTransformedCenter().y) / 50
-							- (cubo.getTransformedCenter().y) / 50, 0);
-
-		}
-	
+		cubo.rotateX(0.01f);
+		cubo.translate(
+				(object.getTransformedCenter().x) / 50
+						- (cubo.getTransformedCenter().x) / 50,
+				(object.getTransformedCenter().y) / 50
+						- (cubo.getTransformedCenter().y) / 50, 0);
+	}
 
 	public void disparar() {
-
 		if (enemigoExiste) {
 			misil = Primitives.getCube((float) .5);
 			misil.strip();
 			misil.build();
-			misil.setOrigin(enemigo.getTransformedCenter());
 			misil.translate(0, 2, 0);
+			misil.setOrigin(enemigo.getTransformedCenter());
 			arregloDeProyectiles.add(misil);
 		}
 	}
@@ -76,6 +66,5 @@ public class EnemigoCazador extends Enemigo {
 		if (vida <= 0) {
 			enemigoExiste = false;
 		}
-
 	}
 }
