@@ -49,11 +49,11 @@ public class Juego extends Activity implements SensorEventListener {
 	private Object3D background;
 	private boolean agregarObjeto; // Valor booleano para comprobar si se
 									// agregan misiles
-	public ArrayList<EnemigoCazador> arregloDeEnemigos; // Arreglo de enemigos
+	public ArrayList<Enemigo> arregloDeEnemigos; // Arreglo de enemigos
 
 	private MediaPlayer player;
 	private Jugador jugador;
-	private EnemigoCazador enemigo;
+	private Enemigo enemigo;
 	private int fps; // contador frames
 	private int contadorDanoEnemigo = 0; // HP enemigo
 	private int contadorEnemigos = 0;
@@ -232,7 +232,12 @@ public class Juego extends Activity implements SensorEventListener {
 					mundo.addObject(enemigo.getEnemigo());
 					arregloDeEnemigos.add(enemigo);
 				}
-				contadorEnemigos = 5;
+				for (int j = 0; j < 3; j++) {
+					enemigo = new EnemigoBouncer();
+					mundo.addObject(enemigo.getEnemigo());
+					arregloDeEnemigos.add(enemigo);
+					}
+				contadorEnemigos = 8;
 				noMasEnemigos = false;
 			}
 			// Revisa si los enemigos han muerto
@@ -247,17 +252,17 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 
 			if (disparosEnemigo == 0) {
-				for (int i = 0; i < arregloDeEnemigos.size() - 1; i++) {
+				for (int i = 0; i < arregloDeEnemigos.size(); i++) {
 					arregloDeEnemigos.get(i).disparar();
 					mundo.addObject(arregloDeEnemigos.get(i).misil);
-					
+
 				}
 			}
-			
-			for (int i = 0; i < arregloDeEnemigos.size() - 1; i++) {
+
+			for (int i = 0; i < arregloDeEnemigos.size(); i++) {
 				arregloDeEnemigos.get(i).mover(jugador.getObjNave());
 				Object3D cubo = arregloDeEnemigos.get(i).getEnemigo();
-				
+
 				if ((jugador.getObjNave().getTransformedCenter().x) < (cubo
 						.getTransformedCenter().x + 10)
 						&& (jugador.getObjNave().getTransformedCenter().x) > (cubo
@@ -275,12 +280,25 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 
 			// ******************************************************************************
-			for (EnemigoCazador cazador : arregloDeEnemigos) {
-				for (int contarMisiles = cazador.arregloDeProyectiles.size() - 1; contarMisiles >= 0; contarMisiles--) {
-					Object3D proyectil = cazador.arregloDeProyectiles
+			for (Enemigo enemigoActual : arregloDeEnemigos) {
+				for (int contarMisiles = enemigoActual.arregloDeProyectiles
+						.size() - 1; contarMisiles >= 0; contarMisiles--) {
+					Object3D proyectil = enemigoActual.arregloDeProyectiles
 							.get(contarMisiles);
 					proyectil.rotateZ(0.1f);
-					proyectil.translate(0, 5.0f, 0);
+					if (enemigoActual instanceof EnemigoCazador) {
+						proyectil.translate(0, 5.0f, 0);
+					} else if (enemigoActual instanceof EnemigoBouncer) {
+						proyectil.translate(
+								(jugador.getObjNave().getTransformedCenter().x)
+										/ 25
+										- (proyectil.getTransformedCenter().x)
+										/ 25, (jugador.getObjNave()
+										.getTransformedCenter().y)
+										/ 25
+										- (proyectil.getTransformedCenter().y)
+										/ 25, 0);
+					}
 
 					if (proyectil.getTransformedCenter().x < jugador
 							.getObjNave().getTransformedCenter().x + 5
@@ -290,9 +308,11 @@ public class Juego extends Activity implements SensorEventListener {
 									.getObjNave().getTransformedCenter().y - 5)
 							&& proyectil.getTransformedCenter().y < (jugador
 									.getObjNave().getTransformedCenter().y + 5)) {
-						cazador.arregloDeProyectiles.remove(contarMisiles);
+						enemigoActual.arregloDeProyectiles
+								.remove(contarMisiles);
 						mundo.removeObject(proyectil);
-						jugador.setVida(jugador.getVida() - cazador.getDano());
+						jugador.setVida(jugador.getVida()
+								- enemigoActual.getDano());
 
 						if (jugador.getVida() <= 0) {
 							View view = null;
@@ -308,7 +328,8 @@ public class Juego extends Activity implements SensorEventListener {
 
 					if (proyectil.getTransformedCenter().y > 205) {
 						mundo.removeObject(proyectil);
-						cazador.arregloDeProyectiles.remove(contarMisiles);
+						enemigoActual.arregloDeProyectiles
+								.remove(contarMisiles);
 
 					}
 				}
@@ -358,8 +379,12 @@ public class Juego extends Activity implements SensorEventListener {
 						mundo.removeObject(proyectil);
 						arregloDeEnemigos.get(contarEnemigos).danar(
 								jugador.getDano());
+
 						if (!arregloDeEnemigos.get(contarEnemigos).enemigoExiste) {
-							
+							if (proyectil.getTransformedCenter().y < 205) {
+								proyectil.translate(0, 5.0f, 0);
+							}
+
 							mundo.removeObject(arregloDeEnemigos.get(
 									contarEnemigos).getEnemigo());
 							arregloDeEnemigos.remove(contarEnemigos);
@@ -368,9 +393,10 @@ public class Juego extends Activity implements SensorEventListener {
 							}
 							puntajeFinal = puntajeFinal + 10;
 							contadorEnemigos--;
-							proyectil = null;
-							break;
+
 						}
+						proyectil = null;
+						break;
 					}
 				}
 				if (proyectil == null) {
@@ -412,8 +438,9 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 			// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
 			jugador.mover(offsetHorizontal, offsetVertical);
-			generarImagenScore();
 			generarImagenHp();
+			generarImagenScore();
+
 			// *********************** BUFFER
 
 			buffer.clear(colorFondo); // Borrar el buffer
@@ -458,7 +485,7 @@ public class Juego extends Activity implements SensorEventListener {
 				// *********************** CARGA DEL MODELO DE LA NAVE
 				jugador = new Jugador(getBaseContext());
 				mundo.addObject(jugador.getObjNave());
-				arregloDeEnemigos = new ArrayList<EnemigoCazador>();
+				arregloDeEnemigos = new ArrayList<Enemigo>();
 				// enemigo = new Enemigo();
 				// *********************** MANEJO DE C�MARA
 				camara = mundo.getCamera();
@@ -508,16 +535,17 @@ public class Juego extends Activity implements SensorEventListener {
 		p.setColor(0xFF00FF00);
 		p.setTextSize(24);
 		canvas.drawText("Score:" + puntajeFinal, 40, 30, p);
-		bitmap.getPixels(pixeles, 120, 256, 0, 0, 256, 64);
+		bitmap.getPixels(pixeles, 0, 256, 0, 0, 256, 64);
 	}
 
 	public void generarImagenHp() {
 		canvasHp.drawARGB(255, 0, 0, 0);
 		pHp.setColor(0xFF00FF00);
 		pHp.setTextSize(24);
-		canvasHp.drawText("Health:" + jugador.getVida(), 40, 30, pHp);
+		canvasHp.drawText("Health:" + jugador.getVida(), 20, 30, pHp);
 		bitmapHp.getPixels(pixelesHp, 0, 256, 0, 0, 256, 64);
 	}
+
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		switch (event.sensor.getType()) {
