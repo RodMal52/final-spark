@@ -10,6 +10,9 @@ public class Enemigo {
 	public Object3D enemigo;
 	public boolean enemigoExiste;
 	public Object3D misil;
+	public Object3D misil1;
+	public Object3D misil2;
+	public Object3D misil3;
 	public ArrayList<Object3D> arregloDeProyectiles;
 	public boolean enemigoRemovido;
 
