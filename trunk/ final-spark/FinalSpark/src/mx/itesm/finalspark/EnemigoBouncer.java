@@ -8,9 +8,9 @@ public class EnemigoBouncer extends Enemigo {
 	private int velocidadX;
 	private int velocidadY;
 
-	public EnemigoBouncer() {
-		dano = 3;
-		vida = 10;
+	public EnemigoBouncer(int dano, int vida) {
+		this.dano= dano;
+		this.vida = vida;
 		velocidadX = 3;
 		velocidadY = 3;
 		arregloDeProyectiles = new ArrayList<Object3D>();
@@ -21,7 +21,7 @@ public class EnemigoBouncer extends Enemigo {
 		float ya = (float) (Math.random() * (-130));
 		enemigo.translate(xa, ya, 0);
 		enemigoExiste = true;
-		enemigoRemovido=false;
+		enemigoRemovido = false;
 		velocidadX = velocidadX * obtenerSigno();
 		velocidadY = velocidadY * obtenerSigno();
 	}
@@ -137,10 +137,4 @@ public class EnemigoBouncer extends Enemigo {
 		return misil;
 	}
 
-	public void danar(int danoRecibido) {
-		vida = vida - danoRecibido;
-		if (vida <= 0) {
-			enemigoExiste = false;
-		}
-	}
 }

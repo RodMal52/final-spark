@@ -14,6 +14,7 @@ public class Enemigo {
 	public boolean enemigoRemovido;
 
 	public Enemigo() {
+		
 
 	}
 

@@ -5,9 +5,9 @@ import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 
 public class EnemigoCazador extends Enemigo {
-	public EnemigoCazador() {
-		dano = 5;
-		vida = 15;
+	public EnemigoCazador(int dano, int vida) {
+		this.dano= dano;
+		this.vida = vida;
 		arregloDeProyectiles = new ArrayList<Object3D>();
 		enemigo = Primitives.getCube(7);
 		enemigo.strip();
@@ -16,7 +16,7 @@ public class EnemigoCazador extends Enemigo {
 		float ya = (float) (Math.random() * (-130));
 		enemigo.translate(xa, ya, 0);
 		enemigoExiste = true;
-		enemigoRemovido=false;
+		enemigoRemovido = false;
 	}
 
 	public void setVida(int vida) {
@@ -62,10 +62,4 @@ public class EnemigoCazador extends Enemigo {
 		return misil;
 	}
 
-	public void danar(int danoRecibido) {
-		vida = vida - danoRecibido;
-		if (vida <= 0) {
-			enemigoExiste = false;
-		}
-	}
 }
