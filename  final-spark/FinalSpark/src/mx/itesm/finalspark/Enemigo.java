@@ -11,6 +11,7 @@ public class Enemigo {
 	public boolean enemigoExiste;
 	public Object3D misil;
 	public ArrayList<Object3D> arregloDeProyectiles;
+	public boolean enemigoRemovido;
 
 	public Enemigo() {
 

@@ -5,8 +5,6 @@ import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 
 public class EnemigoCazador extends Enemigo {
-	
-
 	public EnemigoCazador() {
 		dano = 5;
 		vida = 15;
@@ -18,6 +16,7 @@ public class EnemigoCazador extends Enemigo {
 		float ya = (float) (Math.random() * (-130));
 		enemigo.translate(xa, ya, 0);
 		enemigoExiste = true;
+		enemigoRemovido=false;
 	}
 
 	public void setVida(int vida) {
@@ -37,13 +36,15 @@ public class EnemigoCazador extends Enemigo {
 	}
 
 	public void mover(Object3D object) {
-		Object3D cubo = enemigo;
-		cubo.rotateX(0.01f);
-		cubo.translate(
-				(object.getTransformedCenter().x) / 50
-						- (cubo.getTransformedCenter().x) / 50,
-				(object.getTransformedCenter().y) / 50
-						- (cubo.getTransformedCenter().y) / 50, 0);
+		if (enemigoExiste) {
+			Object3D cubo = enemigo;
+			cubo.rotateX(0.01f);
+			cubo.translate(
+					(object.getTransformedCenter().x) / 50
+							- (cubo.getTransformedCenter().x) / 50,
+					(object.getTransformedCenter().y) / 50
+							- (cubo.getTransformedCenter().y) / 50, 0);
+		}
 	}
 
 	public void disparar() {

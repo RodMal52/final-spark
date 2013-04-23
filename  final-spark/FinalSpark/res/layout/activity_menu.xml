@@ -1,10 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RelativeLayout1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/mainmenublank"
-    android:gravity="center_vertical"
+    android:gravity="fill"
     android:orientation="vertical"
     tools:context=".MenuActivity" >
 
@@ -24,25 +24,19 @@
         android:layout_below="@+id/space1"
         android:layout_marginBottom="142dp" />
 
-    
     <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/gf" >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="238dp"
+        android:layout_marginRight="152dp" >
 
         <TableRow
             android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" >
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="715dp"
-                android:layout_gravity="center_vertical" >
-
-            </FrameLayout>
-
         </TableRow>
 
         <TableRow
@@ -58,11 +52,10 @@
 
                 <ImageButton
                     android:id="@+id/imageButton1"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="mostrarControls"
                     android:src="@drawable/botonplay" />
-
             </FrameLayout>
         </TableRow>
 
@@ -81,9 +74,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="mostrarHighscores"
                     android:src="@drawable/btnhs" />
-
             </FrameLayout>
-
         </TableRow>
 
         <TableRow
@@ -101,9 +92,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="mostrarAbout"
                     android:src="@drawable/btnabout" />
-
             </FrameLayout>
-
         </TableRow>
 
         <TableRow
@@ -121,11 +110,8 @@
                     android:layout_height="wrap_content"
                     android:onClick="mostrarSettings"
                     android:src="@drawable/btnsttings" />
-
             </FrameLayout>
-
         </TableRow>
-
     </TableLayout>
 
 </RelativeLayout>

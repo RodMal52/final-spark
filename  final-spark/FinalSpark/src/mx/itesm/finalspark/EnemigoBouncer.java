@@ -21,6 +21,7 @@ public class EnemigoBouncer extends Enemigo {
 		float ya = (float) (Math.random() * (-130));
 		enemigo.translate(xa, ya, 0);
 		enemigoExiste = true;
+		enemigoRemovido=false;
 		velocidadX = velocidadX * obtenerSigno();
 		velocidadY = velocidadY * obtenerSigno();
 	}
@@ -34,14 +35,12 @@ public class EnemigoBouncer extends Enemigo {
 		}
 	}
 
-	public int cambiarVelocidadX() {
+	public void cambiarVelocidadX() {
 		velocidadX = -velocidadX;
-		return velocidadX;
 	}
 
-	public int cambiarVelocidadY() {
+	public void cambiarVelocidadY() {
 		velocidadY = -velocidadY;
-		return velocidadY;
 	}
 
 	public void setVida(int vida) {
@@ -60,90 +59,64 @@ public class EnemigoBouncer extends Enemigo {
 		return vida;
 	}
 
-	public void mover() {
-
-		enemigo.rotateX(0.01f);
-		enemigo.rotateY(0.01f);
-		enemigo.rotateZ(0.01f);
-
-		if (enemigo.getTransformedCenter().x < 100
-				&& enemigo.getTransformedCenter().x > -100
-				&& enemigo.getTransformedCenter().y < 155
-				&& enemigo.getTransformedCenter().y > -148) {
-
-			enemigo.translate(velocidadX, 0, 0);
-			enemigo.translate(0, velocidadY, 0);
-
-		} else {
-
-			// Pared derecha
-
-			if (enemigo.getTransformedCenter().x > 100) {
-
-				enemigo.translate(cambiarVelocidadX(), 0, 0);
-
-				if (enemigo.getTransformedCenter().y < -148) {
-
-					enemigo.translate(0, cambiarVelocidadY(), 0);
-
-				} else if (enemigo.getTransformedCenter().y > 155) {
-
-					enemigo.translate(0, cambiarVelocidadY(), 0);
-
-				}
-
-			}
-
-			// Pared izquierda
-
-			if (enemigo.getTransformedCenter().x < -100) {
-
-				enemigo.translate(cambiarVelocidadX(), 0, 0);
-
-				if (enemigo.getTransformedCenter().y < -148) {
-
-					enemigo.translate(0, cambiarVelocidadY(), 0);
-
-				} else if (enemigo.getTransformedCenter().y > 155) {
-
-					enemigo.translate(0, cambiarVelocidadY(), 0);
-
-				}
-
-			}
-
-			// Pared superior
-
-			if (enemigo.getTransformedCenter().y < -148) {
-
-				enemigo.translate(0, cambiarVelocidadY(), 0);
-
+	public void mover(Object3D object) {
+		if (enemigoExiste) {
+			enemigo.rotateX(0.01f);
+			enemigo.rotateY(0.01f);
+			enemigo.rotateZ(0.01f);
+			if (enemigo.getTransformedCenter().x < 100
+					&& enemigo.getTransformedCenter().x > -100
+					&& enemigo.getTransformedCenter().y < 155
+					&& enemigo.getTransformedCenter().y > -148) {
+				enemigo.translate(velocidadX, velocidadY, 0);
+			} else {
+				// Pared derecha
 				if (enemigo.getTransformedCenter().x > 100) {
-
-					enemigo.translate(cambiarVelocidadX(), 0, 0);
-
-				} else if (enemigo.getTransformedCenter().x < -100) {
-
-					enemigo.translate(cambiarVelocidadX(), 0, 0);
-
+					cambiarVelocidadX();
+					enemigo.translate(velocidadX, velocidadY, 0);
+					if (enemigo.getTransformedCenter().y < -148) {
+						cambiarVelocidadY();
+						enemigo.translate(velocidadX, velocidadY, 0);
+					} else if (enemigo.getTransformedCenter().y > 155) {
+						cambiarVelocidadY();
+						enemigo.translate(velocidadX, velocidadY, 0);
+					}
 				}
-
-			}
-
-			// Pared inferior
-
-			if (enemigo.getTransformedCenter().y > 155) {
-
-				enemigo.translate(0, cambiarVelocidadY(), 0);
-
-				if (enemigo.getTransformedCenter().x > 100) {
-
-					enemigo.translate(cambiarVelocidadX(), 0, 0);
-
-				} else if (enemigo.getTransformedCenter().x < -100) {
-
-					enemigo.translate(cambiarVelocidadX(), 0, 0);
-
+				// Pared izquierda
+				if (enemigo.getTransformedCenter().x < -100) {
+					cambiarVelocidadX();
+					enemigo.translate(velocidadX, velocidadY, 0);
+					if (enemigo.getTransformedCenter().y < -148) {
+						cambiarVelocidadY();
+						enemigo.translate(velocidadX, velocidadY, 0);
+					} else if (enemigo.getTransformedCenter().y > 155) {
+						cambiarVelocidadY();
+						enemigo.translate(velocidadX, velocidadY, 0);
+					}
+				}
+				// Pared superior
+				if (enemigo.getTransformedCenter().y < -148) {
+					cambiarVelocidadY();
+					enemigo.translate(velocidadX, velocidadY, 0);
+					if (enemigo.getTransformedCenter().x > 100) {
+						cambiarVelocidadX();
+						enemigo.translate(velocidadX, velocidadY, 0);
+					} else if (enemigo.getTransformedCenter().x < -100) {
+						cambiarVelocidadX();
+						enemigo.translate(velocidadX, velocidadY, 0);
+					}
+				}
+				// Pared inferior
+				if (enemigo.getTransformedCenter().y > 155) {
+					cambiarVelocidadY();
+					enemigo.translate(velocidadX, velocidadY, 0);
+					if (enemigo.getTransformedCenter().x > 100) {
+						cambiarVelocidadX();
+						enemigo.translate(velocidadX, velocidadY, 0);
+					} else if (enemigo.getTransformedCenter().x < -100) {
+						cambiarVelocidadX();
+						enemigo.translate(velocidadX, velocidadY, 0);
+					}
 				}
 			}
 		}
@@ -156,7 +129,6 @@ public class EnemigoBouncer extends Enemigo {
 			misil.build();
 			misil.translate(0, 2, 0);
 			misil.setOrigin(enemigo.getTransformedCenter());
-			misil.rotateX(0.01f);
 			arregloDeProyectiles.add(misil);
 		}
 	}
