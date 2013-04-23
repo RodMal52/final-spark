@@ -1,16 +1,14 @@
 package mx.itesm.finalspark;
 
-// Imports de paqueter�a de Java
+//Imports de paqueteria de Java
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-//Imports de paqueter�a de Android
+//Imports de paqueteria de Android
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -25,7 +23,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-//Imports de paqueter�a Jpct-AE 
+//Imports de paqueteria Jpct-AE 
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Object3D;
@@ -34,7 +32,6 @@ import com.threed.jpct.Texture;
 import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
 import com.threed.jpct.util.BitmapHelper;
-
 import com.threed.jpct.util.MemoryHelper;
 
 public class Juego extends Activity implements SensorEventListener {
@@ -43,14 +40,13 @@ public class Juego extends Activity implements SensorEventListener {
 	private Renderer renderer; // El objeto que hace los trazos
 	private FrameBuffer buffer; // Buffer para trazar
 	private World mundo; // Un escenario de nuestro juego
-	private RGBColor colorFondo; // Color de fondo :)
-	private Camera camara; // C�mara
+	private RGBColor colorFondo; // Color de fondo
+	private Camera camara; // Camara
 	private Object3D objEnemigo; // Modelo enemigo
 	private Object3D background;
 	private boolean agregarObjeto; // Valor booleano para comprobar si se
-									// agregan misiles
+	// agregan misiles
 	public ArrayList<Enemigo> arregloDeEnemigos; // Arreglo de enemigos
-
 	private MediaPlayer player;
 	private Jugador jugador;
 	private Enemigo enemigo;
@@ -83,11 +79,10 @@ public class Juego extends Activity implements SensorEventListener {
 	public void mostrarGameOver(View view) {
 		Intent intent = new Intent(this, GameOverActivity.class);
 		intent.putExtra("Puntaje", puntajeFinal);
-
 		this.startActivity(intent);
 	}
 
-	// -------------------------- M�todo onCreate()
+	// -------------------------- Metodo onCreate()
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		if (main != null) { // Si ya existe el juego, copiar sus campos
@@ -111,14 +106,14 @@ public class Juego extends Activity implements SensorEventListener {
 		setContentView(mGLView);
 	}
 
-	// -------------------------- M�todo onPause()
+	// -------------------------- Metodo onPause()
 	@Override
 	protected void onPause() {
 		super.onPause();
 		mGLView.onPause();
 	}
 
-	// -------------------------- M�todo onResume()
+	// -------------------------- Metodo onResume()
 	@SuppressWarnings("static-access")
 	@Override
 	protected void onResume() {
@@ -129,14 +124,12 @@ public class Juego extends Activity implements SensorEventListener {
 				sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				sm.SENSOR_DELAY_GAME);
 		Log.d("ACELEROMETRO", "REGISTRA");
-
 	}
 
-	// -------------------------- M�todo onStop()
+	// -------------------------- Metodo onStop()
 	@Override
 	protected void onStop() {
 		SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-
 		sm.unregisterListener(this);
 		if (player != null && player.isPlaying()) {
 			player.stop();
@@ -144,16 +137,15 @@ public class Juego extends Activity implements SensorEventListener {
 		}
 		super.onStop();
 		Log.d("ACELEROMETRO", "DESREGISTRA");
-
 	}
 
-	// -------------------------- M�todo onDestroy()
+	// -------------------------- Metodo onDestroy()
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 	}
 
-	// -------------------------- M�todo copiar()
+	// -------------------------- Metodo copiar()
 	private void copiar(Object src) {
 		try {
 			Field[] fs = src.getClass().getDeclaredFields();
@@ -189,13 +181,11 @@ public class Juego extends Activity implements SensorEventListener {
 
 	// ++++++++++++++++++++++++++++++++++++++ CLASE RENDERER
 	class Renderer implements GLSurfaceView.Renderer {
-
 		private long tiempo = System.currentTimeMillis();
 
-		// -------------------------- M�todo onDrawFrame()
+		// -------------------------- Metodo onDrawFrame()
 		@Override
 		public void onDrawFrame(GL10 gl) { // ACTUALIZACIONES
-
 			if (puntaje == 300) {
 				objEnemigo = Modelo.cargarModelo(getBaseContext(),
 						"mantis.obj", null);
@@ -208,61 +198,52 @@ public class Juego extends Activity implements SensorEventListener {
 				enemigoMuerto = false;
 				contadorDanoEnemigo = 0;
 			}
-
 			// *********************** MISILES
-
 			disparos++;
-
 			if (disparos > 3) {
 				disparos = 0;
 			}
-
 			if (agregarObjeto && (disparos == 0)) {
 				jugador.disparar();
 				mundo.addObject(jugador.misil);
 				mundo.addObject(jugador.misilIzq);
 				mundo.addObject(jugador.misilDer);
 			}
-
 			// *********************** GENERACION ALEATORIA DE ENEMIGOS
-
 			if (noMasEnemigos) {
 				for (int i = 0; i < 5; i++) {
 					enemigo = new EnemigoCazador();
 					mundo.addObject(enemigo.getEnemigo());
 					arregloDeEnemigos.add(enemigo);
 				}
-				for (int j = 0; j < 3; j++) {
-					enemigo = new EnemigoBouncer();
-					mundo.addObject(enemigo.getEnemigo());
-					arregloDeEnemigos.add(enemigo);
-					}
+				
+				  for (int j = 0; j < 3; j++) { enemigo = new EnemigoBouncer();
+				  mundo.addObject(enemigo.getEnemigo());
+				  arregloDeEnemigos.add(enemigo); }
+				 
 				contadorEnemigos = 8;
 				noMasEnemigos = false;
 			}
+
 			// Revisa si los enemigos han muerto
 			if (contadorEnemigos == 0) {
 				noMasEnemigos = true;
 			}
-
 			disparosEnemigo++;
-
 			if (disparosEnemigo > 6) {
 				disparosEnemigo = 0;
 			}
-
 			if (disparosEnemigo == 0) {
 				for (int i = 0; i < arregloDeEnemigos.size(); i++) {
 					arregloDeEnemigos.get(i).disparar();
-					mundo.addObject(arregloDeEnemigos.get(i).misil);
-
+					if (arregloDeEnemigos.get(i).enemigoExiste) {
+						mundo.addObject(arregloDeEnemigos.get(i).misil);
+					}
 				}
 			}
-
 			for (int i = 0; i < arregloDeEnemigos.size(); i++) {
 				arregloDeEnemigos.get(i).mover(jugador.getObjNave());
 				Object3D cubo = arregloDeEnemigos.get(i).getEnemigo();
-
 				if ((jugador.getObjNave().getTransformedCenter().x) < (cubo
 						.getTransformedCenter().x + 10)
 						&& (jugador.getObjNave().getTransformedCenter().x) > (cubo
@@ -271,16 +252,17 @@ public class Juego extends Activity implements SensorEventListener {
 								.getTransformedCenter().y + 10)
 						&& (jugador.getObjNave().getTransformedCenter().y) > (cubo
 								.getTransformedCenter().y - 10)) {
-
 					View view = null;
 					mostrarGameOver(view);
 					main = null;
-
 				}
 			}
 
 			// ******************************************************************************
 			for (Enemigo enemigoActual : arregloDeEnemigos) {
+				if (!enemigoActual.enemigoExiste) {
+					Log.d("muerto", "Enemigo muerto");
+				}
 				for (int contarMisiles = enemigoActual.arregloDeProyectiles
 						.size() - 1; contarMisiles >= 0; contarMisiles--) {
 					Object3D proyectil = enemigoActual.arregloDeProyectiles
@@ -299,7 +281,6 @@ public class Juego extends Activity implements SensorEventListener {
 										- (proyectil.getTransformedCenter().y)
 										/ 25, 0);
 					}
-
 					if (proyectil.getTransformedCenter().x < jugador
 							.getObjNave().getTransformedCenter().x + 5
 							&& proyectil.getTransformedCenter().x > (jugador
@@ -313,37 +294,34 @@ public class Juego extends Activity implements SensorEventListener {
 						mundo.removeObject(proyectil);
 						jugador.setVida(jugador.getVida()
 								- enemigoActual.getDano());
-
 						if (jugador.getVida() <= 0) {
 							View view = null;
 							mostrarGameOver(view);
 							main = null;
-							proyectil = null;
 						}
+
+						proyectil = null;
 					}
 
 					if (proyectil == null) {
 						continue;
 					}
-
 					if (proyectil.getTransformedCenter().y > 205) {
 						mundo.removeObject(proyectil);
 						enemigoActual.arregloDeProyectiles
 								.remove(contarMisiles);
-
 					}
 				}
 			}
+
 			// *******************************************************************************
 			// Revisa si el proyectil ha salido del mundo o colisionado con
-			// alg�n enemigo
+			// algun enemigo
 			for (int contarObjetos = jugador.arregloDeProyectiles.size() - 1; contarObjetos >= 0; contarObjetos--) {
-
 				Object3D proyectil = jugador.arregloDeProyectiles
 						.get(contarObjetos);
 				proyectil.rotateZ(0.1f);
 				proyectil.translate(0, -5.0f, 0);
-
 				if (hayJefe) {
 					if (!enemigoMuerto
 							&& proyectil.getTransformedCenter().x < (objEnemigo
@@ -354,7 +332,6 @@ public class Juego extends Activity implements SensorEventListener {
 									.getTransformedCenter().y - 42)
 							&& proyectil.getTransformedCenter().y < (objEnemigo
 									.getTransformedCenter().y + 42)) {
-
 						mundo.removeObject(proyectil);
 						jugador.arregloDeProyectiles.remove(contarObjetos);
 						contadorDanoEnemigo++;
@@ -362,7 +339,6 @@ public class Juego extends Activity implements SensorEventListener {
 					}
 				}
 				for (int contarEnemigos = arregloDeEnemigos.size() - 1; contarEnemigos >= 0; contarEnemigos--) {
-
 					if (proyectil.getTransformedCenter().x < (arregloDeEnemigos
 							.get(contarEnemigos).getEnemigo()
 							.getTransformedCenter().x + 10)
@@ -379,25 +355,29 @@ public class Juego extends Activity implements SensorEventListener {
 						mundo.removeObject(proyectil);
 						arregloDeEnemigos.get(contarEnemigos).danar(
 								jugador.getDano());
+						proyectil = null;
+						break;
+					}
+					if (!arregloDeEnemigos.get(contarEnemigos).enemigoExiste) {
 
-						if (!arregloDeEnemigos.get(contarEnemigos).enemigoExiste) {
-							if (proyectil.getTransformedCenter().y < 205) {
-								proyectil.translate(0, 5.0f, 0);
-							}
-
+						if (!arregloDeEnemigos.get(contarEnemigos).enemigoRemovido) {
 							mundo.removeObject(arregloDeEnemigos.get(
 									contarEnemigos).getEnemigo());
-							arregloDeEnemigos.remove(contarEnemigos);
+							arregloDeEnemigos.get(contarEnemigos).enemigoRemovido = true;
 							if (!hayJefe) {
 								puntaje = puntaje + 10;
 							}
 							puntajeFinal = puntajeFinal + 10;
 							contadorEnemigos--;
-
 						}
-						proyectil = null;
-						break;
+						if (arregloDeEnemigos.get(contarEnemigos).arregloDeProyectiles
+								.size() == 0) {
+
+							arregloDeEnemigos.remove(contarEnemigos);
+						}
+
 					}
+
 				}
 				if (proyectil == null) {
 					continue;
@@ -405,11 +385,9 @@ public class Juego extends Activity implements SensorEventListener {
 				if (proyectil.getTransformedCenter().y < -205) {
 					mundo.removeObject(proyectil);
 					jugador.arregloDeProyectiles.remove(contarObjetos);
-
 				}
 			}
-
-			// Revisa si el enemigo debe morir y si la nave ha chocado con �l
+			// Revisa si el enemigo debe morir y si la nave ha chocado con el
 			if (hayJefe) {
 				if (!enemigoMuerto && contadorDanoEnemigo > 45) {
 					mundo.removeObject(objEnemigo);
@@ -433,22 +411,18 @@ public class Juego extends Activity implements SensorEventListener {
 					View view = null;
 					mostrarGameOver(view);
 					main = null;
-
 				}
 			}
 			// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
 			jugador.mover(offsetHorizontal, offsetVertical);
 			generarImagenHp();
 			generarImagenScore();
-
 			// *********************** BUFFER
-
 			buffer.clear(colorFondo); // Borrar el buffer
-			mundo.renderScene(buffer);// C�lculos sobre los objetos a dibujar
+			mundo.renderScene(buffer);// Calculos sobre los objetos a dibujar
 			mundo.draw(buffer); // Redibuja todos los objetos
 			buffer.blit(pixeles, 256, 64, 0, 0, 250, 20, 256, 64, true);
 			buffer.display(); // Actualiza en pantalla
-
 			// *********************** CONTADOR FPS
 			if (System.currentTimeMillis() - tiempo > 1000) {
 				Log.d("FPS", fps + "fps");
@@ -459,7 +433,6 @@ public class Juego extends Activity implements SensorEventListener {
 		}
 
 		// -------------------------- Metodo onSurfaceChanged()
-
 		@Override
 		public void onSurfaceChanged(GL10 gl, int width, int height) {
 			if (buffer != null) {
@@ -467,12 +440,10 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 			buffer = new FrameBuffer(gl, width, height);
 			if (main == null) {
-
-				// *********************** CRECI�N DE MUNDO Y LUZ
+				// *********************** CRECION DE MUNDO Y LUZ
 				mundo = new World();
 				mundo.setAmbientLight(255, 255, 255);
 				colorFondo = new RGBColor(0, 0, 0, 0);
-
 				Texture textura = new Texture(BitmapHelper.rescale(
 						BitmapHelper.convert(getResources().getDrawable(
 								R.drawable.space8)), 1024, 1024));
@@ -487,7 +458,7 @@ public class Juego extends Activity implements SensorEventListener {
 				mundo.addObject(jugador.getObjNave());
 				arregloDeEnemigos = new ArrayList<Enemigo>();
 				// enemigo = new Enemigo();
-				// *********************** MANEJO DE C�MARA
+				// *********************** MANEJO DE CAMARA
 				camara = mundo.getCamera();
 				camara.moveCamera(Camera.CAMERA_MOVEOUT, 200);
 				camara.moveCamera(Camera.CAMERA_MOVEUP, 3);
@@ -499,16 +470,15 @@ public class Juego extends Activity implements SensorEventListener {
 				dialogoEspera.dismiss();
 				reproducirSonido();
 			}
-
 		}
 
-		// -------------------------- M�todo onSurfaceChanged()
+		// -------------------------- Metodo onSurfaceChanged()
 		@Override
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		}
 	}
 
-	// ********************** ACELER�METRO
+	// ********************** ACELEROMETRO
 	private void reproducirSonido() {
 		try {
 			if (player != null && player.isPlaying()) {
@@ -558,6 +528,5 @@ public class Juego extends Activity implements SensorEventListener {
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
 	}
 };
