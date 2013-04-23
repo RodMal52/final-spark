@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import android.content.Context;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
-import com.threed.jpct.World;
 
 public class Jugador {
 	private int dano = 5;
-	private int vida = 30;
+	private int vida = 100;
 	private Object3D objNave;
 	public Object3D misil;
 	public Object3D misilIzq;

@@ -44,8 +44,7 @@ public class Juego extends Activity implements SensorEventListener {
 	private Camera camara; // Camara
 	private Object3D objEnemigo; // Modelo enemigo
 	private Object3D background;
-	private boolean agregarObjeto; // Valor booleano para comprobar si se
-	// agregan misiles
+	private boolean agregarObjeto; // Valor booleano para comprobar si se agregan misiles
 	public ArrayList<Enemigo> arregloDeEnemigos; // Arreglo de enemigos
 	private MediaPlayer player;
 	private Jugador jugador;
@@ -65,16 +64,13 @@ public class Juego extends Activity implements SensorEventListener {
 	private int disparos = 0;
 	private int puntaje = 0;
 	private int puntajeFinal = 0;
-	private Bitmap bitmapHp;
-	private Canvas canvasHp;
-	private Paint pHp;
-	private int[] pixelesHp;
 	private Bitmap bitmap;
 	private Canvas canvas;
 	private Paint p;
 	private int[] pixeles; // sustituye la textura
 	private ProgressDialog dialogoEspera; // dialogo de espera
 	private int disparosEnemigo = 0;
+	private int jefesDestruidos = 0;
 
 	public void mostrarGameOver(View view) {
 		Intent intent = new Intent(this, GameOverActivity.class);
@@ -93,14 +89,10 @@ public class Juego extends Activity implements SensorEventListener {
 		}
 		super.onCreate(savedInstanceState);
 		mGLView = new GLSurfaceView(getApplicationContext());
-		bitmap = Bitmap.createBitmap(256, 64, Bitmap.Config.ARGB_8888);
+		bitmap = Bitmap.createBitmap(512, 64, Bitmap.Config.ARGB_8888);
 		canvas = new Canvas(bitmap);
 		p = new Paint();
-		pixeles = new int[256 * 64 * 4];
-		bitmapHp = Bitmap.createBitmap(256, 64, Bitmap.Config.ARGB_8888);
-		canvasHp = new Canvas(bitmap);
-		pHp = new Paint();
-		pixelesHp = new int[256 * 64 * 4];
+		pixeles = new int[512 * 64 * 4];
 		renderer = new Renderer();
 		mGLView.setRenderer(renderer);
 		setContentView(mGLView);
@@ -197,6 +189,7 @@ public class Juego extends Activity implements SensorEventListener {
 				puntaje = 0;
 				enemigoMuerto = false;
 				contadorDanoEnemigo = 0;
+
 			}
 			// *********************** MISILES
 			disparos++;
@@ -211,22 +204,35 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 			// *********************** GENERACION ALEATORIA DE ENEMIGOS
 			if (noMasEnemigos) {
-				for (int i = 0; i < 5; i++) {
-					enemigo = new EnemigoCazador();
-					mundo.addObject(enemigo.getEnemigo());
-					arregloDeEnemigos.add(enemigo);
+				if (jefesDestruidos <=3) {
+					for (int i = 0; i < 3+(jefesDestruidos+1); i++) {
+						enemigo = new EnemigoCazador(5 + (jefesDestruidos * 2),
+								15 + (jefesDestruidos * 3));
+						mundo.addObject(enemigo.getEnemigo());
+						arregloDeEnemigos.add(enemigo);
+					}
+					contadorEnemigos = 3+(jefesDestruidos+1);
+				} else if (jefesDestruidos > 3) {
+					for (int i = 0; i < jefesDestruidos-1; i++) {
+						enemigo = new EnemigoCazador(5 + (jefesDestruidos * 2),
+								15 + (jefesDestruidos * 3));
+						mundo.addObject(enemigo.getEnemigo());
+						arregloDeEnemigos.add(enemigo);
+					}
+					for (int j = 0; j < jefesDestruidos-2; j++) {
+						enemigo = new EnemigoBouncer(3 + (jefesDestruidos * 2),
+								10 + (jefesDestruidos * 3));
+						mundo.addObject(enemigo.getEnemigo());
+						arregloDeEnemigos.add(enemigo);
+					}
+					contadorEnemigos = (jefesDestruidos*2)-3;
 				}
-				
-				  for (int j = 0; j < 3; j++) { enemigo = new EnemigoBouncer();
-				  mundo.addObject(enemigo.getEnemigo());
-				  arregloDeEnemigos.add(enemigo); }
-				 
-				contadorEnemigos = 8;
 				noMasEnemigos = false;
 			}
 
 			// Revisa si los enemigos han muerto
 			if (contadorEnemigos == 0) {
+
 				noMasEnemigos = true;
 			}
 			disparosEnemigo++;
@@ -260,27 +266,21 @@ public class Juego extends Activity implements SensorEventListener {
 
 			// ******************************************************************************
 			for (Enemigo enemigoActual : arregloDeEnemigos) {
-				if (!enemigoActual.enemigoExiste) {
-					Log.d("muerto", "Enemigo muerto");
-				}
 				for (int contarMisiles = enemigoActual.arregloDeProyectiles
 						.size() - 1; contarMisiles >= 0; contarMisiles--) {
 					Object3D proyectil = enemigoActual.arregloDeProyectiles
 							.get(contarMisiles);
 					proyectil.rotateZ(0.1f);
-					if (enemigoActual instanceof EnemigoCazador) {
-						proyectil.translate(0, 5.0f, 0);
-					} else if (enemigoActual instanceof EnemigoBouncer) {
-						proyectil.translate(
-								(jugador.getObjNave().getTransformedCenter().x)
-										/ 25
-										- (proyectil.getTransformedCenter().x)
-										/ 25, (jugador.getObjNave()
-										.getTransformedCenter().y)
-										/ 25
-										- (proyectil.getTransformedCenter().y)
-										/ 25, 0);
-					}
+					// if (enemigoActual instanceof EnemigoCazador) {
+					proyectil.translate(0, 5.0f, 0);
+					/*
+					 * }else if (enemigoActual instanceof EnemigoBouncer) {
+					 * proyectil.translate(
+					 * (jugador.getObjNave().getTransformedCenter().x) / 25 -
+					 * (proyectil.getTransformedCenter().x) / 25,
+					 * (jugador.getObjNave() .getTransformedCenter().y) / 25 -
+					 * (proyectil.getTransformedCenter().y) / 25, 0); }
+					 */
 					if (proyectil.getTransformedCenter().x < jugador
 							.getObjNave().getTransformedCenter().x + 5
 							&& proyectil.getTransformedCenter().x > (jugador
@@ -392,6 +392,7 @@ public class Juego extends Activity implements SensorEventListener {
 				if (!enemigoMuerto && contadorDanoEnemigo > 45) {
 					mundo.removeObject(objEnemigo);
 					enemigoMuerto = true;
+					jefesDestruidos++;
 					hayJefe = false;
 					puntaje = 0;
 					puntajeFinal = puntajeFinal + 100;
@@ -415,13 +416,13 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 			// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
 			jugador.mover(offsetHorizontal, offsetVertical);
-			generarImagenHp();
+			//generarImagenHp();
 			generarImagenScore();
 			// *********************** BUFFER
 			buffer.clear(colorFondo); // Borrar el buffer
 			mundo.renderScene(buffer);// Calculos sobre los objetos a dibujar
 			mundo.draw(buffer); // Redibuja todos los objetos
-			buffer.blit(pixeles, 256, 64, 0, 0, 250, 20, 256, 64, true);
+			buffer.blit(pixeles, 512, 64, 0, 0, 250, 20, 512, 64, true);
 			buffer.display(); // Actualiza en pantalla
 			// *********************** CONTADOR FPS
 			if (System.currentTimeMillis() - tiempo > 1000) {
@@ -504,17 +505,10 @@ public class Juego extends Activity implements SensorEventListener {
 		canvas.drawARGB(255, 0, 0, 0);
 		p.setColor(0xFF00FF00);
 		p.setTextSize(24);
-		canvas.drawText("Score:" + puntajeFinal, 40, 30, p);
-		bitmap.getPixels(pixeles, 0, 256, 0, 0, 256, 64);
+		canvas.drawText("Health:" + jugador.getVida()+"                         Score:" + puntajeFinal, 0, 30, p);
+		bitmap.getPixels(pixeles, 0, 512, 0, 0, 512, 64);
 	}
 
-	public void generarImagenHp() {
-		canvasHp.drawARGB(255, 0, 0, 0);
-		pHp.setColor(0xFF00FF00);
-		pHp.setTextSize(24);
-		canvasHp.drawText("Health:" + jugador.getVida(), 20, 30, pHp);
-		bitmapHp.getPixels(pixelesHp, 0, 256, 0, 0, 256, 64);
-	}
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
