@@ -6,22 +6,22 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class GameOverActivity extends Activity {
 	private int puntos;
 	private EditText tfNombre;
+	private TextView score;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game_over);
-		
-		
-		
+			
 		puntos = getIntent().getExtras().getInt("Puntaje");
-		
-		
+		score = (TextView) findViewById(R.id.score);
+		score.setText("Score: "+puntos);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class GameOverActivity extends Activity {
 			this.finish();
 			
 		}else {
-			Toast.makeText(this, "Introduzca un nombre de usuario válido", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Please enter a valid username", Toast.LENGTH_LONG).show();
 		}
 		
 	}

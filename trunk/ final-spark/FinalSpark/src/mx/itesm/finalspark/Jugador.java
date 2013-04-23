@@ -20,6 +20,7 @@ public class Jugador {
 				"freedom3000.mtl", 1);
 		objNave.rotateY(3.141592f);
 		objNave.rotateX((float) (1.5));
+		objNave.translate(0, 100, 0);
 		arregloDeProyectiles = new ArrayList<Object3D>();
 	}
 
@@ -29,6 +30,10 @@ public class Jugador {
 
 	public void setVida(int vida) {
 		this.vida = vida;
+	}
+	
+	public void setDano(int dano) {
+		this.dano = dano;
 	}
 
 	public int getDano() {
