@@ -52,7 +52,7 @@ public class Juego extends Activity implements SensorEventListener {
 	private int fps; // contador frames
 	private int contadorDanoEnemigo = 0; // HP enemigo
 	private int contadorEnemigos = 0;
-	private boolean enemigoMuerto = false;
+	private boolean jefeMuerto = false;
 	private boolean noMasEnemigos = true;
 	private boolean hayJefe = false;
 	@SuppressWarnings("unused")
@@ -85,7 +85,7 @@ public class Juego extends Activity implements SensorEventListener {
 			copiar(main);
 		} else {
 			dialogoEspera = ProgressDialog.show(this, "Final Spark",
-					"Cargando...");
+					"Loading...");
 		}
 		super.onCreate(savedInstanceState);
 		mGLView = new GLSurfaceView(getApplicationContext());
@@ -187,7 +187,7 @@ public class Juego extends Activity implements SensorEventListener {
 				mundo.addObject(objEnemigo);
 				hayJefe = true;
 				puntaje = 0;
-				enemigoMuerto = false;
+				jefeMuerto = false;
 				contadorDanoEnemigo = 0;
 
 			}
@@ -323,7 +323,7 @@ public class Juego extends Activity implements SensorEventListener {
 				proyectil.rotateZ(0.1f);
 				proyectil.translate(0, -5.0f, 0);
 				if (hayJefe) {
-					if (!enemigoMuerto
+					if (!jefeMuerto
 							&& proyectil.getTransformedCenter().x < (objEnemigo
 									.getTransformedCenter().x + 24)
 							&& proyectil.getTransformedCenter().x > (objEnemigo
@@ -389,9 +389,9 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 			// Revisa si el enemigo debe morir y si la nave ha chocado con el
 			if (hayJefe) {
-				if (!enemigoMuerto && contadorDanoEnemigo > 45) {
+				if (!jefeMuerto && contadorDanoEnemigo > 45) {
 					mundo.removeObject(objEnemigo);
-					enemigoMuerto = true;
+					jefeMuerto = true;
 					jefesDestruidos++;
 					hayJefe = false;
 					puntaje = 0;
@@ -400,7 +400,7 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 			// *********************** COLISION CON Enemigo
 			if (hayJefe) {
-				if (!enemigoMuerto
+				if (!jefeMuerto
 						&& (jugador.getObjNave().getTransformedCenter().x) < (objEnemigo
 								.getTransformedCenter().x + 24)
 						&& (jugador.getObjNave().getTransformedCenter().x) > (objEnemigo
@@ -416,7 +416,6 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 			// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
 			jugador.mover(offsetHorizontal, offsetVertical);
-			//generarImagenHp();
 			generarImagenScore();
 			// *********************** BUFFER
 			buffer.clear(colorFondo); // Borrar el buffer
