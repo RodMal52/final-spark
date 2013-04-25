@@ -9,6 +9,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+/**
+ * Muestra la pantalla de la historia y controles del juego antes de ejecutar el mismo. 
+ */
 public class ControlsActivity extends Activity {
 	
 	
@@ -26,6 +29,11 @@ public class ControlsActivity extends Activity {
 		return true;
 	}
 	
+	/**
+	 * Inicia la actividad en la que se ubica el juego.
+	 * 
+	 * @param view
+	 */
 	public void mostrarGame (View view){
 		Intent intent = new Intent(this,Juego.class);
 

@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 
+/**
+ * Muestra la pantalla de splash al iniciar la aplicacion.
+ */
 public class SplashActivity extends Activity {
 
 	@Override

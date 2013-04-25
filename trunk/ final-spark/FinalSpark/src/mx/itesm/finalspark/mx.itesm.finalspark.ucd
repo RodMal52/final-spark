@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" size="1582,1919" id="mx.itesm.finalspark" metadata="uml2-1.0" initialized="true" tag="10" key="32303037303533312D31302046696E616C537061726B">
+  <children xsi:type="editmodel:ClassEditModel" name="AboutActivity" location="470,1697" size="160,67" id="mx.itesm.finalspark/AboutActivity" runTimeClassModel="onCreateOptionsMenu(Landroid.view.Menu;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="137,18">
+      <children xsi:type="editmodel:MethodEditModel" name="onCreateOptionsMenu" id="mx.itesm.finalspark/AboutActivity#onCreateOptionsMenu(Landroid.view.Menu;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="BDAdaptador" location="50,1139" size="176,355" id="mx.itesm.finalspark/BDAdaptador" runTimeClassModel="db,dATABASE_VERSION,dATABASE_TABLE,abrir(),obtenerJugadores(),dATABASE_NAME,deletePlayer(J),tAG,guardarPuntos(Ljava.lang.String;I),dATABASE_CREATE,kEY_SCORE,BDAdaptador(Landroid.content.Context;),dBHelper,kEY_NOMBRE,context,cerrar(),kEY_ROWID">
+    <children xsi:type="editmodel:CompartmentEditModel" size="153,198">
+      <children xsi:type="editmodel:AttributeEditModel" name="context" id="mx.itesm.finalspark/BDAdaptador#context"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dATABASE_CREATE" id="mx.itesm.finalspark/BDAdaptador#dATABASE_CREATE"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dATABASE_NAME" id="mx.itesm.finalspark/BDAdaptador#dATABASE_NAME"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dATABASE_TABLE" id="mx.itesm.finalspark/BDAdaptador#dATABASE_TABLE"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dATABASE_VERSION" id="mx.itesm.finalspark/BDAdaptador#dATABASE_VERSION"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dBHelper" id="mx.itesm.finalspark/BDAdaptador#dBHelper"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="db" id="mx.itesm.finalspark/BDAdaptador#db"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="kEY_NOMBRE" id="mx.itesm.finalspark/BDAdaptador#kEY_NOMBRE"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="kEY_ROWID" id="mx.itesm.finalspark/BDAdaptador#kEY_ROWID"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="kEY_SCORE" id="mx.itesm.finalspark/BDAdaptador#kEY_SCORE"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="tAG" id="mx.itesm.finalspark/BDAdaptador#tAG"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="118,108">
+      <children xsi:type="editmodel:MethodEditModel" name="BDAdaptador" id="mx.itesm.finalspark/BDAdaptador#BDAdaptador(Landroid.content.Context;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="abrir" id="mx.itesm.finalspark/BDAdaptador#abrir()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="cerrar" id="mx.itesm.finalspark/BDAdaptador#cerrar()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="deletePlayer" id="mx.itesm.finalspark/BDAdaptador#deletePlayer(J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="guardarPuntos" id="mx.itesm.finalspark/BDAdaptador#guardarPuntos(Ljava.lang.String;I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="obtenerJugadores" id="mx.itesm.finalspark/BDAdaptador#obtenerJugadores()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="ControlsActivity" location="260,1697" size="160,85" id="mx.itesm.finalspark/ControlsActivity" runTimeClassModel="onCreateOptionsMenu(Landroid.view.Menu;),mostrarGame(Landroid.view.View;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="137,36">
+      <children xsi:type="editmodel:MethodEditModel" name="mostrarGame" id="mx.itesm.finalspark/ControlsActivity#mostrarGame(Landroid.view.View;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onCreateOptionsMenu" id="mx.itesm.finalspark/ControlsActivity#onCreateOptionsMenu(Landroid.view.Menu;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="GameOverActivity" location="449,1544" size="160,85" id="mx.itesm.finalspark/GameOverActivity" runTimeClassModel="onCreateOptionsMenu(Landroid.view.Menu;),mostrarMenu(Landroid.view.View;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="137,36">
+      <children xsi:type="editmodel:MethodEditModel" name="mostrarMenu" id="mx.itesm.finalspark/GameOverActivity#mostrarMenu(Landroid.view.View;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onCreateOptionsMenu" id="mx.itesm.finalspark/GameOverActivity#onCreateOptionsMenu(Landroid.view.Menu;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="HighscoresActivity" location="50,1544" size="160,103" id="mx.itesm.finalspark/HighscoresActivity" runTimeClassModel="onCreateOptionsMenu(Landroid.view.Menu;),lista,Desplegar(Landroid.database.Cursor;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="128,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="lista" id="mx.itesm.finalspark/HighscoresActivity#lista"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="137,36">
+      <children xsi:type="editmodel:MethodEditModel" name="Desplegar" id="mx.itesm.finalspark/HighscoresActivity#Desplegar(Landroid.database.Cursor;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onCreateOptionsMenu" id="mx.itesm.finalspark/HighscoresActivity#onCreateOptionsMenu(Landroid.view.Menu;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Juego" location="348,770" size="242,272" id="mx.itesm.finalspark/Juego" runTimeClassModel="mx.itesm.finalspark.Juego.Renderer,onTouchEvent(Landroid.view.MotionEvent;),onSensorChanged(Landroid.hardware.SensorEvent;),onAccuracyChanged(Landroid.hardware.Sensor;I),arregloDeEnemigos,generarImagenScore(),mostrarGameOver(Landroid.view.View;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="219,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="arregloDeEnemigos" id="mx.itesm.finalspark/Juego#arregloDeEnemigos"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="133,90">
+      <children xsi:type="editmodel:MethodEditModel" name="generarImagenScore" id="mx.itesm.finalspark/Juego#generarImagenScore()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="mostrarGameOver" id="mx.itesm.finalspark/Juego#mostrarGameOver(Landroid.view.View;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onAccuracyChanged" id="mx.itesm.finalspark/Juego#onAccuracyChanged(Landroid.hardware.Sensor;I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onSensorChanged" id="mx.itesm.finalspark/Juego#onSensorChanged(Landroid.hardware.SensorEvent;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onTouchEvent" id="mx.itesm.finalspark/Juego#onTouchEvent(Landroid.view.MotionEvent;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="147,105">
+      <children xsi:type="editmodel:ClassEditModel" name="Renderer" size="147,103" id="mx.itesm.finalspark/Juego$Renderer" runTimeClassModel="onDrawFrame(Ljavax.microedition.khronos.opengles.GL10;),onSurfaceChanged(Ljavax.microedition.khronos.opengles.GL10;II),onSurfaceCreated(Ljavax.microedition.khronos.opengles.GL10;Ljavax.microedition.khronos.egl.EGLConfig;)">
+        <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+        <children xsi:type="editmodel:CompartmentEditModel" size="124,54">
+          <children xsi:type="editmodel:MethodEditModel" name="onDrawFrame" id="mx.itesm.finalspark/Juego$Renderer#onDrawFrame(Ljavax.microedition.khronos.opengles.GL10;)"/>
+          <children xsi:type="editmodel:MethodEditModel" name="onSurfaceChanged" id="mx.itesm.finalspark/Juego$Renderer#onSurfaceChanged(Ljavax.microedition.khronos.opengles.GL10;II)"/>
+          <children xsi:type="editmodel:MethodEditModel" name="onSurfaceCreated" id="mx.itesm.finalspark/Juego$Renderer#onSurfaceCreated(Ljavax.microedition.khronos.opengles.GL10;Ljavax.microedition.khronos.egl.EGLConfig;)"/>
+        </children>
+        <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+        <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+      </children>
+    </children>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Jugador" location="50,770" size="248,319" id="mx.itesm.finalspark/Jugador" runTimeClassModel="vida,getVida(),Jugador(Landroid.content.Context;),setVida(I),mover(FF),arregloDeProyectiles,dano,getObjNave(),misilDer,disparar(),misilIzq,setDano(I),getDano(),misil,objNave">
+    <children xsi:type="editmodel:CompartmentEditModel" size="225,126">
+      <children xsi:type="editmodel:AttributeEditModel" name="arregloDeProyectiles" id="mx.itesm.finalspark/Jugador#arregloDeProyectiles"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dano" id="mx.itesm.finalspark/Jugador#dano"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="misil" id="mx.itesm.finalspark/Jugador#misil"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="misilDer" id="mx.itesm.finalspark/Jugador#misilDer"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="misilIzq" id="mx.itesm.finalspark/Jugador#misilIzq"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="objNave" id="mx.itesm.finalspark/Jugador#objNave"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="vida" id="mx.itesm.finalspark/Jugador#vida"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="86,144">
+      <children xsi:type="editmodel:MethodEditModel" name="Jugador" id="mx.itesm.finalspark/Jugador#Jugador(Landroid.content.Context;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="disparar" id="mx.itesm.finalspark/Jugador#disparar()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDano" id="mx.itesm.finalspark/Jugador#getDano()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getObjNave" id="mx.itesm.finalspark/Jugador#getObjNave()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getVida" id="mx.itesm.finalspark/Jugador#getVida()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="mover" id="mx.itesm.finalspark/Jugador#mover(FF)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setDano" id="mx.itesm.finalspark/Jugador#setDano(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setVida" id="mx.itesm.finalspark/Jugador#setVida(I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="MenuActivity" location="478,1139" size="160,139" id="mx.itesm.finalspark/MenuActivity" runTimeClassModel="onCreateOptionsMenu(Landroid.view.Menu;),mostrarControls(Landroid.view.View;),mostrarHighscores(Landroid.view.View;),mostrarAbout(Landroid.view.View;),mostrarSettings(Landroid.view.View;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="137,90">
+      <children xsi:type="editmodel:MethodEditModel" name="mostrarAbout" id="mx.itesm.finalspark/MenuActivity#mostrarAbout(Landroid.view.View;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="mostrarControls" id="mx.itesm.finalspark/MenuActivity#mostrarControls(Landroid.view.View;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="mostrarHighscores" id="mx.itesm.finalspark/MenuActivity#mostrarHighscores(Landroid.view.View;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="mostrarSettings" id="mx.itesm.finalspark/MenuActivity#mostrarSettings(Landroid.view.View;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onCreateOptionsMenu" id="mx.itesm.finalspark/MenuActivity#onCreateOptionsMenu(Landroid.view.Menu;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Modelo" location="260,1544" size="139,103" id="mx.itesm.finalspark/Modelo" runTimeClassModel="cargarModelo(Landroid.content.Context;Ljava.lang.String;Ljava.lang.String;),cargarModelo3DS(Landroid.content.Context;Ljava.lang.String;F),cargarModeloMTL(Landroid.content.Context;Ljava.lang.String;Ljava.lang.String;F)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="116,54">
+      <children xsi:type="editmodel:MethodEditModel" name="cargarModelo" id="mx.itesm.finalspark/Modelo#cargarModelo(Landroid.content.Context;Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="cargarModelo3DS" id="mx.itesm.finalspark/Modelo#cargarModelo3DS(Landroid.content.Context;Ljava.lang.String;F)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="cargarModeloMTL" id="mx.itesm.finalspark/Modelo#cargarModeloMTL(Landroid.content.Context;Ljava.lang.String;Ljava.lang.String;F)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="SettingsActivity" location="50,1832" size="160,67" id="mx.itesm.finalspark/SettingsActivity" runTimeClassModel="onCreateOptionsMenu(Landroid.view.Menu;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="137,18">
+      <children xsi:type="editmodel:MethodEditModel" name="onCreateOptionsMenu" id="mx.itesm.finalspark/SettingsActivity#onCreateOptionsMenu(Landroid.view.Menu;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="SplashActivity" location="50,1697" size="160,85" id="mx.itesm.finalspark/SplashActivity" runTimeClassModel="mostrarMenu(Landroid.view.View;),onCreateOptionsMenu(Landroid.view.Menu;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="137,36">
+      <children xsi:type="editmodel:MethodEditModel" name="mostrarMenu" id="mx.itesm.finalspark/SplashActivity#mostrarMenu(Landroid.view.View;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onCreateOptionsMenu" id="mx.itesm.finalspark/SplashActivity#onCreateOptionsMenu(Landroid.view.Menu;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="StatsDrop" location="276,1139" size="152,193" id="mx.itesm.finalspark/StatsDrop" runTimeClassModel="danoAdicional,vidaAdicional,statBox,getVidaAdicional(),statBoxExiste,incrementarStats(Lmx.itesm.finalspark.Jugador;),StatsDrop(IILcom.threed.jpct.SimpleVector;),getDanoAdicional()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="129,72">
+      <children xsi:type="editmodel:AttributeEditModel" name="danoAdicional" id="mx.itesm.finalspark/StatsDrop#danoAdicional"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="statBox" id="mx.itesm.finalspark/StatsDrop#statBox"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="statBoxExiste" id="mx.itesm.finalspark/StatsDrop#statBoxExiste"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="vidaAdicional" id="mx.itesm.finalspark/StatsDrop#vidaAdicional"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="114,72">
+      <children xsi:type="editmodel:MethodEditModel" name="StatsDrop" id="mx.itesm.finalspark/StatsDrop#StatsDrop(IILcom.threed.jpct.SimpleVector;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDanoAdicional" id="mx.itesm.finalspark/StatsDrop#getDanoAdicional()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getVidaAdicional" id="mx.itesm.finalspark/StatsDrop#getVidaAdicional()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="incrementarStats" id="mx.itesm.finalspark/StatsDrop#incrementarStats(Lmx.itesm.finalspark.Jugador;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="EnemigoBouncer" location="50,473" size="151,175" id="mx.itesm.finalspark/EnemigoBouncer" runTimeClassModel="getMisil(),cambiarVelocidadY(),EnemigoBouncer(II),mover(Lcom.threed.jpct.Object3D;),cambiarVelocidadX(),disparar(),obtenerSigno()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="123,126">
+      <children xsi:type="editmodel:MethodEditModel" name="EnemigoBouncer" id="mx.itesm.finalspark/EnemigoBouncer#EnemigoBouncer(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="cambiarVelocidadX" id="mx.itesm.finalspark/EnemigoBouncer#cambiarVelocidadX()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="cambiarVelocidadY" id="mx.itesm.finalspark/EnemigoBouncer#cambiarVelocidadY()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="disparar" id="mx.itesm.finalspark/EnemigoBouncer#disparar()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getMisil" id="mx.itesm.finalspark/EnemigoBouncer#getMisil()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="mover" id="mx.itesm.finalspark/EnemigoBouncer#mover(Lcom.threed.jpct.Object3D;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="obtenerSigno" id="mx.itesm.finalspark/EnemigoBouncer#obtenerSigno()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.14/@sourceConnections.0 //@children.13/@sourceConnections.0" autoLocated="true" id="mx.itesm.finalspark/Enemigo&lt;-mx.itesm.finalspark/EnemigoBouncer" source="//@children.12" target="//@children.15" targetEnd="//@children.12/@sourceConnections.0/@children.1" sourceEnd="//@children.12/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="75,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="124,373" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="EnemigoCazador" location="407,473" size="151,121" id="mx.itesm.finalspark/EnemigoCazador" runTimeClassModel="getMisil(),mover(Lcom.threed.jpct.Object3D;),EnemigoCazador(II),disparar()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="111,72">
+      <children xsi:type="editmodel:MethodEditModel" name="EnemigoCazador" id="mx.itesm.finalspark/EnemigoCazador#EnemigoCazador(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="disparar" id="mx.itesm.finalspark/EnemigoCazador#disparar()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getMisil" id="mx.itesm.finalspark/EnemigoCazador#getMisil()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="mover" id="mx.itesm.finalspark/EnemigoCazador#mover(Lcom.threed.jpct.Object3D;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="mx.itesm.finalspark/Enemigo&lt;-mx.itesm.finalspark/EnemigoCazador" source="//@children.13" target="//@children.12/@sourceConnections.0" targetEnd="//@children.13/@sourceConnections.0/@children.1" sourceEnd="//@children.13/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="75,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Jefe" location="231,473" size="146,247" id="mx.itesm.finalspark/Jefe" runTimeClassModel="getMisil(),Jefe(IILandroid.content.Context;),getVida(),getDano(),setVida(I),cambiarVelocidadY(),cambiarVelocidadX(),mover(Lcom.threed.jpct.Object3D;),disparar(),obtenerSigno(),getEnemigo()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="123,198">
+      <children xsi:type="editmodel:MethodEditModel" name="Jefe" id="mx.itesm.finalspark/Jefe#Jefe(IILandroid.content.Context;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="cambiarVelocidadX" id="mx.itesm.finalspark/Jefe#cambiarVelocidadX()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="cambiarVelocidadY" id="mx.itesm.finalspark/Jefe#cambiarVelocidadY()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="disparar" id="mx.itesm.finalspark/Jefe#disparar()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDano" id="mx.itesm.finalspark/Jefe#getDano()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getEnemigo" id="mx.itesm.finalspark/Jefe#getEnemigo()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getMisil" id="mx.itesm.finalspark/Jefe#getMisil()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getVida" id="mx.itesm.finalspark/Jefe#getVida()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="mover" id="mx.itesm.finalspark/Jefe#mover(Lcom.threed.jpct.Object3D;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="obtenerSigno" id="mx.itesm.finalspark/Jefe#obtenerSigno()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setVida" id="mx.itesm.finalspark/Jefe#setVida(I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="mx.itesm.finalspark/Enemigo&lt;-mx.itesm.finalspark/Jefe" source="//@children.14" target="//@children.12/@sourceConnections.0" targetEnd="//@children.14/@sourceConnections.0/@children.1" sourceEnd="//@children.14/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="73,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.12/@sourceConnections.0" name="Enemigo" location="180,50" size="248,373" id="mx.itesm.finalspark/Enemigo" runTimeClassModel="danar(I),enemigo,vida,getVida(),setVida(I),enemigoExiste,arregloDeProyectiles,dano,disparar(),getEnemigo(),enemigoRemovido,Enemigo(),getDano(),misil2,misil3,misil,mover(Lcom.threed.jpct.Object3D;),misil1">
+    <children xsi:type="editmodel:CompartmentEditModel" size="225,180">
+      <children xsi:type="editmodel:AttributeEditModel" name="arregloDeProyectiles" id="mx.itesm.finalspark/Enemigo#arregloDeProyectiles"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dano" id="mx.itesm.finalspark/Enemigo#dano"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="enemigo" id="mx.itesm.finalspark/Enemigo#enemigo"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="enemigoExiste" id="mx.itesm.finalspark/Enemigo#enemigoExiste"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="enemigoRemovido" id="mx.itesm.finalspark/Enemigo#enemigoRemovido"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="misil" id="mx.itesm.finalspark/Enemigo#misil"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="misil1" id="mx.itesm.finalspark/Enemigo#misil1"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="misil2" id="mx.itesm.finalspark/Enemigo#misil2"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="misil3" id="mx.itesm.finalspark/Enemigo#misil3"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="vida" id="mx.itesm.finalspark/Enemigo#vida"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="85,144">
+      <children xsi:type="editmodel:MethodEditModel" name="Enemigo" id="mx.itesm.finalspark/Enemigo#Enemigo()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="danar" id="mx.itesm.finalspark/Enemigo#danar(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="disparar" id="mx.itesm.finalspark/Enemigo#disparar()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDano" id="mx.itesm.finalspark/Enemigo#getDano()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getEnemigo" id="mx.itesm.finalspark/Enemigo#getEnemigo()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getVida" id="mx.itesm.finalspark/Enemigo#getVida()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="mover" id="mx.itesm.finalspark/Enemigo#mover(Lcom.threed.jpct.Object3D;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setVida" id="mx.itesm.finalspark/Enemigo#setVida(I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 
+/**
+ * Muestra el menu principal del juego.
+ */
 public class MenuActivity extends Activity {
 
 	@Override
@@ -21,20 +24,33 @@ public class MenuActivity extends Activity {
 		return true;
 	}
 	
+	/**
+	 * Lleva al usuario a la pantalla de configuracion.
+	 */
 	public void mostrarSettings (View view){
 		Intent intent = new Intent(this,SettingsActivity.class);
 		this.startActivity(intent);
 	}
-	
+
+	/**
+	 * Lleva al usuario a la pantalla de acerca de.
+	 */
 	public void mostrarAbout (View view){
 		Intent intent = new Intent(this,AboutActivity.class);
 		this.startActivity(intent);
 	}
 
+	/**
+	 * Lleva al usuario a la pantalla de puntuaciones mas altas.
+	 */
 	public void mostrarHighscores (View view){
 		Intent intent = new Intent(this,HighscoresActivity.class);
 		this.startActivity(intent);
 	}
+	
+	/**
+	 * Lleva al usuario a la pantalla de controles, que posteriormente lo llevara al juego.
+	 */
 	public void mostrarControls (View view){
 		Intent intent = new Intent(this,ControlsActivity.class);
 		this.startActivity(intent);

@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
+/**
+ * Muestra la pantalla para ajustar la sensibilidad del acelerometro.
+ */
 public class SettingsActivity extends Activity {
 
 	@Override
