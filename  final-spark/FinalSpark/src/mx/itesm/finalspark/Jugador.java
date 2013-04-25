@@ -6,7 +6,13 @@ import android.content.Context;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 
+/**
+ * Clase que inicializa el modelo 3D que se asociará al jugador 
+ * y sera controlado por el mismo, inicializa los misiles que 
+ * seran agregados al mundo y disparados en el mismo y maneja la vida del jugador. 
+ */
 public class Jugador {
+
 	private int dano = 5;
 	private int vida = 100;
 	private Object3D objNave;
@@ -15,6 +21,14 @@ public class Jugador {
 	public Object3D misilDer;
 	public ArrayList<Object3D> arregloDeProyectiles;
 
+	/**
+	 * Constructor de la clase, recibe el contexto del mundo como parametro y
+	 * utiliza a la clase Modelo para cargar un modelo 3D del tipo "obj".
+	 * Ademas, modifica la posicion de la nave para que inicie en la parte
+	 * inferior de la pantalla y mirando hacia arriba.
+	 * 
+	 * @param contexto Contexto del mundo al cual se agregara la nave.
+	 */
 	public Jugador(Context contexto) {
 		objNave = Modelo.cargarModeloMTL(contexto, "freedom3000.obj",
 				"freedom3000.mtl", 1);
@@ -24,26 +38,56 @@ public class Jugador {
 		arregloDeProyectiles = new ArrayList<Object3D>();
 	}
 
+	/**
+	 * Regresa el objeto 3D que representa al jugador en el mundo del juego. 
+	 * 
+	 * @return objNave
+	 */
 	public Object3D getObjNave() {
 		return objNave;
 	}
 
-	public void setVida(int vida) {
-		this.vida = vida;
-	}
-	
+	/**
+	 * Cambia el dano del jugador por valor el parámetro recibido.
+	 * 
+	 * @param vida Dano con la que se inicializará al jugador.
+	 */
 	public void setDano(int dano) {
 		this.dano = dano;
 	}
 
+	/**
+	 * Cambia la vida del jugador por valor el parámetro recibido.
+	 * 
+	 * @param vida Vida con la que se inicializará al jugador.
+	 */
+	public void setVida(int vida) {
+		this.vida = vida;
+	}
+
+	/**
+	 * Regresa el valor del dano actual del jugador.
+	 * 
+	 * @return dano
+	 */
 	public int getDano() {
 		return dano;
 	}
 
+	/**
+	 * Regresa el valor de la vida actual del jugador.
+	 * 
+	 * @return vida
+	 */
 	public int getVida() {
 		return vida;
 	}
 
+	/**
+	 * Genera tres misiles del tipo object3D en forma de cubos y los ubica bajo
+	 * los cañones de la nave en una posición relativa a sus coordenadas
+	 * actuales en el mundo.
+	 */
 	public void disparar() {
 		misil = Primitives.getCube((float) .5);
 		misil.strip();
@@ -67,6 +111,14 @@ public class Jugador {
 		arregloDeProyectiles.add(misilDer);
 	}
 
+	/**
+	 * Permite controlar la nave a través del movimiento del dispositivo usando
+	 * el acelerómetro integrado en el mismo.
+	 * 
+	 * @param offsetHorizontal Es la desviación horizontal del dispositivo.
+	 * 
+	 * @param offsetVerticl Es la desviación vertical del dispositivo.
+	 */
 	public void mover(float offsetHorizontal, float offsetVertical) {
 
 		if (objNave.getTransformedCenter().x < 100
@@ -85,6 +137,7 @@ public class Jugador {
 
 		} else {
 
+			// Pared derecha
 			if (objNave.getTransformedCenter().x > 100) {
 
 				if (offsetHorizontal < 0) {
@@ -117,8 +170,7 @@ public class Jugador {
 
 			}
 
-			// ---------------------------------------------------------------------------
-
+			// Pared izquierda
 			if (objNave.getTransformedCenter().x < -100) {
 
 				if (offsetHorizontal > 0) {
@@ -151,8 +203,7 @@ public class Jugador {
 
 			}
 
-			// ---------------------------------------------------------------------------
-
+			// Pared superior
 			if (objNave.getTransformedCenter().y < -148) {
 
 				if (offsetVertical > 0) {
@@ -185,8 +236,7 @@ public class Jugador {
 
 			}
 
-			// ---------------------------------------------------------------------------
-
+			// Pared inferior
 			if (objNave.getTransformedCenter().y > 155) {
 				if (offsetVertical < 0) {
 					objNave.translate(0, offsetVertical, 0);

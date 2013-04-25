@@ -9,6 +9,11 @@ import android.util.Log;
 import com.threed.jpct.Loader;
 import com.threed.jpct.Object3D;
  
+/**
+ * Clase usada para cargar modelos 3D desde archivos con extension ".obj". 
+ * 
+ * @author Roberto Matrinez Roman
+ */
 public class Modelo
 {
  public static Object3D cargarModelo(Context contexto, String archivo, String textura) {

@@ -10,6 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+/**
+ * Muestra la pantalla con las puntuaciones mas altas de todas las que se encuentran 
+ * guardadas en la base de datos.
+ */
 public class HighscoresActivity extends Activity {
 	final ArrayList<String> lista = new ArrayList<String>();
 
@@ -34,6 +38,10 @@ public class HighscoresActivity extends Activity {
 		bases.cerrar();
 	}
 
+	/**
+	 * Despliega la lista de elementos a mostrar de la base de datos, en este caso 
+	 * los diez primeros.
+	 */
 	public void Desplegar(Cursor c) {
 		ListView lvlista = (ListView) findViewById(R.id.lista);
 		lvlista.setAdapter(new ArrayAdapter<String>(this,

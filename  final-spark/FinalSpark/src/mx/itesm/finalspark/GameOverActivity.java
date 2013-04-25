@@ -9,6 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Muestra la pantalla de Game Over que muestra la puntuacion del jugador 
+ * y tiene un campo de texto para ingresar el nombre del mismo. Guarda la 
+ * informacion en la base de datos.
+ */
 public class GameOverActivity extends Activity {
 	private int puntos;
 	private EditText tfNombre;
@@ -30,6 +35,12 @@ public class GameOverActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_game_over, menu);
 		return true;
 	}
+	
+	/**
+	 * Toma el nombre ingresado por el usuario en la caja de texto y lo guarda en la base de datos.
+	 * 
+	 * @param view
+	 */
 	public void mostrarMenu (View view){
 		tfNombre = (EditText) findViewById(R.id.tfNombre);
 		if (tfNombre.getText().length()!=0){

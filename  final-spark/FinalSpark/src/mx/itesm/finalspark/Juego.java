@@ -34,6 +34,12 @@ import com.threed.jpct.World;
 import com.threed.jpct.util.BitmapHelper;
 import com.threed.jpct.util.MemoryHelper;
 
+/**
+ * Clase que maneja la lógica general del mundo de Final Spark, se encarga de 
+ * crear el mundo y todos los elementos contenidos en el, ademas de controlar 
+ * su comportamiento. Maneja los eventos realacionados con los eventos touch, 
+ * del acelerometro y maneja el inicio y fin de una partida.
+ */
 public class Juego extends Activity implements SensorEventListener {
 	private static Juego main;
 	private GLSurfaceView mGLView; // Contenedor para dibujar
@@ -70,6 +76,9 @@ public class Juego extends Activity implements SensorEventListener {
 	private int disparosEnemigo = 0;
 	private int jefesDestruidos = 0;
 
+	/**
+	 * Crea una view con la pantalla de Game Over y la muestra al jugador.
+	 */
 	public void mostrarGameOver(View view) {
 		Intent intent = new Intent(this, GameOverActivity.class);
 		intent.putExtra("Puntaje", puntajeFinal);
@@ -77,6 +86,10 @@ public class Juego extends Activity implements SensorEventListener {
 	}
 
 	// -------------------------- Metodo onCreate()
+	/**
+	 * Revisa si se habia creado ya el mundo y lo copia, en caso contrario 
+	 * muestra un mensaje de "Loading..." hasta que se crea el mundo.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		if (main != null) { // Si ya existe el juego, copiar sus campos
@@ -97,6 +110,9 @@ public class Juego extends Activity implements SensorEventListener {
 	}
 
 	// -------------------------- Metodo onPause()
+	/**
+	 * Pausa la ejecucion de lo que ocurra en el mundo.
+	 */
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -104,6 +120,9 @@ public class Juego extends Activity implements SensorEventListener {
 	}
 
 	// -------------------------- Metodo onResume()
+	/**
+	 * Se encarga de resetea el acelerometro una vez que se resume el juego.
+	 */
 	@SuppressWarnings("static-access")
 	@Override
 	protected void onResume() {
@@ -117,6 +136,9 @@ public class Juego extends Activity implements SensorEventListener {
 	}
 
 	// -------------------------- Metodo onStop()
+	/**
+	 * Deja de registrar eventos del acelerometro una vez que se termina el juego.
+	 */
 	@Override
 	protected void onStop() {
 		SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -150,6 +172,9 @@ public class Juego extends Activity implements SensorEventListener {
 
 	// *********************** TOUCH
 	// EVENT*************************************************************************************
+	/**
+	 * Registra cuando un usuario hace un toque en la pantalla y obtiene la posicion del mismo
+	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent evento) {
 		if (evento.getAction() == MotionEvent.ACTION_DOWN) { // Inicia touch
@@ -173,7 +198,14 @@ public class Juego extends Activity implements SensorEventListener {
 	class Renderer implements GLSurfaceView.Renderer {
 		private long tiempo = System.currentTimeMillis();
 
-		// -------------------------- Metodo onDrawFrame()
+		// -------------------------- Metodo onDrawFrame()ç
+		/**
+		 * Crea el mundo e instancias de todos los objetos que serán usados dentro de el, 
+		 * de los mismos, agrega sus object3D al mundo y se encarga de la logica y las 
+		 * condiciones que mandaran a llamar a los metodos de cada uno de esos objetos, 
+		 * tales como mover() o disparar(). Se encarga además de verficar las condiciones de 
+		 * Game Over y terminar el juego en caso de alcanzarlas.
+		 */
 		@Override
 		public void onDrawFrame(GL10 gl) { // ACTUALIZACIONES
 
@@ -337,7 +369,8 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 
 			// *******************************************************************************
-			// Revisa si el proyectil ha salido del mundo o colisionado con
+			// Revisa si el proyectil del jugador ha salido del mundo o
+			// colisionado con
 			// algun enemigo
 			for (int contarObjetos = jugador.arregloDeProyectiles.size() - 1; contarObjetos >= 0; contarObjetos--) {
 				Object3D proyectil = jugador.arregloDeProyectiles
@@ -423,7 +456,6 @@ public class Juego extends Activity implements SensorEventListener {
 					jugador.arregloDeProyectiles.remove(contarObjetos);
 				}
 			}
-
 			// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
 			jugador.mover(offsetHorizontal, offsetVertical);
 			generarImagenScore();
@@ -489,6 +521,9 @@ public class Juego extends Activity implements SensorEventListener {
 	}
 
 	// ********************** ACELEROMETRO
+	/**
+	 * Reproduce musica al iniciar el juego 
+	 */
 	private void reproducirSonido() {
 		try {
 			if (player != null && player.isPlaying()) {
@@ -510,6 +545,9 @@ public class Juego extends Activity implements SensorEventListener {
 		}
 	}
 
+	/**
+	 * Muestra la puntuacion y la vida actuales del jugador.
+	 */
 	public void generarImagenScore() {
 		canvas.drawARGB(255, 0, 0, 0);
 		p.setColor(0xFF00FF00);
@@ -519,6 +557,9 @@ public class Juego extends Activity implements SensorEventListener {
 		bitmap.getPixels(pixeles, 0, 512, 0, 0, 512, 64);
 	}
 
+	/**
+	 * Detecta cambios en el acelerometro durante el tiempo de ejecucion del juego.
+	 */
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		switch (event.sensor.getType()) {

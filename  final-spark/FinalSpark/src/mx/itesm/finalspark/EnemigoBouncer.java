@@ -4,12 +4,27 @@ import java.util.ArrayList;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 
+/**
+ * Clase que inicializa el modelo 3D que se asociara al enemigo que rebota, 
+ * inicializa sus misiles y revisa si el objeto colisiona con alguno de los 
+ * bordes de la pantalla para cambiar de direccion en caso de ser necesario.
+ */
 public class EnemigoBouncer extends Enemigo {
 	private int velocidadX;
 	private int velocidadY;
 
+	/**
+	 * Inicializa el modelo del enemigo a un cono, asigna los valores de dano y
+	 * de vida de acuerdo a parametros recibidos, inicializa los valores de
+	 * velocidad a los que se movera el enemigo e inicializa las banderas que
+	 * permitiran su segura remocian del mundo.
+	 * 
+	 * @param dano Dano que hace el enemigo con cada disparo
+	 * 
+	 * @param vida Dano que puede soportar el enemigo antes de morir
+	 */
 	public EnemigoBouncer(int dano, int vida) {
-		this.dano= dano;
+		this.dano = dano;
 		this.vida = vida;
 		velocidadX = 3;
 		velocidadY = 3;
@@ -26,6 +41,14 @@ public class EnemigoBouncer extends Enemigo {
 		velocidadY = velocidadY * obtenerSigno();
 	}
 
+	/**
+	 * Regresa los valores enteros 1 o -1, que serán usados para determinar la
+	 * dirección del movimiento del enemigo en el mundo.
+	 * 
+	 * @return 1
+	 * 
+	 * @return -1
+	 */
 	public int obtenerSigno() {
 		float aleatorio = (float) (Math.random());
 		if (aleatorio < 0.5) {
@@ -35,30 +58,26 @@ public class EnemigoBouncer extends Enemigo {
 		}
 	}
 
+	/**
+	 * Cambia la direccion hacia la que se mueve el enemigo sobre el eje X.
+	 */
 	public void cambiarVelocidadX() {
 		velocidadX = -velocidadX;
 	}
 
+	/**
+	 * Cambia la direccion hacia la que se mueve el enemigo sobre el eje Y.
+	 */
 	public void cambiarVelocidadY() {
 		velocidadY = -velocidadY;
 	}
 
-	public void setVida(int vida) {
-		this.vida = vida;
-	}
-
-	public int getDano() {
-		return dano;
-	}
-
-	public Object3D getEnemigo() {
-		return enemigo;
-	}
-
-	public int getVida() {
-		return vida;
-	}
-
+	/**
+	 * Basado en los valores de velocidad en los ejes X y Y del enemigo, lo
+	 * mueve dentro del mundo y revisa si colisiona con algun borde de la
+	 * pantalla, de ser asi, cambia la direccion del movimiento, creando la
+	 * ilusion de que rebota en las paredes.
+	 */
 	public void mover(Object3D object) {
 		if (enemigoExiste) {
 			enemigo.rotateX(0.01f);
@@ -122,6 +141,11 @@ public class EnemigoBouncer extends Enemigo {
 		}
 	}
 
+	/**
+	 * Genera un proyectil que sera agregado al mundo para ser disparado por el
+	 * enemigo, solamente si su bandera de existencia es verdadera, en caso
+	 * contrario, hace nada. Los agrega ademas a su arreglo de proyectiles.
+	 */
 	public void disparar() {
 		if (enemigoExiste) {
 			misil = Primitives.getCube((float) .8);
@@ -133,6 +157,11 @@ public class EnemigoBouncer extends Enemigo {
 		}
 	}
 
+	/**
+	 * Regresa el objeto 3D que representa el misil en el mundo.
+	 * 
+	 * @return misil
+	 */
 	public Object3D getMisil() {
 		return misil;
 	}
