@@ -36,12 +36,19 @@ public class EnemigoCazador extends Enemigo {
 		if (enemigoExiste) {
 			Object3D cubo = enemigo;
 			cubo.rotateX(0.01f);
+			if ((object.getTransformedCenter().y)/50 < 1){
+				cubo.translate(
+						(object.getTransformedCenter().x) / 10
+								- (cubo.getTransformedCenter().x) / 10,
+						(object.getTransformedCenter().y) / 10
+								- (cubo.getTransformedCenter().y) / 10, 0);
+			}else{
 			cubo.translate(
 					(object.getTransformedCenter().x) / 50
 							- (cubo.getTransformedCenter().x) / 50,
 					(object.getTransformedCenter().y) / 50
 							- (cubo.getTransformedCenter().y) / 50, 0);
-		}
+		}}
 	}
 
 	/**
