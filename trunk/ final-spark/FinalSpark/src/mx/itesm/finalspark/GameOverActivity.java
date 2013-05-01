@@ -10,23 +10,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Muestra la pantalla de Game Over que muestra la puntuacion del jugador 
- * y tiene un campo de texto para ingresar el nombre del mismo. Guarda la 
+ * Muestra la pantalla de Game Over que muestra la puntuacion del jugador y
+ * tiene un campo de texto para ingresar el nombre del mismo. Guarda la
  * informacion en la base de datos.
  */
 public class GameOverActivity extends Activity {
 	private int puntos;
 	private EditText tfNombre;
 	private TextView score;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game_over);
-			
+
 		puntos = getIntent().getExtras().getInt("Puntaje");
 		score = (TextView) findViewById(R.id.score);
-		score.setText("Score: "+puntos);
+		score.setText("Score: " + puntos);
 	}
 
 	@Override
@@ -35,26 +35,28 @@ public class GameOverActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_game_over, menu);
 		return true;
 	}
-	
+
 	/**
-	 * Toma el nombre ingresado por el usuario en la caja de texto y lo guarda en la base de datos.
+	 * Toma el nombre ingresado por el usuario en la caja de texto y lo guarda
+	 * en la base de datos.
 	 * 
 	 * @param view
 	 */
-	public void mostrarMenu (View view){
+	public void mostrarMenu(View view) {
 		tfNombre = (EditText) findViewById(R.id.tfNombre);
-		if (tfNombre.getText().length()!=0){
-			Intent intent = new Intent(this,MenuActivity.class);
+		if (tfNombre.getText().length() != 0) {
+			Intent intent = new Intent(this, MenuActivity.class);
 			BDAdaptador base = new BDAdaptador(this);
 			base.abrir();
 			base.guardarPuntos(tfNombre.getText().toString(), puntos);
 			base.cerrar();
 			this.startActivity(intent);
 			this.finish();
-			
-		}else {
-			Toast.makeText(this, "Please enter a valid username", Toast.LENGTH_LONG).show();
+
+		} else {
+			Toast.makeText(this, "Please enter a valid username",
+					Toast.LENGTH_LONG).show();
 		}
-		
+
 	}
 }
