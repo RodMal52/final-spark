@@ -32,6 +32,7 @@ public class Jugador {
 	public Jugador(Context contexto) {
 		objNave = Modelo.cargarModeloMTL(contexto, "freedom3000.obj",
 				"freedom3000.mtl", 1);
+		//objNave = Primitives.getCone(7);
 		objNave.rotateY(3.141592f);
 		objNave.rotateX((float) (1.5));
 		objNave.translate(0, 100, 0);

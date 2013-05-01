@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" size="1582,1919" id="mx.itesm.finalspark" metadata="uml2-1.0" initialized="true" tag="10" key="32303037303533312D31302046696E616C537061726B">
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" size="759,1919" id="mx.itesm.finalspark" metadata="uml2-1.0" initialized="true" scrolledY="564" tag="10" key="32303037303533312D31302046696E616C537061726B">
   <children xsi:type="editmodel:ClassEditModel" name="AboutActivity" location="470,1697" size="160,67" id="mx.itesm.finalspark/AboutActivity" runTimeClassModel="onCreateOptionsMenu(Landroid.view.Menu;)">
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <children xsi:type="editmodel:CompartmentEditModel" size="137,18">
@@ -8,7 +8,7 @@
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
   </children>
-  <children xsi:type="editmodel:ClassEditModel" name="BDAdaptador" location="50,1139" size="176,355" id="mx.itesm.finalspark/BDAdaptador" runTimeClassModel="db,dATABASE_VERSION,dATABASE_TABLE,abrir(),obtenerJugadores(),dATABASE_NAME,deletePlayer(J),tAG,guardarPuntos(Ljava.lang.String;I),dATABASE_CREATE,kEY_SCORE,BDAdaptador(Landroid.content.Context;),dBHelper,kEY_NOMBRE,context,cerrar(),kEY_ROWID">
+  <children xsi:type="editmodel:ClassEditModel" name="BDAdaptador" location="50,1139" size="176,355" id="mx.itesm.finalspark/BDAdaptador" runTimeClassModel="db,dATABASE_VERSION,dATABASE_TABLE,abrir(),dATABASE_NAME,obtenerJugadores(),deletePlayer(J),tAG,dATABASE_CREATE,guardarPuntos(Ljava.lang.String;I),kEY_SCORE,BDAdaptador(Landroid.content.Context;),dBHelper,kEY_NOMBRE,context,cerrar(),kEY_ROWID">
     <children xsi:type="editmodel:CompartmentEditModel" size="153,198">
       <children xsi:type="editmodel:AttributeEditModel" name="context" id="mx.itesm.finalspark/BDAdaptador#context"/>
       <children xsi:type="editmodel:AttributeEditModel" name="dATABASE_CREATE" id="mx.itesm.finalspark/BDAdaptador#dATABASE_CREATE"/>
@@ -42,7 +42,7 @@
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
   </children>
-  <children xsi:type="editmodel:ClassEditModel" name="GameOverActivity" location="449,1544" size="160,85" id="mx.itesm.finalspark/GameOverActivity" runTimeClassModel="onCreateOptionsMenu(Landroid.view.Menu;),mostrarMenu(Landroid.view.View;)">
+  <children xsi:type="editmodel:ClassEditModel" name="GameOverActivity" location="449,1544" size="160,85" id="mx.itesm.finalspark/GameOverActivity" runTimeClassModel="mostrarMenu(Landroid.view.View;),onCreateOptionsMenu(Landroid.view.Menu;)">
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <children xsi:type="editmodel:CompartmentEditModel" size="137,36">
       <children xsi:type="editmodel:MethodEditModel" name="mostrarMenu" id="mx.itesm.finalspark/GameOverActivity#mostrarMenu(Landroid.view.View;)"/>
@@ -62,8 +62,8 @@
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
   </children>
-  <children xsi:type="editmodel:ClassEditModel" name="Juego" location="348,770" size="242,272" id="mx.itesm.finalspark/Juego" runTimeClassModel="mx.itesm.finalspark.Juego.Renderer,onTouchEvent(Landroid.view.MotionEvent;),onSensorChanged(Landroid.hardware.SensorEvent;),onAccuracyChanged(Landroid.hardware.Sensor;I),arregloDeEnemigos,generarImagenScore(),mostrarGameOver(Landroid.view.View;)">
-    <children xsi:type="editmodel:CompartmentEditModel" size="219,18">
+  <children xsi:type="editmodel:ClassEditModel" name="Juego" location="348,770" size="237,272" id="mx.itesm.finalspark/Juego" runTimeClassModel="mx.itesm.finalspark.Juego.Renderer,onTouchEvent(Landroid.view.MotionEvent;),onSensorChanged(Landroid.hardware.SensorEvent;),onAccuracyChanged(Landroid.hardware.Sensor;I),arregloDeEnemigos,generarImagenScore(),mostrarGameOver(Landroid.view.View;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="214,18">
       <children xsi:type="editmodel:AttributeEditModel" name="arregloDeEnemigos" id="mx.itesm.finalspark/Juego#arregloDeEnemigos"/>
     </children>
     <children xsi:type="editmodel:CompartmentEditModel" size="133,90">
@@ -87,7 +87,7 @@
     </children>
     <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
   </children>
-  <children xsi:type="editmodel:ClassEditModel" name="Jugador" location="50,770" size="248,319" id="mx.itesm.finalspark/Jugador" runTimeClassModel="vida,getVida(),Jugador(Landroid.content.Context;),setVida(I),mover(FF),arregloDeProyectiles,dano,getObjNave(),misilDer,disparar(),misilIzq,setDano(I),getDano(),misil,objNave">
+  <children xsi:type="editmodel:ClassEditModel" name="Jugador" location="50,770" size="248,319" id="mx.itesm.finalspark/Jugador" runTimeClassModel="vida,Jugador(Landroid.content.Context;),getVida(),setVida(I),mover(FF),arregloDeProyectiles,dano,getObjNave(),misilDer,disparar(),misilIzq,setDano(I),getDano(),misil,objNave">
     <children xsi:type="editmodel:CompartmentEditModel" size="225,126">
       <children xsi:type="editmodel:AttributeEditModel" name="arregloDeProyectiles" id="mx.itesm.finalspark/Jugador#arregloDeProyectiles"/>
       <children xsi:type="editmodel:AttributeEditModel" name="dano" id="mx.itesm.finalspark/Jugador#dano"/>
@@ -140,7 +140,7 @@
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
   </children>
-  <children xsi:type="editmodel:ClassEditModel" name="SplashActivity" location="50,1697" size="160,85" id="mx.itesm.finalspark/SplashActivity" runTimeClassModel="mostrarMenu(Landroid.view.View;),onCreateOptionsMenu(Landroid.view.Menu;)">
+  <children xsi:type="editmodel:ClassEditModel" name="SplashActivity" location="50,1697" size="160,85" id="mx.itesm.finalspark/SplashActivity" runTimeClassModel="onCreateOptionsMenu(Landroid.view.Menu;),mostrarMenu(Landroid.view.View;)">
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <children xsi:type="editmodel:CompartmentEditModel" size="137,36">
       <children xsi:type="editmodel:MethodEditModel" name="mostrarMenu" id="mx.itesm.finalspark/SplashActivity#mostrarMenu(Landroid.view.View;)"/>
@@ -149,7 +149,7 @@
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
   </children>
-  <children xsi:type="editmodel:ClassEditModel" name="StatsDrop" location="276,1139" size="152,193" id="mx.itesm.finalspark/StatsDrop" runTimeClassModel="danoAdicional,vidaAdicional,statBox,getVidaAdicional(),statBoxExiste,incrementarStats(Lmx.itesm.finalspark.Jugador;),StatsDrop(IILcom.threed.jpct.SimpleVector;),getDanoAdicional()">
+  <children xsi:type="editmodel:ClassEditModel" name="StatsDrop" location="276,1139" size="152,193" id="mx.itesm.finalspark/StatsDrop" runTimeClassModel="danoAdicional,vidaAdicional,statBox,getVidaAdicional(),statBoxExiste,StatsDrop(IILcom.threed.jpct.SimpleVector;),getDanoAdicional(),incrementarStats(Lmx.itesm.finalspark.Jugador;)">
     <children xsi:type="editmodel:CompartmentEditModel" size="129,72">
       <children xsi:type="editmodel:AttributeEditModel" name="danoAdicional" id="mx.itesm.finalspark/StatsDrop#danoAdicional"/>
       <children xsi:type="editmodel:AttributeEditModel" name="statBox" id="mx.itesm.finalspark/StatsDrop#statBox"/>
@@ -165,7 +165,7 @@
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
   </children>
-  <children xsi:type="editmodel:ClassEditModel" name="EnemigoBouncer" location="50,473" size="151,175" id="mx.itesm.finalspark/EnemigoBouncer" runTimeClassModel="getMisil(),cambiarVelocidadY(),EnemigoBouncer(II),mover(Lcom.threed.jpct.Object3D;),cambiarVelocidadX(),disparar(),obtenerSigno()">
+  <children xsi:type="editmodel:ClassEditModel" name="EnemigoBouncer" location="50,473" size="151,175" id="mx.itesm.finalspark/EnemigoBouncer" runTimeClassModel="getMisil(),cambiarVelocidadY(),EnemigoBouncer(II),cambiarVelocidadX(),mover(Lcom.threed.jpct.Object3D;),disparar(),obtenerSigno()">
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <children xsi:type="editmodel:CompartmentEditModel" size="123,126">
       <children xsi:type="editmodel:MethodEditModel" name="EnemigoBouncer" id="mx.itesm.finalspark/EnemigoBouncer#EnemigoBouncer(II)"/>
@@ -198,7 +198,7 @@
     </sourceConnections>
     <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
   </children>
-  <children xsi:type="editmodel:ClassEditModel" name="Jefe" location="231,473" size="146,247" id="mx.itesm.finalspark/Jefe" runTimeClassModel="getMisil(),Jefe(IILandroid.content.Context;),getVida(),getDano(),setVida(I),cambiarVelocidadY(),cambiarVelocidadX(),mover(Lcom.threed.jpct.Object3D;),disparar(),obtenerSigno(),getEnemigo()">
+  <children xsi:type="editmodel:ClassEditModel" name="Jefe" location="231,473" size="146,247" id="mx.itesm.finalspark/Jefe" runTimeClassModel="getMisil(),Jefe(IILandroid.content.Context;),getDano(),getVida(),cambiarVelocidadY(),setVida(I),mover(Lcom.threed.jpct.Object3D;),cambiarVelocidadX(),disparar(),obtenerSigno(),getEnemigo()">
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <children xsi:type="editmodel:CompartmentEditModel" size="123,198">
       <children xsi:type="editmodel:MethodEditModel" name="Jefe" id="mx.itesm.finalspark/Jefe#Jefe(IILandroid.content.Context;)"/>

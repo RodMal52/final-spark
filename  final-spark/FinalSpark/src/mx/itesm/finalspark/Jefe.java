@@ -3,13 +3,17 @@ package mx.itesm.finalspark;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
+import com.threed.jpct.Texture;
+import com.threed.jpct.TextureManager;
+import com.threed.jpct.util.BitmapHelper;
 
 /**
- * Clase que inicializa el modelo 3D que se asociara a un jefe, inicializa 
- * sus misiles y revisa si el objeto colisiona con alguno de los limites  
+ * Clase que inicializa el modelo 3D que se asociara a un jefe, inicializa sus
+ * misiles y revisa si el objeto colisiona con alguno de los limites
  * establecidos para el mismo para cambiar de direccion en caso de ser necesario
  */
 public class Jefe extends Enemigo {
@@ -18,24 +22,35 @@ public class Jefe extends Enemigo {
 	private float velocidadY;
 
 	/**
-	 * Carga el modelo del jefe, asigna los valores de dano y
-	 * de vida de acuerdo a parametros recibidos, inicializa los valores de
-	 * velocidad a los que se movera el enemigo e inicializa las banderas que
-	 * permitiran su segura remocian del mundo.
+	 * Carga el modelo del jefe, asigna los valores de dano y de vida de acuerdo
+	 * a parametros recibidos, inicializa los valores de velocidad a los que se
+	 * movera el enemigo e inicializa las banderas que permitiran su segura
+	 * remocian del mundo.
 	 * 
-	 * @param dano Dano que hace el jefe con cada disparo
+	 * @param dano
+	 *            Dano que hace el jefe con cada disparo
 	 * 
-	 * @param vida Dano que puede soportar el jefe antes de morir
+	 * @param vida
+	 *            Dano que puede soportar el jefe antes de morir
 	 */
-	public Jefe(int dano, int vida, Context contexto) {
+	public Jefe(int dano, int vida, Context contexto, Resources resource) {
 		this.dano = dano;
 		this.vida = vida;
 		velocidadX = (float) 1.5;
 		velocidadY = (float) 1.5;
 		arregloDeProyectiles = new ArrayList<Object3D>();
-		enemigo = Modelo.cargarModelo(contexto, "mantis.obj", null);
+		if (!TextureManager.getInstance().containsTexture("uvtexture512.png")) {
+			Texture textura = new Texture(BitmapHelper.rescale(BitmapHelper
+					.convert(resource.getDrawable(R.drawable.uvtexture512)),
+					512, 512));
+			TextureManager.getInstance()
+					.addTexture("uvtexture512.png", textura);
+		}
+		enemigo = Modelo.cargarModeloMTL(contexto, "mantis.obj", "mantis.mtl",
+				1);
+
 		enemigo.rotateX(3.141592f / 2);
-		enemigo.scale(0.25f);
+
 		enemigo.translate(0, -90, 0);
 		enemigoExiste = true;
 		enemigoRemovido = false;
@@ -85,10 +100,10 @@ public class Jefe extends Enemigo {
 	}
 
 	/**
-	 * Basado en los valores de velocidad en los ejes X y Y del jefe, lo
-	 * mueve dentro del mundo y revisa si colisiona con alguno de los limites 
-	 * establecidos para el mismo, de ser asi, cambia la direccion del movimiento, 
-	 * creando la ilusion de que rebota en esos limites
+	 * Basado en los valores de velocidad en los ejes X y Y del jefe, lo mueve
+	 * dentro del mundo y revisa si colisiona con alguno de los limites
+	 * establecidos para el mismo, de ser asi, cambia la direccion del
+	 * movimiento, creando la ilusion de que rebota en esos limites
 	 */
 	public void mover(Object3D object) {
 		if (enemigoExiste) {
@@ -151,9 +166,9 @@ public class Jefe extends Enemigo {
 	}
 
 	/**
-	 * Genera cinco proyectiles que seran agregados al mundo para ser disparados por el
-	 * jefe, solamente si su bandera de existencia es verdadera, en caso contrario, 
-	 * hace nada. Los agrega ademas a su arreglo de proyectiles
+	 * Genera cinco proyectiles que seran agregados al mundo para ser disparados
+	 * por el jefe, solamente si su bandera de existencia es verdadera, en caso
+	 * contrario, hace nada. Los agrega ademas a su arreglo de proyectiles
 	 */
 	public void disparar() {
 		if (enemigoExiste) {

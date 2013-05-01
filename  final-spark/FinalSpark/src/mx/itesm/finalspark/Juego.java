@@ -249,7 +249,7 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 
 			if (puntaje == 300) {
-				enemigo = new Jefe(10, 200, getBaseContext());
+				enemigo = new Jefe(10, 200, getBaseContext(), getResources());
 				mundo.addObject(enemigo.getEnemigo());
 				arregloDeEnemigos.add(enemigo);
 				hayJefe = true;
