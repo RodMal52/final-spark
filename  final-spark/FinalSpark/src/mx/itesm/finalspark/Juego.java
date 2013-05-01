@@ -75,6 +75,7 @@ public class Juego extends Activity implements SensorEventListener {
 	private ProgressDialog dialogoEspera; // dialogo de espera
 	private int disparosEnemigo = 0;
 	private int jefesDestruidos = 0;
+	private int cadenciaDeDisparo =20;
 
 	/**
 	 * Crea una view con la pantalla de Game Over y la muestra al jugador.
@@ -224,7 +225,7 @@ public class Juego extends Activity implements SensorEventListener {
 			if (noMasEnemigos) {
 				if (jefesDestruidos <= 3) {
 					for (int i = 0; i < 3 + (jefesDestruidos + 1); i++) {
-						enemigo = new EnemigoCazador(5 + (jefesDestruidos * 2),
+						enemigo = new EnemigoCazador(1 + (jefesDestruidos * 3),
 								15 + (jefesDestruidos * 3));
 						mundo.addObject(enemigo.getEnemigo());
 						arregloDeEnemigos.add(enemigo);
@@ -232,7 +233,7 @@ public class Juego extends Activity implements SensorEventListener {
 					contadorEnemigos = 3 + (jefesDestruidos + 1);
 				} else if (jefesDestruidos > 3) {
 					for (int i = 0; i < jefesDestruidos - 1; i++) {
-						enemigo = new EnemigoCazador(5 + (jefesDestruidos * 2),
+						enemigo = new EnemigoCazador(1 + (jefesDestruidos *3),
 								15 + (jefesDestruidos * 3));
 						mundo.addObject(enemigo.getEnemigo());
 						arregloDeEnemigos.add(enemigo);
@@ -262,8 +263,8 @@ public class Juego extends Activity implements SensorEventListener {
 			}
 
 			disparosEnemigo++;
-
-			if (disparosEnemigo > 6) {
+			
+			if (disparosEnemigo > cadenciaDeDisparo) {
 				disparosEnemigo = 0;
 			}
 			if (disparosEnemigo == 0) {
@@ -435,6 +436,9 @@ public class Juego extends Activity implements SensorEventListener {
 								puntaje = 0;
 								puntajeFinal = puntajeFinal + 100;
 								jefesDestruidos++;
+								if (cadenciaDeDisparo >7){
+									cadenciaDeDisparo= cadenciaDeDisparo-2;
+								}
 							} else {
 								contadorEnemigos--;
 							}
