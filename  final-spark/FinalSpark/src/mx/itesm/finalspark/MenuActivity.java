@@ -54,5 +54,6 @@ public class MenuActivity extends Activity {
 	public void mostrarControls (View view){
 		Intent intent = new Intent(this,ControlsActivity.class);
 		this.startActivity(intent);
+		
 	}
 }
