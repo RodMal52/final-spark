@@ -51,6 +51,8 @@ int drawable space7 0x7f020020
 int drawable space8 0x7f020021
 int drawable spacebkgd 0x7f020022
 int drawable splash 0x7f020023
+int drawable uvtexture 0x7f020024
+int drawable uvtexture512 0x7f020025
 int id FrameLayout1 0x7f04001f
 int id RelativeLayout1 0x7f040018
 int id alignBounds 0x7f040002
