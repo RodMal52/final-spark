@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 /**
  * Muestra la pantalla con las puntuaciones mas altas de todas las que se encuentran 

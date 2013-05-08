@@ -47,7 +47,7 @@ public class Jefe extends Enemigo {
 					.addTexture("uvtexture512.png", textura);
 		}
 		enemigo = Modelo.cargarModeloMTL(contexto, "mantis.obj", "mantis.mtl",
-				1);
+				3);
 
 		enemigo.rotateX(3.141592f / 2);
 
@@ -187,7 +187,7 @@ public class Jefe extends Enemigo {
 			misil2 = Primitives.getCube((float) 1.0);
 			misil2.strip();
 			misil2.build();
-			misil2.setOrigin(enemigo.getTransformedCenter());
+			misil2.setOrigin(enemigo.getTransformedCenter());    
 			misil2.translate(-15, 6, 0);
 
 			misil3 = Primitives.getCube((float) 1.0);

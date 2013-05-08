@@ -12,6 +12,10 @@ import android.view.View;
 public class MenuActivity extends Activity {
 
 	@Override
+	public void onBackPressed() {
+	}
+	
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
