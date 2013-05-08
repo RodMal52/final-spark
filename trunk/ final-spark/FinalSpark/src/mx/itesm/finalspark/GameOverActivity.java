@@ -18,6 +18,10 @@ public class GameOverActivity extends Activity {
 	private int puntos;
 	private EditText tfNombre;
 	private TextView score;
+	
+	@Override
+	public void onBackPressed() {
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

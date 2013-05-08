@@ -19,7 +19,7 @@ public class BDAdaptador {
 	static final String TAG = "DBAdapter";
 	static final String DATABASE_NAME = "Score";
 	static final String DATABASE_TABLE = "jugadores";
-	static final int DATABASE_VERSION = 3;
+	static final int DATABASE_VERSION = 5;
 	// Contiene la declaraciÃ³n para crear la base de datos.
 	static final String DATABASE_CREATE = "create table jugadores (_id integer primary key autoincrement, "
 			+ "nombre text not null, score int not null);";

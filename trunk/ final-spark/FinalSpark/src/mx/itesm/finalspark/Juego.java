@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -16,7 +17,6 @@ import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.os.Bundle;
@@ -28,6 +28,7 @@ import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.RGBColor;
+import com.threed.jpct.SimpleVector;
 import com.threed.jpct.Texture;
 import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
@@ -42,6 +43,7 @@ import com.threed.jpct.util.MemoryHelper;
  */
 public class Juego extends Activity implements SensorEventListener {
 	private static Juego main;
+	private boolean juegoEstaPausado;
 	private GLSurfaceView mGLView; // Contenedor para dibujar
 	private Renderer renderer; // El objeto que hace los trazos
 	private FrameBuffer buffer; // Buffer para trazar
@@ -51,6 +53,8 @@ public class Juego extends Activity implements SensorEventListener {
 	private Object3D background;
 	private boolean agregarObjeto; // Valor booleano para comprobar si se
 									// agregan misiles
+	private SimpleVector vectorOrigen;
+	private StatsDrop stats;
 	public ArrayList<Enemigo> arregloDeEnemigos; // Arreglo de enemigos
 	private MediaPlayer player;
 	private Jugador jugador;
@@ -73,11 +77,14 @@ public class Juego extends Activity implements SensorEventListener {
 	private Canvas canvas;
 	private Paint p;
 	private int[] pixeles; // sustituye la textura
-	private ProgressDialog dialogoEspera; // dialogo de espera
+	// private ProgressDialog dialogoEspera; // dialogo de espera
 	private int disparosEnemigo = 0;
 	private int jefesDestruidos = 0;
 	private int cadenciaDeDisparo = 20;
 	private boolean sensorPrimera = false;
+	private Object3D dropNuevo;
+
+	// private boolean mostrarDialog =true;
 
 	/**
 	 * Crea una view con la pantalla de Game Over y la muestra al jugador.
@@ -106,10 +113,16 @@ public class Juego extends Activity implements SensorEventListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		if (main != null) { // Si ya existe el juego, copiar sus campos
 			copiar(main);
-		} else {
-			dialogoEspera = ProgressDialog.show(this, "Final Spark",
-					"Loading...");
-		}
+		} /*
+		 * else if (mostrarDialog){
+		 * 
+		 * dialogoEspera = ProgressDialog.show(this, "Final Spark",
+		 * "Loading..."); mostrarDialog = false;
+		 * 
+		 * }
+		 */
+
+		juegoEstaPausado = false;
 		super.onCreate(savedInstanceState);
 		mGLView = new GLSurfaceView(getApplicationContext());
 		bitmap = Bitmap.createBitmap(512, 64, Bitmap.Config.ARGB_8888);
@@ -191,6 +204,15 @@ public class Juego extends Activity implements SensorEventListener {
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent evento) {
+		if (evento.getX() >= 50 && evento.getX() <= 50 + 128
+				&& evento.getY() >= 50 && evento.getY() <= 50 + 128) {
+			if (juegoEstaPausado) {
+				juegoEstaPausado = false;
+			} else {
+				juegoEstaPausado = true;
+			}
+
+		}
 		if (evento.getAction() == MotionEvent.ACTION_DOWN) { // Inicia touch
 			xPos = evento.getX();
 			yPos = evento.getY();
@@ -205,6 +227,7 @@ public class Juego extends Activity implements SensorEventListener {
 		if (evento.getAction() == MotionEvent.ACTION_MOVE) { // Drag
 			return true;
 		}
+
 		return super.onTouchEvent(evento);
 	}
 
@@ -224,285 +247,333 @@ public class Juego extends Activity implements SensorEventListener {
 		@Override
 		public void onDrawFrame(GL10 gl) { // ACTUALIZACIONES
 
-			// *********************** MISILES
-			disparos++;
-			if (disparos > 3) {
-				disparos = 0;
-			}
-			if (agregarObjeto && (disparos == 0)) {
-				jugador.disparar();
-				mundo.addObject(jugador.misil);
-				mundo.addObject(jugador.misilIzq);
-				mundo.addObject(jugador.misilDer);
-			}
-			// *********************** GENERACION ALEATORIA DE ENEMIGOS
-			if (noMasEnemigos) {
-				/*
-				 * if (jefesDestruidos <= 3) { for (int i = 0; i < 3 +
-				 * (jefesDestruidos + 1); i++) { enemigo = new EnemigoCazador(1
-				 * + (jefesDestruidos * 2), 15 + (jefesDestruidos * 3));
-				 * mundo.addObject(enemigo.getEnemigo());
-				 * arregloDeEnemigos.add(enemigo); } contadorEnemigos = 3 +
-				 * (jefesDestruidos + 1); } else if (jefesDestruidos > 3) { for
-				 * (int i = 0; i < jefesDestruidos - 1; i++) { enemigo = new
-				 * EnemigoCazador(1 + (jefesDestruidos * 2), 15 +
-				 * (jefesDestruidos * 3));
-				 * mundo.addObject(enemigo.getEnemigo());
-				 * arregloDeEnemigos.add(enemigo); } for (int j = 0; j <
-				 * jefesDestruidos - 2; j++) { enemigo = new EnemigoBouncer(3 +
-				 * (jefesDestruidos * 1), 10 + (jefesDestruidos * 3));
-				 * mundo.addObject(enemigo.getEnemigo());
-				 * arregloDeEnemigos.add(enemigo); } contadorEnemigos =
-				 * (jefesDestruidos * 2) - 3; }
-				 */
-				for (int i = 0; i < 3 + (jefesDestruidos + 1); i++) {
-					if (obtenerEnemigo() == 1) {
-						Log.d("enemigo cazador", ("agrego cazador"));
-						enemigo = new EnemigoCazador(1 + (jefesDestruidos * 2),
-								15 + (jefesDestruidos * 3));
-						contadorEnemigos++;
-						mundo.addObject(enemigo.getEnemigo());
-						arregloDeEnemigos.add(enemigo);					
-						Log.d("contador", ("enemigos = " + contadorEnemigos));
-					} else if (obtenerEnemigo() == 2) {
-						Log.d("enemigo bouncer", ("agrego bouncer"));
-						enemigo = new EnemigoBouncer(1 + (jefesDestruidos),
-								10 + (jefesDestruidos * 3));
-						contadorEnemigos++;
-						mundo.addObject(enemigo.getEnemigo());
-						arregloDeEnemigos.add(enemigo);					
-						Log.d("contador", ("enemigos = " + contadorEnemigos));
+			if (juegoEstaPausado) {
+
+			} else {
+				// *********************** MISILES
+				disparos++;
+				if (disparos > 3) {
+					disparos = 0;
+				}
+				if (agregarObjeto && (disparos == 0)) {
+					jugador.disparar();
+					mundo.addObject(jugador.misil);
+					mundo.addObject(jugador.misilIzq);
+					mundo.addObject(jugador.misilDer);
+				}
+				// *********************** GENERACION ALEATORIA DE ENEMIGOS
+				if (noMasEnemigos) {
+
+					for (int i = 0; i < 3 + (jefesDestruidos + 1); i++) {
+						if (obtenerEnemigo() == 1) {
+							Log.d("enemigo cazador", ("agrego cazador"));
+							enemigo = new EnemigoCazador(
+									1 + (jefesDestruidos * 2),
+									15 + (jefesDestruidos * 3));
+							contadorEnemigos++;
+							mundo.addObject(enemigo.getEnemigo());
+							arregloDeEnemigos.add(enemigo);
+							Log.d("contador",
+									("enemigos = " + contadorEnemigos));
+						} else if (obtenerEnemigo() == 2) {
+							Log.d("enemigo bouncer", ("agrego bouncer"));
+							enemigo = new EnemigoBouncer(1 + (jefesDestruidos),
+									10 + (jefesDestruidos * 3));
+							contadorEnemigos++;
+							mundo.addObject(enemigo.getEnemigo());
+							arregloDeEnemigos.add(enemigo);
+							Log.d("contador",
+									("enemigos = " + contadorEnemigos));
+						}
+					}
+					noMasEnemigos = false;
+				}
+
+				if (puntaje == 300) {
+					enemigo = new Jefe(10 + (3 * jefesDestruidos),
+							700 + (250 * jefesDestruidos), getBaseContext(),
+							getResources());
+					mundo.addObject(enemigo.getEnemigo());
+					arregloDeEnemigos.add(enemigo);
+					hayJefe = true;
+					puntaje = 0;
+				}
+
+				// Revisa si los enemigos han muerto
+				if (contadorEnemigos == 0) {
+					noMasEnemigos = true;
+				}
+
+				disparosEnemigo++;
+
+				if (disparosEnemigo > cadenciaDeDisparo) {
+					disparosEnemigo = 0;
+				}
+				if (disparosEnemigo == 0) {
+					for (int i = 0; i < arregloDeEnemigos.size(); i++) {
+						arregloDeEnemigos.get(i).disparar();
+						if (arregloDeEnemigos.get(i).enemigoExiste) {
+							if (arregloDeEnemigos.get(i) instanceof Jefe) {
+								mundo.addObject(arregloDeEnemigos.get(i).misil);
+								mundo.addObject(arregloDeEnemigos.get(i).misil1);
+								mundo.addObject(arregloDeEnemigos.get(i).misil2);
+								mundo.addObject(arregloDeEnemigos.get(i).misil3);
+							} else {
+								mundo.addObject(arregloDeEnemigos.get(i).misil);
+							}
+						}
 					}
 				}
-				noMasEnemigos = false;
-			}
-
-			if (puntaje == 300) {
-				enemigo = new Jefe(10, 200, getBaseContext(), getResources());
-				mundo.addObject(enemigo.getEnemigo());
-				arregloDeEnemigos.add(enemigo);
-				hayJefe = true;
-				puntaje = 0;
-			}
-
-			// Revisa si los enemigos han muerto
-			if (contadorEnemigos == 0) {
-				noMasEnemigos = true;
-			}
-
-			disparosEnemigo++;
-
-			if (disparosEnemigo > cadenciaDeDisparo) {
-				disparosEnemigo = 0;
-			}
-			if (disparosEnemigo == 0) {
 				for (int i = 0; i < arregloDeEnemigos.size(); i++) {
-					arregloDeEnemigos.get(i).disparar();
+					arregloDeEnemigos.get(i).mover(jugador.getObjNave());
 					if (arregloDeEnemigos.get(i).enemigoExiste) {
 						if (arregloDeEnemigos.get(i) instanceof Jefe) {
-							mundo.addObject(arregloDeEnemigos.get(i).misil);
-							mundo.addObject(arregloDeEnemigos.get(i).misil1);
-							mundo.addObject(arregloDeEnemigos.get(i).misil2);
-							mundo.addObject(arregloDeEnemigos.get(i).misil3);
+							Object3D objJefe = arregloDeEnemigos.get(i)
+									.getEnemigo();
+							if ((jugador.getObjNave().getTransformedCenter().x) < (objJefe
+									.getTransformedCenter().x + 50)
+									&& (jugador.getObjNave()
+											.getTransformedCenter().x) > (objJefe
+											.getTransformedCenter().x - 50)
+									&& (jugador.getObjNave()
+											.getTransformedCenter().y) > (objJefe
+											.getTransformedCenter().y - 42)
+									&& (jugador.getObjNave()
+											.getTransformedCenter().y) < (objJefe
+											.getTransformedCenter().y + 60)) {
+								View view = null;
+								mostrarGameOver(view);
+								limpiarMemoria();
+								main = null;
+							}
 						} else {
-							mundo.addObject(arregloDeEnemigos.get(i).misil);
-						}
-					}
-				}
-			}
-			for (int i = 0; i < arregloDeEnemigos.size(); i++) {
-				arregloDeEnemigos.get(i).mover(jugador.getObjNave());
-				if (arregloDeEnemigos.get(i).enemigoExiste) {
-					if (arregloDeEnemigos.get(i) instanceof Jefe) {
-						Object3D objJefe = arregloDeEnemigos.get(i)
-								.getEnemigo();
-						if ((jugador.getObjNave().getTransformedCenter().x) < (objJefe
-								.getTransformedCenter().x + 50)
-								&& (jugador.getObjNave().getTransformedCenter().x) > (objJefe
-										.getTransformedCenter().x - 50)
-								&& (jugador.getObjNave().getTransformedCenter().y) > (objJefe
-										.getTransformedCenter().y - 42)
-								&& (jugador.getObjNave().getTransformedCenter().y) < (objJefe
-										.getTransformedCenter().y + 60)) {
-							View view = null;
-							mostrarGameOver(view);
-							main = null;
-						}
-					} else {
-						Object3D cubo = arregloDeEnemigos.get(i).getEnemigo();
-						if ((jugador.getObjNave().getTransformedCenter().x) < (cubo
-								.getTransformedCenter().x + 10)
-								&& (jugador.getObjNave().getTransformedCenter().x) > (cubo
-										.getTransformedCenter().x - 10)
-								&& (jugador.getObjNave().getTransformedCenter().y) < (cubo
-										.getTransformedCenter().y + 10)
-								&& (jugador.getObjNave().getTransformedCenter().y) > (cubo
-										.getTransformedCenter().y - 10)) {
-							View view = null;
-							mostrarGameOver(view);
-							main = null;
-						}
-					}
-				}
-			}
+							Object3D cubo = arregloDeEnemigos.get(i)
+									.getEnemigo();
+							if ((jugador.getObjNave().getTransformedCenter().x) < (cubo
+									.getTransformedCenter().x + 10)
+									&& (jugador.getObjNave()
+											.getTransformedCenter().x) > (cubo
+											.getTransformedCenter().x - 10)
+									&& (jugador.getObjNave()
+											.getTransformedCenter().y) < (cubo
+											.getTransformedCenter().y + 10)
+									&& (jugador.getObjNave()
+											.getTransformedCenter().y) > (cubo
+											.getTransformedCenter().y - 10)) {
+								View view = null;
+								mostrarGameOver(view);
+								limpiarMemoria();
+								main = null;
 
-			// ******************************************************************************
-			for (Enemigo enemigoActual : arregloDeEnemigos) {
-				for (int contarMisiles = enemigoActual.arregloDeProyectiles
-						.size() - 1; contarMisiles >= 0; contarMisiles--) {
-					Object3D proyectil = enemigoActual.arregloDeProyectiles
-							.get(contarMisiles);
-					proyectil.rotateZ(0.1f);
-					// if (enemigoActual instanceof EnemigoCazador) {
-					if (enemigoActual instanceof Jefe) {
-						proyectil.translate(0, 2.0f, 0);
-					} else {
-						proyectil.translate(0, 5.0f, 0);
+							}
+						}
 					}
-					/*
-					 * }else if (enemigoActual instanceof EnemigoBouncer) {
-					 * proyectil.translate(
-					 * (jugador.getObjNave().getTransformedCenter().x) / 25 -
-					 * (proyectil.getTransformedCenter().x) / 25,
-					 * (jugador.getObjNave() .getTransformedCenter().y) / 25 -
-					 * (proyectil.getTransformedCenter().y) / 25, 0); }
-					 */
-					if (proyectil.getTransformedCenter().x < jugador
-							.getObjNave().getTransformedCenter().x + 5
-							&& proyectil.getTransformedCenter().x > (jugador
-									.getObjNave().getTransformedCenter().x - 5)
-							&& proyectil.getTransformedCenter().y > (jugador
-									.getObjNave().getTransformedCenter().y - 5)
-							&& proyectil.getTransformedCenter().y < (jugador
-									.getObjNave().getTransformedCenter().y + 5)) {
-						enemigoActual.arregloDeProyectiles
-								.remove(contarMisiles);
-						mundo.removeObject(proyectil);
+				}
+
+				if (jefesDestruidos > 0) {
+					if (stats.statBoxExiste
+							&& dropNuevo.getTransformedCenter().x < (jugador
+									.getObjNave().getTransformedCenter().x + 10)
+							&& dropNuevo.getTransformedCenter().x > (jugador
+									.getObjNave().getTransformedCenter().x - 10)
+							&& dropNuevo.getTransformedCenter().y > (jugador
+									.getObjNave().getTransformedCenter().y - 10)
+							&& dropNuevo.getTransformedCenter().y < (jugador
+									.getObjNave().getTransformedCenter().y + 10)) {
 						jugador.setVida(jugador.getVida()
-								- enemigoActual.getDano());
-						if (jugador.getVida() <= 0) {
-							View view = null;
-							mostrarGameOver(view);
-							main = null;
+								+ stats.getVidaAdicional());
+						jugador.setDano(jugador.getDano()
+								+ stats.getDanoAdicional());
+						mundo.removeObject(dropNuevo);
+						stats.statBoxExiste = false;
+					}
+				}
+
+				// ******************************************************************************
+				for (Enemigo enemigoActual : arregloDeEnemigos) {
+					for (int contarMisiles = enemigoActual.arregloDeProyectiles
+							.size() - 1; contarMisiles >= 0; contarMisiles--) {
+						Object3D proyectil = enemigoActual.arregloDeProyectiles
+								.get(contarMisiles);
+						proyectil.rotateZ(0.1f);
+						// if (enemigoActual instanceof EnemigoCazador) {
+						if (enemigoActual instanceof Jefe) {
+							proyectil.translate(0, 2.0f, 0);
+						} else {
+							proyectil.translate(0, 5.0f, 0);
+						}
+						/*
+						 * }else if (enemigoActual instanceof EnemigoBouncer) {
+						 * proyectil.translate(
+						 * (jugador.getObjNave().getTransformedCenter().x) / 25
+						 * - (proyectil.getTransformedCenter().x) / 25,
+						 * (jugador.getObjNave() .getTransformedCenter().y) / 25
+						 * - (proyectil.getTransformedCenter().y) / 25, 0); }
+						 */
+						if (proyectil.getTransformedCenter().x < jugador
+								.getObjNave().getTransformedCenter().x + 5
+								&& proyectil.getTransformedCenter().x > (jugador
+										.getObjNave().getTransformedCenter().x - 5)
+								&& proyectil.getTransformedCenter().y > (jugador
+										.getObjNave().getTransformedCenter().y - 5)
+								&& proyectil.getTransformedCenter().y < (jugador
+										.getObjNave().getTransformedCenter().y + 5)) {
+							enemigoActual.arregloDeProyectiles
+									.remove(contarMisiles);
+							mundo.removeObject(proyectil);
+							jugador.setVida(jugador.getVida()
+									- enemigoActual.getDano());
+							if (jugador.getVida() <= 0) {
+								View view = null;
+								mostrarGameOver(view);
+								limpiarMemoria();
+								main = null;
+							}
+
+							proyectil = null;
 						}
 
-						proyectil = null;
+						if (proyectil == null) {
+							continue;
+						}
+						if (proyectil.getTransformedCenter().y > 205) {
+							mundo.removeObject(proyectil);
+							enemigoActual.arregloDeProyectiles
+									.remove(contarMisiles);
+						}
 					}
+				}
 
+				// *******************************************************************************
+				// Revisa si el proyectil del jugador ha salido del mundo o
+				// colisionado con
+				// algun enemigo
+				for (int contarObjetos = jugador.arregloDeProyectiles.size() - 1; contarObjetos >= 0; contarObjetos--) {
+					Object3D proyectil = jugador.arregloDeProyectiles
+							.get(contarObjetos);
+					proyectil.rotateZ(0.1f);
+					proyectil.translate(0, -5.0f, 0);
+					for (int contarEnemigos = arregloDeEnemigos.size() - 1; contarEnemigos >= 0; contarEnemigos--) {
+						if (arregloDeEnemigos.get(contarEnemigos).enemigoExiste) {
+							if (arregloDeEnemigos.get(contarEnemigos) instanceof Jefe) {
+								if (proyectil.getTransformedCenter().x < (arregloDeEnemigos
+										.get(contarEnemigos).getEnemigo()
+										.getTransformedCenter().x + 50)
+										&& proyectil.getTransformedCenter().x > (arregloDeEnemigos
+												.get(contarEnemigos)
+												.getEnemigo()
+												.getTransformedCenter().x - 50)
+										&& proyectil.getTransformedCenter().y > (arregloDeEnemigos
+												.get(contarEnemigos)
+												.getEnemigo()
+												.getTransformedCenter().y - 42)
+										&& proyectil.getTransformedCenter().y < (arregloDeEnemigos
+												.get(contarEnemigos)
+												.getEnemigo()
+												.getTransformedCenter().y + 60)) {
+									jugador.arregloDeProyectiles
+											.remove(contarObjetos);
+									mundo.removeObject(proyectil);
+									arregloDeEnemigos.get(contarEnemigos)
+											.danar(jugador.getDano());
+									proyectil = null;
+									break;
+								}
+							} else {
+								if (proyectil.getTransformedCenter().x < (arregloDeEnemigos
+										.get(contarEnemigos).getEnemigo()
+										.getTransformedCenter().x + 10)
+										&& proyectil.getTransformedCenter().x > (arregloDeEnemigos
+												.get(contarEnemigos)
+												.getEnemigo()
+												.getTransformedCenter().x - 10)
+										&& proyectil.getTransformedCenter().y > (arregloDeEnemigos
+												.get(contarEnemigos)
+												.getEnemigo()
+												.getTransformedCenter().y - 10)
+										&& proyectil.getTransformedCenter().y < (arregloDeEnemigos
+												.get(contarEnemigos)
+												.getEnemigo()
+												.getTransformedCenter().y + 10)) {
+									jugador.arregloDeProyectiles
+											.remove(contarObjetos);
+									mundo.removeObject(proyectil);
+									arregloDeEnemigos.get(contarEnemigos)
+											.danar(jugador.getDano());
+									proyectil = null;
+									break;
+								}
+							}
+						}
+						if (!arregloDeEnemigos.get(contarEnemigos).enemigoExiste) {
+
+							if (!arregloDeEnemigos.get(contarEnemigos).enemigoRemovido) {
+								vectorOrigen = arregloDeEnemigos
+										.get(contarEnemigos).getEnemigo()
+										.getTransformedCenter();
+								mundo.removeObject(arregloDeEnemigos.get(
+										contarEnemigos).getEnemigo());
+								arregloDeEnemigos.get(contarEnemigos).enemigoRemovido = true;
+								if (!hayJefe) {
+									puntaje = puntaje + 10;
+								}
+								puntajeFinal = puntajeFinal + 10;
+								if (arregloDeEnemigos.get(contarEnemigos) instanceof Jefe) {
+									hayJefe = false;
+									puntaje = 0;
+									puntajeFinal = puntajeFinal + 100;
+									if (jefesDestruidos > 0) {
+										if (stats.statBoxExiste) {
+											mundo.removeObject(dropNuevo);
+											stats.statBoxExiste = false;
+										}
+									}
+									jefesDestruidos++;
+									stats = new StatsDrop(1, 20, vectorOrigen);
+									dropNuevo = stats.statBox;
+									mundo.addObject(dropNuevo);
+									if (cadenciaDeDisparo > 7) {
+										cadenciaDeDisparo = cadenciaDeDisparo - 2;
+									}
+								} else {
+									contadorEnemigos--;
+									Log.d("eliminado",
+											("enemigo eliminado" + contadorEnemigos));
+								}
+
+							}
+							if (arregloDeEnemigos.get(contarEnemigos).arregloDeProyectiles
+									.size() == 0) {
+
+								arregloDeEnemigos.remove(contarEnemigos);
+							}
+
+						}
+
+					}
 					if (proyectil == null) {
 						continue;
 					}
-					if (proyectil.getTransformedCenter().y > 205) {
+					if (proyectil.getTransformedCenter().y < -205) {
 						mundo.removeObject(proyectil);
-						enemigoActual.arregloDeProyectiles
-								.remove(contarMisiles);
+						jugador.arregloDeProyectiles.remove(contarObjetos);
+						
 					}
 				}
+				// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
+				jugador.mover(offsetHorizontal, offsetVertical);
+				generarImagenScore();
+				// *********************** BUFFER
+
 			}
-
-			// *******************************************************************************
-			// Revisa si el proyectil del jugador ha salido del mundo o
-			// colisionado con
-			// algun enemigo
-			for (int contarObjetos = jugador.arregloDeProyectiles.size() - 1; contarObjetos >= 0; contarObjetos--) {
-				Object3D proyectil = jugador.arregloDeProyectiles
-						.get(contarObjetos);
-				proyectil.rotateZ(0.1f);
-				proyectil.translate(0, -5.0f, 0);
-				for (int contarEnemigos = arregloDeEnemigos.size() - 1; contarEnemigos >= 0; contarEnemigos--) {
-					if (arregloDeEnemigos.get(contarEnemigos).enemigoExiste) {
-						if (arregloDeEnemigos.get(contarEnemigos) instanceof Jefe) {
-							if (proyectil.getTransformedCenter().x < (arregloDeEnemigos
-									.get(contarEnemigos).getEnemigo()
-									.getTransformedCenter().x + 50)
-									&& proyectil.getTransformedCenter().x > (arregloDeEnemigos
-											.get(contarEnemigos).getEnemigo()
-											.getTransformedCenter().x - 50)
-									&& proyectil.getTransformedCenter().y > (arregloDeEnemigos
-											.get(contarEnemigos).getEnemigo()
-											.getTransformedCenter().y - 42)
-									&& proyectil.getTransformedCenter().y < (arregloDeEnemigos
-											.get(contarEnemigos).getEnemigo()
-											.getTransformedCenter().y + 60)) {
-								jugador.arregloDeProyectiles
-										.remove(contarObjetos);
-								mundo.removeObject(proyectil);
-								arregloDeEnemigos.get(contarEnemigos).danar(
-										jugador.getDano());
-								proyectil = null;
-								break;
-							}
-						} else {
-							if (proyectil.getTransformedCenter().x < (arregloDeEnemigos
-									.get(contarEnemigos).getEnemigo()
-									.getTransformedCenter().x + 10)
-									&& proyectil.getTransformedCenter().x > (arregloDeEnemigos
-											.get(contarEnemigos).getEnemigo()
-											.getTransformedCenter().x - 10)
-									&& proyectil.getTransformedCenter().y > (arregloDeEnemigos
-											.get(contarEnemigos).getEnemigo()
-											.getTransformedCenter().y - 10)
-									&& proyectil.getTransformedCenter().y < (arregloDeEnemigos
-											.get(contarEnemigos).getEnemigo()
-											.getTransformedCenter().y + 10)) {
-								jugador.arregloDeProyectiles
-										.remove(contarObjetos);
-								mundo.removeObject(proyectil);
-								arregloDeEnemigos.get(contarEnemigos).danar(
-										jugador.getDano());
-								proyectil = null;
-								break;
-							}
-						}
-					}
-					if (!arregloDeEnemigos.get(contarEnemigos).enemigoExiste) {
-
-						if (!arregloDeEnemigos.get(contarEnemigos).enemigoRemovido) {
-							mundo.removeObject(arregloDeEnemigos.get(
-									contarEnemigos).getEnemigo());
-							arregloDeEnemigos.get(contarEnemigos).enemigoRemovido = true;
-							if (!hayJefe) {
-								puntaje = puntaje + 10;
-							}
-							puntajeFinal = puntajeFinal + 10;
-							if (arregloDeEnemigos.get(contarEnemigos) instanceof Jefe) {
-								hayJefe = false;
-								puntaje = 0;
-								puntajeFinal = puntajeFinal + 100;
-								jefesDestruidos++;
-								if (cadenciaDeDisparo > 7) {
-									cadenciaDeDisparo = cadenciaDeDisparo - 2;
-								}
-							} else {
-								contadorEnemigos--;
-								Log.d("eliminado", ("enemigo eliminado" + contadorEnemigos));
-							}
-						}
-						if (arregloDeEnemigos.get(contarEnemigos).arregloDeProyectiles
-								.size() == 0) {
-
-							arregloDeEnemigos.remove(contarEnemigos);
-						}
-
-					}
-
-				}
-				if (proyectil == null) {
-					continue;
-				}
-				if (proyectil.getTransformedCenter().y < -205) {
-					mundo.removeObject(proyectil);
-					jugador.arregloDeProyectiles.remove(contarObjetos);
-				}
-			}
-			// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
-			jugador.mover(offsetHorizontal, offsetVertical);
-			generarImagenScore();
-			// *********************** BUFFER
 			buffer.clear(colorFondo); // Borrar el buffer
 			mundo.renderScene(buffer);// Calculos sobre los objetos a dibujar
 			mundo.draw(buffer); // Redibuja todos los objetos
+			buffer.blit(TextureManager.getInstance().getTexture("hudd"), 0, 0,
+					0, 0, 1024, 128, false);
+
 			buffer.blit(pixeles, 512, 64, 0, 0, 250, 20, 512, 64, true);
+
 			buffer.display(); // Actualiza en pantalla
 			// *********************** CONTADOR FPS
 			if (System.currentTimeMillis() - tiempo > 1000) {
@@ -534,6 +605,12 @@ public class Juego extends Activity implements SensorEventListener {
 				background.rotateX((float) (3.1415 / 2));
 				background.translate(0, 0, 150);
 				mundo.addObject(background);
+
+				Texture texturaPausa = new Texture(BitmapHelper.rescale(
+						BitmapHelper.convert(getResources().getDrawable(
+								R.drawable.hudd)), 1024, 128));
+				TextureManager.getInstance().addTexture("hudd", texturaPausa);
+
 				// *********************** CARGA DEL MODELO DE LA NAVE
 				jugador = new Jugador(getBaseContext());
 				mundo.addObject(jugador.getObjNave());
@@ -544,11 +621,12 @@ public class Juego extends Activity implements SensorEventListener {
 				camara.moveCamera(Camera.CAMERA_MOVEOUT, 200);
 				camara.moveCamera(Camera.CAMERA_MOVEUP, 3);
 				// *********************** MEMORIA
+
 				MemoryHelper.compact();
 				if (main == null) {
 					main = Juego.this;
 				}
-				dialogoEspera.dismiss();
+				// dialogoEspera.dismiss();
 				reproducirSonido();
 			}
 		}
@@ -577,7 +655,7 @@ public class Juego extends Activity implements SensorEventListener {
 			descriptor.close();
 			player.prepare();
 			player.setVolume(0.5f, 0.5f);
-			player.setLooping(false);
+			player.setLooping(true);
 			player.start();
 		} catch (Exception e) {
 			Log.d("Error", "MP3");
@@ -591,8 +669,9 @@ public class Juego extends Activity implements SensorEventListener {
 		canvas.drawARGB(255, 0, 0, 0);
 		p.setColor(0xFF00FF00);
 		p.setTextSize(24);
-		canvas.drawText("Health:" + jugador.getVida()
-				+ "                         Score:" + puntajeFinal, 0, 30, p);
+		canvas.drawText("                  Score:" + puntajeFinal
+				+ "                                   HP:" + jugador.getVida(),
+				0, 30, p);
 		bitmap.getPixels(pixeles, 0, 512, 0, 0, 512, 64);
 	}
 
@@ -604,20 +683,28 @@ public class Juego extends Activity implements SensorEventListener {
 	public void onSensorChanged(SensorEvent event) {
 		switch (event.sensor.getType()) {
 		case Sensor.TYPE_ACCELEROMETER:
-			if(!sensorPrimera){
+			if (!sensorPrimera) {
 				offsetVerticalInicial = event.values[0];
-				if (offsetVerticalInicial > 5) { 
+				if (offsetVerticalInicial > 5) {
 					offsetVerticalInicial = (float) 4.25;
-				} else if (offsetVerticalInicial < 0){
+				} else if (offsetVerticalInicial < 0) {
 					offsetVerticalInicial = 0;
 				}
-				Log.d("Offset inicial", "Offset inicial = " + offsetVerticalInicial);
+				Log.d("Offset inicial", "Offset inicial = "
+						+ offsetVerticalInicial);
 				sensorPrimera = true;
 			}
 			offsetVertical = (float) ((event.values[0] - offsetVerticalInicial) / 0.5);
 			offsetHorizontal = (float) (event.values[1] / .5);
 			break;
 		}
+	}
+
+	public void limpiarMemoria() {
+		TextureManager.getInstance().removeAndUnload("space8.jpg", buffer);
+		TextureManager.getInstance().removeAndUnload("hudd", buffer);
+
+		System.gc();
 	}
 
 	@Override

@@ -31,9 +31,7 @@ public class StatsDrop {
 		statBox.strip();
 		statBox.build();
 		statBox.setOrigin(origin);
-		statBoxExiste =true;
-	
-				
+		statBoxExiste = true;
 	}
 	
 	/**
@@ -60,16 +58,5 @@ public class StatsDrop {
 	 * 
 	 * @param jugador Objeto 3D que represental al jugador en el mundo.
 	 */
-	public void incrementarStats(Jugador jugador){
-		if(statBox.getTransformedCenter().x + 10 == jugador.getObjNave().getTransformedCenter().x &&
-				statBox.getTransformedCenter().x - 10 == jugador.getObjNave().getTransformedCenter().x &&
-				statBox.getTransformedCenter().y + 10 == jugador.getObjNave().getTransformedCenter().y &&
-				statBox.getTransformedCenter().y - 10 == jugador.getObjNave().getTransformedCenter().y){
-			jugador.setVida(jugador.getVida()+vidaAdicional);
-			jugador.setDano(jugador.getDano()+danoAdicional);
-			statBoxExiste=false;
-
-		}
-	}
 	
 }
