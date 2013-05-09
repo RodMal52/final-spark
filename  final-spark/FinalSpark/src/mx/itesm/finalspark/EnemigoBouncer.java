@@ -1,8 +1,15 @@
 package mx.itesm.finalspark;
 
 import java.util.ArrayList;
+
+import android.content.Context;
+import android.content.res.Resources;
+
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
+import com.threed.jpct.Texture;
+import com.threed.jpct.TextureManager;
+import com.threed.jpct.util.BitmapHelper;
 
 /**
  * Clase que inicializa el modelo 3D que se asociara al enemigo que rebota, 
@@ -23,17 +30,29 @@ public class EnemigoBouncer extends Enemigo {
 	 * 
 	 * @param vida Dano que puede soportar el enemigo antes de morir
 	 */
-	public EnemigoBouncer(int dano, int vida) {
+	public EnemigoBouncer(int dano, int vida  ,Context contexto, Resources resource) {
 		this.dano = dano;
 		this.vida = vida;
 		velocidadX = 3;
 		velocidadY = 3;
 		arregloDeProyectiles = new ArrayList<Object3D>();
-		enemigo = Primitives.getCone(7);
+		/*enemigo = Primitives.getCone(7);
 		enemigo.strip();
-		enemigo.build();
+		enemigo.build();*/
+		
+		if (!TextureManager.getInstance().containsTexture("texturainsecto.png")) {
+			Texture texturainsecto = new Texture(BitmapHelper.rescale(BitmapHelper
+					.convert(resource.getDrawable(R.drawable.texturainsecto)),
+					512, 512));
+			TextureManager.getInstance()
+					.addTexture("texturainsecto.png", texturainsecto);
+		}
+		enemigo = Modelo.cargarModeloMTL(contexto, "insecto 2.obj", "insecto 2.mtl",
+				2);
 		float xa = (float) (Math.random() * (100));
 		float ya = (float) (Math.random() * (-130));
+		
+		enemigo.rotateX((float) (3.1415/2));
 		enemigo.translate(xa, ya, 0);
 		enemigoExiste = true;
 		enemigoRemovido = false;
@@ -80,9 +99,7 @@ public class EnemigoBouncer extends Enemigo {
 	 */
 	public void mover(Object3D object) {
 		if (enemigoExiste) {
-			enemigo.rotateX(0.01f);
-			enemigo.rotateY(0.01f);
-			enemigo.rotateZ(0.01f);
+			
 			if (enemigo.getTransformedCenter().x < 100
 					&& enemigo.getTransformedCenter().x > -100
 					&& enemigo.getTransformedCenter().y < 155

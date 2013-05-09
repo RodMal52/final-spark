@@ -30,7 +30,7 @@ public class Jugador {
 	 * @param contexto Contexto del mundo al cual se agregara la nave.
 	 */
 	public Jugador(Context contexto) {
-		objNave = Modelo.cargarModeloMTL(contexto, "freedom3000.obj",
+		objNave = Modelo.cargarModeloMTL(contexto, "nave.obj",
 				"freedom3000.mtl", 1);
 		//objNave = Primitives.getCone(7);
 		objNave.rotateY(3.141592f);

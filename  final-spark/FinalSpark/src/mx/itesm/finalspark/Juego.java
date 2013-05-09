@@ -278,7 +278,8 @@ public class Juego extends Activity implements SensorEventListener {
 						} else if (obtenerEnemigo() == 2) {
 							Log.d("enemigo bouncer", ("agrego bouncer"));
 							enemigo = new EnemigoBouncer(1 + (jefesDestruidos),
-									10 + (jefesDestruidos * 3));
+									10 + (jefesDestruidos * 3), getBaseContext(),
+									getResources());
 							contadorEnemigos++;
 							mundo.addObject(enemigo.getEnemigo());
 							arregloDeEnemigos.add(enemigo);
@@ -345,6 +346,7 @@ public class Juego extends Activity implements SensorEventListener {
 								mostrarGameOver(view);
 								limpiarMemoria();
 								main = null;
+								break;
 							}
 						} else {
 							Object3D cubo = arregloDeEnemigos.get(i)
@@ -364,6 +366,7 @@ public class Juego extends Activity implements SensorEventListener {
 								mostrarGameOver(view);
 								limpiarMemoria();
 								main = null;
+								break;
 
 							}
 						}
@@ -428,6 +431,7 @@ public class Juego extends Activity implements SensorEventListener {
 								mostrarGameOver(view);
 								limpiarMemoria();
 								main = null;
+								break;
 							}
 
 							proyectil = null;
@@ -670,7 +674,7 @@ public class Juego extends Activity implements SensorEventListener {
 		p.setColor(0xFF00FF00);
 		p.setTextSize(24);
 		canvas.drawText("                  Score:" + puntajeFinal
-				+ "                                   HP:" + jugador.getVida(),
+				+ "                                 HP:" + jugador.getVida(),
 				0, 30, p);
 		bitmap.getPixels(pixeles, 0, 512, 0, 0, 512, 64);
 	}
