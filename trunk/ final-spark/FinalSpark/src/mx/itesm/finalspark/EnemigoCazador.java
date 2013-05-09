@@ -1,8 +1,15 @@
 package mx.itesm.finalspark;
 
 import java.util.ArrayList;
+
+import android.content.Context;
+import android.content.res.Resources;
+
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
+import com.threed.jpct.Texture;
+import com.threed.jpct.TextureManager;
+import com.threed.jpct.util.BitmapHelper;
 
 /**
  * Clase que inicializa el modelo 3D que se asociara al enemigo que persigue, 
@@ -18,6 +25,15 @@ public class EnemigoCazador extends Enemigo {
 		enemigo = Primitives.getCube(7);
 		enemigo.strip();
 		enemigo.build();
+	/*	if (!TextureManager.getInstance().containsTexture("gatarinatextura.png")) {
+			Texture textura = new Texture(BitmapHelper.rescale(BitmapHelper
+					.convert(resource.getDrawable(R.drawable.gatarinatextura)),
+					512, 512));
+			TextureManager.getInstance()
+					.addTexture("gatarinatextura", textura);
+		}
+		enemigo = Modelo.cargarModeloMTL(contexto, "catarina1.obj", "catarina1.mtl",
+				1);*/
 		float xa = (float) (Math.random() * (100));
 		float ya = (float) (Math.random() * (-130));
 		enemigo.translate(xa, ya, 0);
@@ -35,7 +51,6 @@ public class EnemigoCazador extends Enemigo {
 	public void mover(Object3D object) {
 		if (enemigoExiste) {
 			Object3D cubo = enemigo;
-			cubo.rotateX(0.01f);
 			if ((object.getTransformedCenter().y)/50 < 1){
 				cubo.translate(
 						(object.getTransformedCenter().x) / 10
