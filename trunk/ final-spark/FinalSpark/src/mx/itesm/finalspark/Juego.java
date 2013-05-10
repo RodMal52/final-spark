@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -57,11 +56,13 @@ public class Juego extends Activity implements SensorEventListener {
 	private Texture texturaDisparoEnemigo;
 	private Texture texturaDisparoJugador;
 	private Texture texturaDrop;
-	private boolean toqueDisparo; // Valor booleano para comprobar si se agregan misiles
+	private boolean toqueDisparo; // Valor booleano para comprobar si se agregan
+									// misiles
 	private SimpleVector vectorOrigen;
 	private StatsDrop bonus;
 	public ArrayList<Enemigo> arregloDeEnemigos; // Arreglo de enemigos
-	public ArrayList<Enemigo> arregloSecundarioDeEnemigos; // Arreglo secundario de enemigos
+	public ArrayList<Enemigo> arregloSecundarioDeEnemigos; // Arreglo secundario
+															// de enemigos
 	private MediaPlayer player;
 	private Jugador jugador;
 	private Enemigo enemigo;
@@ -149,9 +150,9 @@ public class Juego extends Activity implements SensorEventListener {
 	protected void onPause() {
 		super.onPause();
 		mGLView.onPause();
-		/*if(player.isPlaying()){
-			player.pause();
-		}*/
+		/*
+		 * if(player.isPlaying()){ player.pause(); }
+		 */
 	}
 
 	// -------------------------- Metodo onResume()
@@ -168,7 +169,7 @@ public class Juego extends Activity implements SensorEventListener {
 				sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				sm.SENSOR_DELAY_GAME);
 		Log.d("ACELEROMETRO", "REGISTRA");
-		if(!primeraReproduccionMusicaDeFondo){
+		if (!primeraReproduccionMusicaDeFondo) {
 			player.start();
 		}
 	}
@@ -261,11 +262,11 @@ public class Juego extends Activity implements SensorEventListener {
 		public void onDrawFrame(GL10 gl) { // ACTUALIZACIONES
 
 			if (juegoEstaPausado) {
-				if(player.isPlaying()){
+				if (player.isPlaying()) {
 					player.pause();
 				}
 			} else {
-				if(!player.isPlaying()){
+				if (!player.isPlaying()) {
 					player.start();
 				}
 				// *********************** MISILES
@@ -286,16 +287,20 @@ public class Juego extends Activity implements SensorEventListener {
 						if (obtenerEnemigo() == 1) {
 							Log.d("enemigo cazador", ("agrego cazador"));
 							for (int k = 9; k >= 0; k--) {
-								if(!arregloSecundarioDeEnemigos.get(k).enemigoAgregadoSecundario){
-									enemigo = arregloSecundarioDeEnemigos.get(k);
+								if (!arregloSecundarioDeEnemigos.get(k).enemigoAgregadoSecundario) {
+									enemigo = arregloSecundarioDeEnemigos
+											.get(k);
 									arregloSecundarioDeEnemigos.get(k).enemigoAgregadoSecundario = true;
 									arregloSecundarioDeEnemigos.get(k).enemigoExiste = true;
 									arregloSecundarioDeEnemigos.get(k).enemigoRemovido = false;
-									arregloSecundarioDeEnemigos.get(k).setVida(15 + (jefesDestruidos * 3));
-									arregloSecundarioDeEnemigos.get(k).setDano(1 + (jefesDestruidos * 2));
+									arregloSecundarioDeEnemigos.get(k).setVida(
+											15 + (jefesDestruidos * 3));
+									arregloSecundarioDeEnemigos.get(k).setDano(
+											1 + (jefesDestruidos * 2));
 									float xa = (float) (Math.random() * (80));
 									float ya = (float) (Math.random() * (-115));
-									arregloSecundarioDeEnemigos.get(k).getEnemigo().translate(xa, ya, 0);
+									arregloSecundarioDeEnemigos.get(k)
+											.getEnemigo().translate(xa, ya, 0);
 									break;
 								}
 							}
@@ -307,13 +312,16 @@ public class Juego extends Activity implements SensorEventListener {
 						} else if (obtenerEnemigo() == 2) {
 							Log.d("enemigo bouncer", ("agrego bouncer"));
 							for (int k = 19; k >= 10; k--) {
-								if(!arregloSecundarioDeEnemigos.get(k).enemigoAgregadoSecundario){
-									enemigo = arregloSecundarioDeEnemigos.get(k);
+								if (!arregloSecundarioDeEnemigos.get(k).enemigoAgregadoSecundario) {
+									enemigo = arregloSecundarioDeEnemigos
+											.get(k);
 									arregloSecundarioDeEnemigos.get(k).enemigoAgregadoSecundario = true;
 									arregloSecundarioDeEnemigos.get(k).enemigoExiste = true;
 									arregloSecundarioDeEnemigos.get(k).enemigoRemovido = false;
-									arregloSecundarioDeEnemigos.get(k).setVida(10 + (jefesDestruidos * 3));
-									arregloSecundarioDeEnemigos.get(k).setDano(1 + (jefesDestruidos));
+									arregloSecundarioDeEnemigos.get(k).setVida(
+											10 + (jefesDestruidos * 3));
+									arregloSecundarioDeEnemigos.get(k).setDano(
+											1 + (jefesDestruidos));
 									break;
 								}
 							}
@@ -328,12 +336,20 @@ public class Juego extends Activity implements SensorEventListener {
 				}
 
 				if (puntajeParaJefe == (300 + (jefesDestruidos * 100))) {
-					enemigo = arregloSecundarioDeEnemigos.get(arregloSecundarioDeEnemigos.size() - 1);
-					arregloSecundarioDeEnemigos.get(arregloSecundarioDeEnemigos.size() - 1).enemigoAgregadoSecundario = true;
-					arregloSecundarioDeEnemigos.get(arregloSecundarioDeEnemigos.size() - 1).enemigoExiste = true;
-					arregloSecundarioDeEnemigos.get(arregloSecundarioDeEnemigos.size() - 1).enemigoRemovido = false;
-					arregloSecundarioDeEnemigos.get(arregloSecundarioDeEnemigos.size() - 1).setVida(700 + (jefesDestruidos * 250));
-					arregloSecundarioDeEnemigos.get(arregloSecundarioDeEnemigos.size() - 1).setDano(10 + (jefesDestruidos * 3));
+					enemigo = arregloSecundarioDeEnemigos
+							.get(arregloSecundarioDeEnemigos.size() - 1);
+					arregloSecundarioDeEnemigos.get(arregloSecundarioDeEnemigos
+							.size() - 1).enemigoAgregadoSecundario = true;
+					arregloSecundarioDeEnemigos.get(arregloSecundarioDeEnemigos
+							.size() - 1).enemigoExiste = true;
+					arregloSecundarioDeEnemigos.get(arregloSecundarioDeEnemigos
+							.size() - 1).enemigoRemovido = false;
+					arregloSecundarioDeEnemigos.get(
+							arregloSecundarioDeEnemigos.size() - 1).setVida(
+							700 + (jefesDestruidos * 250));
+					arregloSecundarioDeEnemigos.get(
+							arregloSecundarioDeEnemigos.size() - 1).setDano(
+							10 + (jefesDestruidos * 3));
 					mundo.addObject(enemigo.getEnemigo());
 					enemigo.getEnemigo().translate(0, -20, 0);
 					arregloDeEnemigos.add(enemigo);
@@ -440,54 +456,51 @@ public class Juego extends Activity implements SensorEventListener {
 
 				// ******************************************************************************
 				for (Enemigo enemigoActual : arregloDeEnemigos) {
-						for (int contarMisiles = enemigoActual.arregloDeProyectiles
-								.size() - 1; contarMisiles >= 0; contarMisiles--) {
-							Object3D proyectil = enemigoActual.arregloDeProyectiles
-									.get(contarMisiles);
-							proyectil.rotateZ(0.1f);
-							if (enemigoActual instanceof Jefe) {
-								proyectil.translate(0, 2.0f, 0);
-							} else {
-								proyectil.translate(0, 5.0f, 0);
-							}
-
-							if (proyectil.getTransformedCenter().x < jugador
-									.getObjNave().getTransformedCenter().x + 5
-									&& proyectil.getTransformedCenter().x > (jugador
-											.getObjNave()
-											.getTransformedCenter().x - 5)
-									&& proyectil.getTransformedCenter().y > (jugador
-											.getObjNave()
-											.getTransformedCenter().y - 5)
-									&& proyectil.getTransformedCenter().y < (jugador
-											.getObjNave()
-											.getTransformedCenter().y + 5)) {
-								enemigoActual.arregloDeProyectiles
-										.remove(contarMisiles);
-								mundo.removeObject(proyectil);
-								jugador.setVida(jugador.getVida()
-										- enemigoActual.getDano());
-								if (jugador.getVida() <= 0) {
-									View view = null;
-									mostrarGameOver(view);
-									limpiarMemoria();
-									main = null;
-									break;
-								}
-
-								proyectil = null;
-							}
-
-							if (proyectil == null) {
-								continue;
-							}
-							if (proyectil.getTransformedCenter().y > 205) {
-								mundo.removeObject(proyectil);
-								enemigoActual.arregloDeProyectiles
-										.remove(contarMisiles);
-							}
+					for (int contarMisiles = enemigoActual.arregloDeProyectiles
+							.size() - 1; contarMisiles >= 0; contarMisiles--) {
+						Object3D proyectil = enemigoActual.arregloDeProyectiles
+								.get(contarMisiles);
+						proyectil.rotateZ(0.1f);
+						if (enemigoActual instanceof Jefe) {
+							proyectil.translate(0, 2.0f, 0);
+						} else {
+							proyectil.translate(0, 5.0f, 0);
 						}
-					//}
+
+						if (proyectil.getTransformedCenter().x < jugador
+								.getObjNave().getTransformedCenter().x + 5
+								&& proyectil.getTransformedCenter().x > (jugador
+										.getObjNave().getTransformedCenter().x - 5)
+								&& proyectil.getTransformedCenter().y > (jugador
+										.getObjNave().getTransformedCenter().y - 5)
+								&& proyectil.getTransformedCenter().y < (jugador
+										.getObjNave().getTransformedCenter().y + 5)) {
+							enemigoActual.arregloDeProyectiles
+									.remove(contarMisiles);
+							mundo.removeObject(proyectil);
+							jugador.setVida(jugador.getVida()
+									- enemigoActual.getDano());
+							if (jugador.getVida() <= 0) {
+								View view = null;
+								mostrarGameOver(view);
+								limpiarMemoria();
+								main = null;
+								break;
+							}
+
+							proyectil = null;
+						}
+
+						if (proyectil == null) {
+							continue;
+						}
+						if (proyectil.getTransformedCenter().y > 205) {
+							mundo.removeObject(proyectil);
+							enemigoActual.arregloDeProyectiles
+									.remove(contarMisiles);
+						}
+					}
+					// }
 				}
 
 				// *******************************************************************************
@@ -553,15 +566,20 @@ public class Juego extends Activity implements SensorEventListener {
 						}
 						if (!arregloDeEnemigos.get(contarEnemigos).enemigoExiste) {
 
-							
 							if (!arregloDeEnemigos.get(contarEnemigos).enemigoRemovido) {
 								vectorOrigen = arregloDeEnemigos
 										.get(contarEnemigos).getEnemigo()
 										.getTransformedCenter();
-								SimpleVector vectorFinal = arregloDeEnemigos.get(contarEnemigos).getEnemigo().getTransformedCenter();
+								SimpleVector vectorFinal = arregloDeEnemigos
+										.get(contarEnemigos).getEnemigo()
+										.getTransformedCenter();
 								mundo.removeObject(arregloDeEnemigos.get(
 										contarEnemigos).getEnemigo());
-								arregloDeEnemigos.get(contarEnemigos).getEnemigo().translate(-vectorFinal.x, -vectorFinal.y, 0);
+								arregloDeEnemigos
+										.get(contarEnemigos)
+										.getEnemigo()
+										.translate(-vectorFinal.x,
+												-vectorFinal.y, 0);
 								arregloDeEnemigos.get(contarEnemigos).enemigoRemovido = true;
 								if (!hayJefe) {
 									puntajeParaJefe = puntajeParaJefe + 10;
@@ -578,7 +596,8 @@ public class Juego extends Activity implements SensorEventListener {
 										}
 									}
 									jefesDestruidos++;
-									bonus = new StatsDrop(1, 20, vectorOrigen, "texturadrop");
+									bonus = new StatsDrop(1, 20, vectorOrigen,
+											"texturadrop");
 									bonusNuevo = bonus.statBox;
 									mundo.addObject(bonusNuevo);
 									if (cadenciaDeDisparo > 7) {
@@ -598,7 +617,6 @@ public class Juego extends Activity implements SensorEventListener {
 								Log.d("regrese", "regresé al arreglo");
 								arregloDeEnemigos.remove(contarEnemigos);
 							}
-							
 
 						}
 
@@ -652,26 +670,29 @@ public class Juego extends Activity implements SensorEventListener {
 						BitmapHelper.convert(getResources().getDrawable(
 								R.drawable.space8)), 1024, 1024));
 				TextureManager.getInstance().addTexture("space8.jpg", textura);
-				fondo = Modelo.cargarModeloMTL(getBaseContext(),
-						"space.obj", "space.mtl", 2);
+				fondo = Modelo.cargarModeloMTL(getBaseContext(), "space.obj",
+						"space.mtl", 2);
 				fondo.rotateX((float) (3.1415 / 2));
 				fondo.translate(0, 0, 150);
 				mundo.addObject(fondo);
 
-				texturaDrop = new Texture(
-						BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(
+				texturaDrop = new Texture(BitmapHelper.rescale(
+						BitmapHelper.convert(getResources().getDrawable(
 								R.drawable.drop)), 16, 16));
-				TextureManager.getInstance().addTexture("texturadrop",texturaDrop);
-				texturaDisparoJugador = new Texture(
-						BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(
+				TextureManager.getInstance().addTexture("texturadrop",
+						texturaDrop);
+				texturaDisparoJugador = new Texture(BitmapHelper.rescale(
+						BitmapHelper.convert(getResources().getDrawable(
 								R.drawable.textdisparojugador)), 16, 16));
-				TextureManager.getInstance().addTexture("textdisparojugador",texturaDisparoJugador);
-				
-				texturaDisparoEnemigo = new Texture(
-						BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(
+				TextureManager.getInstance().addTexture("textdisparojugador",
+						texturaDisparoJugador);
+
+				texturaDisparoEnemigo = new Texture(BitmapHelper.rescale(
+						BitmapHelper.convert(getResources().getDrawable(
 								R.drawable.textdisparoenemigo)), 16, 16));
-				TextureManager.getInstance().addTexture("textdisparoenemigo",texturaDisparoEnemigo);
-				
+				TextureManager.getInstance().addTexture("textdisparoenemigo",
+						texturaDisparoEnemigo);
+
 				Texture texturaPausa = new Texture(BitmapHelper.rescale(
 						BitmapHelper.convert(getResources().getDrawable(
 								R.drawable.hudd)), 1024, 128));
@@ -696,16 +717,16 @@ public class Juego extends Activity implements SensorEventListener {
 					arregloSecundarioDeEnemigos.add(enemigoBouncer);
 					Log.d("bouncer nuevo", "bouncer nuevo");
 				}
-				
-				Enemigo jefeInicial = new Jefe(10, 700,
-						getBaseContext(), getResources());
+
+				Enemigo jefeInicial = new Jefe(10, 700, getBaseContext(),
+						getResources());
 				arregloSecundarioDeEnemigos.add(jefeInicial);
 				Log.d("jefe nuevo", "jefe nuevo");
 
 				Log.d("tamaño arreglo de enemigos",
 						"Tamaño del arreglo de enemigos: "
 								+ arregloDeEnemigos.size());
-				
+
 				// *********************** MANEJO DE CAMARA
 				camara = mundo.getCamera();
 				camara.moveCamera(Camera.CAMERA_MOVEOUT, 200);
@@ -716,9 +737,9 @@ public class Juego extends Activity implements SensorEventListener {
 				if (main == null) {
 					main = Juego.this;
 				}
-				
+
 				reproducirSonido();
-				
+
 			}
 		}
 
@@ -794,10 +815,15 @@ public class Juego extends Activity implements SensorEventListener {
 	}
 
 	public void limpiarMemoria() {
-		if(!memoriaLimpiada){
+		if (!memoriaLimpiada) {
 			TextureManager.getInstance().removeAndUnload("space8.jpg", buffer);
+			TextureManager.getInstance().removeAndUnload("texturadrop", buffer);
+			TextureManager.getInstance().removeAndUnload("textdisparojugador",
+					buffer);
+			TextureManager.getInstance().removeAndUnload("textdisparoenemigo",
+					buffer);
 			TextureManager.getInstance().removeAndUnload("hudd", buffer);
-
+			finish();
 			System.gc();
 			memoriaLimpiada = true;
 		}
