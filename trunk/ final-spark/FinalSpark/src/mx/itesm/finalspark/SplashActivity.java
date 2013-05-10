@@ -9,7 +9,7 @@ import android.content.Intent;
  * Muestra la pantalla de splash al iniciar la aplicacion.
  */
 public class SplashActivity extends Activity {
-	protected int _splashTime = 1000;
+	protected int _splashTime = 2500;
 	private Thread splashTread;
 
 	@Override

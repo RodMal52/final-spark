@@ -2,16 +2,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/settings"
+    android:background="@drawable/bkgrd"
+    android:gravity="fill_horizontal"
     tools:context=".SettingsActivity" >
 
+    <TextView
+        android:id="@+id/textViewSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="292dp"
+        android:text="Settings"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="65dp" />
+
+    <TextView
+        android:id="@+id/textViewSensitivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewSettings"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="94dp"
+        android:text="Sensitivity: "
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="30dp" />
+
     <SeekBar
-        android:id="@+id/seekBar1"
+        android:id="@+id/accelBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="148dp"
+        android:layout_below="@+id/textViewSensitivity"
+        android:layout_marginTop="189dp"
+        android:max="100"
         android:progress="@integer/m50" />
 
 </RelativeLayout>

@@ -40,11 +40,11 @@ public class Jefe extends Enemigo {
 		velocidadY = (float) 1.5;
 		arregloDeProyectiles = new ArrayList<Object3D>();
 		if (!TextureManager.getInstance().containsTexture("texturamantis.png")) {
-			Texture textura = new Texture(BitmapHelper.rescale(BitmapHelper
+			Texture texturajefe = new Texture(BitmapHelper.rescale(BitmapHelper
 					.convert(resource.getDrawable(R.drawable.texturamantis)),
 					512, 512));
 			TextureManager.getInstance()
-					.addTexture("texturamantis.png", textura);
+					.addTexture("texturamantis.png", texturajefe);
 		}
 		enemigo = Modelo.cargarModeloMTL(contexto, "mantis.obj", "mantis.mtl",
 				3);

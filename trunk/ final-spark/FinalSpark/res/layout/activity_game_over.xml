@@ -18,7 +18,7 @@
         android:id="@+id/tfNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/textViewSensitivity"
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="text" >
@@ -37,7 +37,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewSensitivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/score"
