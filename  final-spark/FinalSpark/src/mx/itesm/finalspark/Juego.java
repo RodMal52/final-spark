@@ -269,7 +269,7 @@ public class Juego extends Activity implements SensorEventListener {
 							Log.d("enemigo cazador", ("agrego cazador"));
 							enemigo = new EnemigoCazador(
 									1 + (jefesDestruidos * 2),
-									15 + (jefesDestruidos * 3));
+									15 + (jefesDestruidos * 3), getBaseContext(),getResources());
 							contadorEnemigos++;
 							mundo.addObject(enemigo.getEnemigo());
 							arregloDeEnemigos.add(enemigo);

@@ -71,6 +71,7 @@ int drawable uvtexture 0x7f020030
 int drawable uvtexture512 0x7f020031
 int id FrameLayout1 0x7f04001f
 int id RelativeLayout1 0x7f040018
+int id accelBar 0x7f040026
 int id alignBounds 0x7f040002
 int id alignMargins 0x7f040003
 int id bottom 0x7f040005
@@ -94,7 +95,6 @@ int id lista 0x7f04001a
 int id menu_settings 0x7f040027
 int id right 0x7f040007
 int id score 0x7f040016
-int id seekBar1 0x7f040026
 int id space1 0x7f04001b
 int id space2 0x7f04001c
 int id start 0x7f040010
@@ -103,8 +103,8 @@ int id tableRow2 0x7f04001e
 int id tableRow3 0x7f040020
 int id tableRow4 0x7f040022
 int id tableRow5 0x7f040024
-int id textView1 0x7f040019
-int id textView2 0x7f040015
+int id textViewSensitivity 0x7f040015
+int id textViewSettings 0x7f040019
 int id tfNombre 0x7f040014
 int id top 0x7f040004
 int id tvscore 0x7f040013

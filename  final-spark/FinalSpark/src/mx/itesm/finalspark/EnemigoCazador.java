@@ -18,24 +18,25 @@ import com.threed.jpct.util.BitmapHelper;
  */
 public class EnemigoCazador extends Enemigo {
 
-	public EnemigoCazador(int dano, int vida) {
+	public EnemigoCazador(int dano, int vida, Context contexto, Resources resource) {
 		this.dano = dano;
 		this.vida = vida;
 		arregloDeProyectiles = new ArrayList<Object3D>();
-		enemigo = Primitives.getCube(7);
+		/*enemigo = Primitives.getCube(7);
 		enemigo.strip();
-		enemigo.build();
-	/*	if (!TextureManager.getInstance().containsTexture("gatarinatextura.png")) {
-			Texture textura = new Texture(BitmapHelper.rescale(BitmapHelper
+		enemigo.build();*/
+		if (!TextureManager.getInstance().containsTexture("gatarinatextura.png")) {
+			Texture texturacazador = new Texture(BitmapHelper.rescale(BitmapHelper
 					.convert(resource.getDrawable(R.drawable.gatarinatextura)),
 					512, 512));
 			TextureManager.getInstance()
-					.addTexture("gatarinatextura", textura);
+					.addTexture("gatarinatextura.png", texturacazador);
 		}
 		enemigo = Modelo.cargarModeloMTL(contexto, "catarina1.obj", "catarina1.mtl",
-				1);*/
+				2);
 		float xa = (float) (Math.random() * (100));
 		float ya = (float) (Math.random() * (-130));
+		enemigo.rotateX((float) (3.1415/2));
 		enemigo.translate(xa, ya, 0);
 		enemigoExiste = true;
 		enemigoRemovido = false;
