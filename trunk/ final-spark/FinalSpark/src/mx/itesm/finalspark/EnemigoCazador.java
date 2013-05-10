@@ -1,12 +1,10 @@
 package mx.itesm.finalspark;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Resources;
 
-import com.threed.jpct.Loader;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 import com.threed.jpct.Texture;
@@ -24,9 +22,10 @@ public class EnemigoCazador extends Enemigo {
 		this.dano = dano;
 		this.vida = vida;
 		arregloDeProyectiles = new ArrayList<Object3D>();
-		/*enemigo = Primitives.getCube(7);
+		/*enemigo = Primitives.getCone(7);
 		enemigo.strip();
 		enemigo.build();*/
+		//enemigo.rotateX((float) (3.1415/2));
 		if (!TextureManager.getInstance().containsTexture("gatarinatextura.png")) {
 			Texture texturacazador = new Texture(BitmapHelper.rescale(BitmapHelper
 					.convert(resource.getDrawable(R.drawable.gatarinatextura)),
@@ -38,12 +37,16 @@ public class EnemigoCazador extends Enemigo {
 				2);
 		
 
-		float xa = (float) (Math.random() * (100));
-		float ya = (float) (Math.random() * (-130));
+		float xa = (float) (Math.random() * (80));
+		float ya = (float) (Math.random() * (-150));
 		enemigo.rotateX((float) (3.1415/2));
 		enemigo.translate(xa, ya, 0);
 		enemigoExiste = true;
 		enemigoRemovido = false;
+		enemigoAgregadoSecundario = false;
+		
+		
+		
 	}
 
 	/**
@@ -76,16 +79,20 @@ public class EnemigoCazador extends Enemigo {
 	 * enemigo, solamente si su bandera de existencia es verdadera, en caso
 	 * contrario, hace nada. Los agrega ademas a su arreglo de proyectiles.
 	 */
-	public void disparar() {
+	public void disparar(String textura) {
 		if (enemigoExiste) {
-			misil = Primitives.getCube((float) .5);
+			
+			misil = Primitives.getPlane(4, (float) .5);
 			misil.strip();
 			misil.build();
 			misil.translate(0, 2, 0);
 			misil.setOrigin(enemigo.getTransformedCenter());
+			misil.calcTextureWrapSpherical();
+			misil.setTexture(textura);
 			arregloDeProyectiles.add(misil);
 		}
 	}
+	
 
 	/**
 	 * Regresa el objeto 3D que representa el misil en el mundo.

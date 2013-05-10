@@ -1,8 +1,8 @@
 package mx.itesm.finalspark;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
@@ -16,7 +16,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class SettingsActivity extends Activity implements OnSeekBarChangeListener{
 
 	private SeekBar seekBar;
-	
+	private int sensibilidad;
 	private TextView textSensitivity;
 	
 	@Override
@@ -24,17 +24,21 @@ public class SettingsActivity extends Activity implements OnSeekBarChangeListene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
 		
-		SharedPreferences preferencias = getSharedPreferences("sensibilidad", Context.MODE_PRIVATE);
+		/*SharedPreferences preferencias = getSharedPreferences("sensibilidadObtenida", Context.MODE_PRIVATE);
 		boolean hayRegistro = preferencias.contains("sensibilidadGuardada");
 		Log.d("Booleano", "" + hayRegistro);
-		int sensibilidadObtenida = preferencias.getInt("sensibilidadGuardada", 50);
+		int sensibilidadObtenida = preferencias.getInt("sensibilidadGuardada", 50);*/
 		//Log.d("Preferencia", "Sensitivity: " + sensibilidadObtenida + "%");
 		
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		sensibilidad = preferences.getInt("sensibilidad", 50);
 		seekBar = (SeekBar)findViewById(R.id.accelBar);
+		seekBar.setProgress(sensibilidad);
 		seekBar.setOnSeekBarChangeListener(this);
 		
+			
 		textSensitivity = (TextView)findViewById(R.id.textViewSensitivity);
-		textSensitivity.setText("Sensitivity: " + sensibilidadObtenida + "%");
+		textSensitivity.setText("Accelerometer Sensitivity: " + sensibilidad + "%");
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class SettingsActivity extends Activity implements OnSeekBarChangeListene
 			boolean fromUser) {
 		// TODO Auto-generated method stub
 		
-		textSensitivity.setText("Sensitivity: " + progress + "%");
+		textSensitivity.setText("Accelerometer Sensitivity: " + progress + "%");
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class SettingsActivity extends Activity implements OnSeekBarChangeListene
 		
 	}
 
-	public void guardarSensibilidad () {
+	/*public void guardarSensibilidad () {
 	
 		int sensibilidadFinal = seekBar.getProgress();
 		SharedPreferences preferencias = getSharedPreferences("marcadores", Context.MODE_PRIVATE);
@@ -66,14 +70,18 @@ public class SettingsActivity extends Activity implements OnSeekBarChangeListene
 		editor.putInt("sensibilidadGuardada", sensibilidadFinal);
 		editor.commit();
 		
-	}
+	}*/
 	
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
 		// TODO Auto-generated method stub
 		//SharedPreferences preferencias = getSharedPreferences("sensibilidad", Context.MODE_PRIVATE);
-		
-		Log.d("Sensibilidad", "Sensitivity: " + seekBar.getProgress());
+		sensibilidad = seekBar.getProgress();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		  SharedPreferences.Editor editor = preferences.edit();
+		  editor.putInt("sensibilidad", sensibilidad);
+		  editor.commit();
+		Log.d("Sensibilidad", "Accelerometer Sensitivity: " + seekBar.getProgress());
 	}
 
 }
