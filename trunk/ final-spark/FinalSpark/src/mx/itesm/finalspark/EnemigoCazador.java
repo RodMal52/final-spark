@@ -1,10 +1,12 @@
 package mx.itesm.finalspark;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.threed.jpct.Loader;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 import com.threed.jpct.Texture;
@@ -34,6 +36,8 @@ public class EnemigoCazador extends Enemigo {
 		}
 		enemigo = Modelo.cargarModeloMTL(contexto, "catarina1.obj", "catarina1.mtl",
 				2);
+		
+
 		float xa = (float) (Math.random() * (100));
 		float ya = (float) (Math.random() * (-130));
 		enemigo.rotateX((float) (3.1415/2));

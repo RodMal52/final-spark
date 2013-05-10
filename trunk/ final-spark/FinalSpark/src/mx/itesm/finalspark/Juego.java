@@ -95,6 +95,11 @@ public class Juego extends Activity implements SensorEventListener {
 		this.startActivity(intent);
 	}
 
+	@Override
+	public void onBackPressed() {
+	}
+
+	
 	public int obtenerEnemigo() {
 		float aleatorio = (float) (Math.random());
 		if (aleatorio < 0.5) {
@@ -269,7 +274,8 @@ public class Juego extends Activity implements SensorEventListener {
 							Log.d("enemigo cazador", ("agrego cazador"));
 							enemigo = new EnemigoCazador(
 									1 + (jefesDestruidos * 2),
-									15 + (jefesDestruidos * 3), getBaseContext(),getResources());
+									15 + (jefesDestruidos * 3),
+									getBaseContext(), getResources());
 							contadorEnemigos++;
 							mundo.addObject(enemigo.getEnemigo());
 							arregloDeEnemigos.add(enemigo);
@@ -278,8 +284,8 @@ public class Juego extends Activity implements SensorEventListener {
 						} else if (obtenerEnemigo() == 2) {
 							Log.d("enemigo bouncer", ("agrego bouncer"));
 							enemigo = new EnemigoBouncer(1 + (jefesDestruidos),
-									10 + (jefesDestruidos * 3), getBaseContext(),
-									getResources());
+									10 + (jefesDestruidos * 3),
+									getBaseContext(), getResources());
 							contadorEnemigos++;
 							mundo.addObject(enemigo.getEnemigo());
 							arregloDeEnemigos.add(enemigo);
@@ -561,7 +567,7 @@ public class Juego extends Activity implements SensorEventListener {
 					if (proyectil.getTransformedCenter().y < -205) {
 						mundo.removeObject(proyectil);
 						jugador.arregloDeProyectiles.remove(contarObjetos);
-						
+
 					}
 				}
 				// *********************** MOVIMIENTO NAVE Y COLISION CON BORDES
@@ -616,7 +622,7 @@ public class Juego extends Activity implements SensorEventListener {
 				TextureManager.getInstance().addTexture("hudd", texturaPausa);
 
 				// *********************** CARGA DEL MODELO DE LA NAVE
-				jugador = new Jugador(getBaseContext(),getResources());
+				jugador = new Jugador(getBaseContext(), getResources());
 				mundo.addObject(jugador.getObjNave());
 				arregloDeEnemigos = new ArrayList<Enemigo>();
 				// enemigo = new Enemigo();
