@@ -49,9 +49,10 @@ public class EnemigoBouncer extends Enemigo {
 		}
 		enemigo = Modelo.cargarModeloMTL(contexto, "insecto 2.obj", "insecto 2.mtl",
 				2);
+		
+		
 		float xa = (float) (Math.random() * (100));
 		float ya = (float) (Math.random() * (-130));
-		
 		enemigo.rotateX((float) (3.1415/2));
 		enemigo.translate(xa, ya, 0);
 		enemigoExiste = true;
