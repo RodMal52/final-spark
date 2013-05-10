@@ -3,8 +3,13 @@ package mx.itesm.finalspark;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.Resources;
+
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
+import com.threed.jpct.Texture;
+import com.threed.jpct.TextureManager;
+import com.threed.jpct.util.BitmapHelper;
 
 /**
  * Clase que inicializa el modelo 3D que se asociará al jugador 
@@ -29,9 +34,16 @@ public class Jugador {
 	 * 
 	 * @param contexto Contexto del mundo al cual se agregara la nave.
 	 */
-	public Jugador(Context contexto) {
+	public Jugador(Context contexto, Resources resource) {
+		if (!TextureManager.getInstance().containsTexture("textnave.png")) {
+			Texture textura = new Texture(BitmapHelper.rescale(BitmapHelper
+					.convert(resource.getDrawable(R.drawable.textnave)),
+					512, 512));
+			TextureManager.getInstance()
+					.addTexture("textnave.png", textura);
+		}
 		objNave = Modelo.cargarModeloMTL(contexto, "nave.obj",
-				"freedom3000.mtl", 1);
+				"nave.mtl", 1);
 		//objNave = Primitives.getCone(7);
 		objNave.rotateY(3.141592f);
 		objNave.rotateX((float) (1.5));
