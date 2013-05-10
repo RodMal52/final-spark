@@ -24,13 +24,15 @@ public class StatsDrop {
 	 * @param vidaAdicional Vida que se aumentara a las estadisticas del jugador.
 	 * @param origin Punto donde aparecera el objeto 3D que representara al drop en el mundo.
 	 */
-	public StatsDrop(int danoAdicional, int vidaAdicional, SimpleVector origin) {
+	public StatsDrop(int danoAdicional, int vidaAdicional, SimpleVector origin, String textura) {
 		this.danoAdicional=danoAdicional;
 		this.vidaAdicional=vidaAdicional;
 		statBox = Primitives.getPyramide(5);
 		statBox.strip();
 		statBox.build();
 		statBox.setOrigin(origin);
+		statBox.calcTextureWrapSpherical();
+		statBox.setTexture(textura);
 		statBoxExiste = true;
 	}
 	

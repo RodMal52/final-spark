@@ -101,27 +101,35 @@ public class Jugador {
 	 * los cañones de la nave en una posición relativa a sus coordenadas
 	 * actuales en el mundo.
 	 */
-	public void disparar() {
-		misil = Primitives.getCube((float) .5);
+	public void disparar(String textura) {
+		misil = Primitives.getPlane(4, (float) .5);
 		misil.strip();
 		misil.build();
 		misil.setOrigin(objNave.getTransformedCenter());
 		misil.translate(0, -2, 0);
+		misil.calcTextureWrapSpherical();
+		misil.setTexture(textura);
 
-		misilIzq = Primitives.getCube((float) .5);
+		misilIzq = Primitives.getPlane(4, (float) .5);
 		misilIzq.strip();
 		misilIzq.build();
 		misilIzq.setOrigin(objNave.getTransformedCenter());
 		misilIzq.translate(-9, 1, 0);
+		misilIzq.calcTextureWrapSpherical();
+		misilIzq.setTexture(textura);
 
-		misilDer = Primitives.getCube((float) .5);
+		misilDer = Primitives.getPlane(4, (float) .5);
 		misilDer.strip();
 		misilDer.build();
 		misilDer.setOrigin(objNave.getTransformedCenter());
 		misilDer.translate(9, 1, 0);
+		misilDer.calcTextureWrapSpherical();
+		misilDer.setTexture(textura);
+		
 		arregloDeProyectiles.add(misil);// Agrega a la el misileto
 		arregloDeProyectiles.add(misilIzq);
 		arregloDeProyectiles.add(misilDer);
+		
 	}
 
 	/**
@@ -137,7 +145,7 @@ public class Jugador {
 		if (objNave.getTransformedCenter().x < 100
 				&& objNave.getTransformedCenter().x > -100
 				&& objNave.getTransformedCenter().y < 155
-				&& objNave.getTransformedCenter().y > -148) {
+				&& objNave.getTransformedCenter().y > -118) {
 			if (offsetVertical != 0) {
 				objNave.translate(0, offsetVertical, 0);
 				offsetVertical = 0;
@@ -158,7 +166,7 @@ public class Jugador {
 					offsetHorizontal = 0;
 				}
 
-				if (objNave.getTransformedCenter().y < -148) {
+				if (objNave.getTransformedCenter().y < -118) {
 
 					if (offsetVertical > 0) {
 						objNave.translate(0, offsetVertical, 0);
@@ -191,7 +199,7 @@ public class Jugador {
 					offsetHorizontal = 0;
 				}
 
-				if (objNave.getTransformedCenter().y < -148) {
+				if (objNave.getTransformedCenter().y < -118) {
 
 					if (offsetVertical > 0) {
 						objNave.translate(0, offsetVertical, 0);
@@ -217,7 +225,7 @@ public class Jugador {
 			}
 
 			// Pared superior
-			if (objNave.getTransformedCenter().y < -148) {
+			if (objNave.getTransformedCenter().y < -118) {
 
 				if (offsetVertical > 0) {
 					objNave.translate(0, offsetVertical, 0);

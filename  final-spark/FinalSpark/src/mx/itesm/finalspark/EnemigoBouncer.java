@@ -36,7 +36,7 @@ public class EnemigoBouncer extends Enemigo {
 		velocidadX = 3;
 		velocidadY = 3;
 		arregloDeProyectiles = new ArrayList<Object3D>();
-		/*enemigo = Primitives.getCone(7);
+		/*enemigo = Primitives.getCube(7);
 		enemigo.strip();
 		enemigo.build();*/
 		
@@ -51,12 +51,13 @@ public class EnemigoBouncer extends Enemigo {
 				2);
 		
 		
-		float xa = (float) (Math.random() * (100));
-		float ya = (float) (Math.random() * (-130));
+		float xa = (float) (Math.random() * (80));
+		float ya = (float) (Math.random() * (-115));
 		enemigo.rotateX((float) (3.1415/2));
 		enemigo.translate(xa, ya, 0);
 		enemigoExiste = true;
 		enemigoRemovido = false;
+		enemigoAgregadoSecundario = false;
 		velocidadX = velocidadX * obtenerSigno();
 		velocidadY = velocidadY * obtenerSigno();
 	}
@@ -101,56 +102,56 @@ public class EnemigoBouncer extends Enemigo {
 	public void mover(Object3D object) {
 		if (enemigoExiste) {
 			
-			if (enemigo.getTransformedCenter().x < 100
-					&& enemigo.getTransformedCenter().x > -100
-					&& enemigo.getTransformedCenter().y < 155
+			if (enemigo.getTransformedCenter().x < 110
+					&& enemigo.getTransformedCenter().x > -110
+					&& enemigo.getTransformedCenter().y < 165
 					&& enemigo.getTransformedCenter().y > -148) {
 				enemigo.translate(velocidadX, velocidadY, 0);
 			} else {
 				// Pared derecha
-				if (enemigo.getTransformedCenter().x > 100) {
+				if (enemigo.getTransformedCenter().x >= 110) {
 					cambiarVelocidadX();
 					enemigo.translate(velocidadX, velocidadY, 0);
-					if (enemigo.getTransformedCenter().y < -148) {
+					if (enemigo.getTransformedCenter().y <= -148) {
 						cambiarVelocidadY();
 						enemigo.translate(velocidadX, velocidadY, 0);
-					} else if (enemigo.getTransformedCenter().y > 155) {
+					} else if (enemigo.getTransformedCenter().y >= 165) {
 						cambiarVelocidadY();
 						enemigo.translate(velocidadX, velocidadY, 0);
 					}
 				}
 				// Pared izquierda
-				if (enemigo.getTransformedCenter().x < -100) {
+				if (enemigo.getTransformedCenter().x <= -110) {
 					cambiarVelocidadX();
 					enemigo.translate(velocidadX, velocidadY, 0);
-					if (enemigo.getTransformedCenter().y < -148) {
+					if (enemigo.getTransformedCenter().y <= -148) {
 						cambiarVelocidadY();
 						enemigo.translate(velocidadX, velocidadY, 0);
-					} else if (enemigo.getTransformedCenter().y > 155) {
+					} else if (enemigo.getTransformedCenter().y >= 165) {
 						cambiarVelocidadY();
 						enemigo.translate(velocidadX, velocidadY, 0);
 					}
 				}
 				// Pared superior
-				if (enemigo.getTransformedCenter().y < -148) {
+				if (enemigo.getTransformedCenter().y <= -148) {
 					cambiarVelocidadY();
 					enemigo.translate(velocidadX, velocidadY, 0);
-					if (enemigo.getTransformedCenter().x > 100) {
+					if (enemigo.getTransformedCenter().x >= 110) {
 						cambiarVelocidadX();
 						enemigo.translate(velocidadX, velocidadY, 0);
-					} else if (enemigo.getTransformedCenter().x < -100) {
+					} else if (enemigo.getTransformedCenter().x <= -110) {
 						cambiarVelocidadX();
 						enemigo.translate(velocidadX, velocidadY, 0);
 					}
 				}
 				// Pared inferior
-				if (enemigo.getTransformedCenter().y > 155) {
+				if (enemigo.getTransformedCenter().y >= 165) {
 					cambiarVelocidadY();
 					enemigo.translate(velocidadX, velocidadY, 0);
-					if (enemigo.getTransformedCenter().x > 100) {
+					if (enemigo.getTransformedCenter().x >= 110) {
 						cambiarVelocidadX();
 						enemigo.translate(velocidadX, velocidadY, 0);
-					} else if (enemigo.getTransformedCenter().x < -100) {
+					} else if (enemigo.getTransformedCenter().x <= -110) {
 						cambiarVelocidadX();
 						enemigo.translate(velocidadX, velocidadY, 0);
 					}
@@ -164,13 +165,16 @@ public class EnemigoBouncer extends Enemigo {
 	 * enemigo, solamente si su bandera de existencia es verdadera, en caso
 	 * contrario, hace nada. Los agrega ademas a su arreglo de proyectiles.
 	 */
-	public void disparar() {
+	public void disparar(String textura) {
 		if (enemigoExiste) {
-			misil = Primitives.getCube((float) .8);
+			
+			misil = Primitives.getPlane(4, (float) .8);
 			misil.strip();
 			misil.build();
 			misil.translate(0, 2, 0);
 			misil.setOrigin(enemigo.getTransformedCenter());
+			misil.calcTextureWrapSpherical();
+			misil.setTexture(textura);
 			arregloDeProyectiles.add(misil);
 		}
 	}

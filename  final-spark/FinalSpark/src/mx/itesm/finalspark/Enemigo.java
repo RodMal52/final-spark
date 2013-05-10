@@ -20,6 +20,7 @@ public class Enemigo {
 	public Object3D misil3;
 	public ArrayList<Object3D> arregloDeProyectiles;
 	public boolean enemigoRemovido;
+	public boolean enemigoAgregadoSecundario;
 
 	/**
 	 * Constructor por default del enemigo
@@ -37,6 +38,15 @@ public class Enemigo {
 		this.vida = vida;
 	}
 
+	/**
+	 * Cambia el dano del enemigo por valor el parámetro recibido.
+	 * 
+	 * @param dano Dano con el que se inicializará al enemigo
+	 */
+	public void setDano(int dano){
+		this.dano = dano;
+	}
+	
 	/**
 	 * Regresa la cantidad de dano que hace el enemigo con cada disparo.
 	 * 
@@ -75,7 +85,7 @@ public class Enemigo {
 	/**
 	 * Metodo encargado de generar los proyectiles que seran disparados por el enemigo. 
 	 */
-	public void disparar() {
+	public void disparar(String textura) {
 	}
 
 	/**
