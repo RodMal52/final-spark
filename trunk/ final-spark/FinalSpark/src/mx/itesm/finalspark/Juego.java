@@ -616,7 +616,7 @@ public class Juego extends Activity implements SensorEventListener {
 				TextureManager.getInstance().addTexture("hudd", texturaPausa);
 
 				// *********************** CARGA DEL MODELO DE LA NAVE
-				jugador = new Jugador(getBaseContext());
+				jugador = new Jugador(getBaseContext(),getResources());
 				mundo.addObject(jugador.getObjNave());
 				arregloDeEnemigos = new ArrayList<Enemigo>();
 				// enemigo = new Enemigo();
