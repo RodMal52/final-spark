@@ -1,0 +1,15 @@
+Título del juego: Final Spark
+
+Género: Naves/disparos/acción/arcade
+
+Historia: Eres el último sobreviviente del planeta guerrero Spark, el cual fue arrasado por una raza alienígena desconocida en un abrir y cerrar de ojos. No sabes por qué ni qué es lo que buscan, sólo sabes que tienes que abrirte paso entre su flota para honrar a tus hermanos caídos y saciar tu sed de venganza. Para ello sólo cuentas con una nave de combate más o menos en buen estado y deberás aprovechar todo lo que encuentres en tu camino y lo que ellos dejen para poder acabar con el mayor número de enemigos posible.
+
+Mecánicas de juego: Tu personaje es una nave ubicada en la parte inferior de la pantalla del dispositivo, el cual se debe sostener de manera vertical (retrato), la manera en la que te mueves es a través del giroscopio del móvil inclinándolo en la dirección deseada. Para disparar basta con hacer tap en la pantalla. Los enemigos aparecen de manera aleatoria y continua y son naves de diferentes clases y con distintos ataques, como disparos continuos, ráfagas de láseres, bombas y más ataques; algunos de ellos dejan elementos que pueden ser recogidos por el usuario como vida extra, bombas o algún modificador de arma, estas naves están indicadas con un color distinto al resto dependiendo de lo que dejan.
+
+Cuando se recoge una bomba, se almacena en una bodega con capacidad para contener hasta tres de ellas, representada en un lado de la pantalla como círculos de color rojo que, al hacer tap en uno de ellos, activan una bomba disparada hacia delante de la nave y dañando enemigos en un radio considerable.
+
+Hay enemigos más duros de vencer que otros y cada clase se diferencia de las demás por algún color o forma específica de nave. Con cada nave vencida se agregan puntos al marcador actual y cuando se llega a ciertas cantidades de puntos se genera un enemigo “jefe” que será mucho más difícil de vencer que los anteriores, siendo característico en él un tamaño mayor al resto de las naves y alguna habilidad especial. Vencer a un jefe concede una cantidad enorme de puntos y la habilidad especial a la nave del jugador, éstas pueden ir acumulándose con las demás que se posean, algunas se activan automáticamente y otras desde símbolos sobre los que se puede hacer tap como con las bombas.
+
+En este juego no hay una forma de ganar, no se termina ni se pasa una historia, en cambio, el objetivo es conseguir la mayor cantidad de puntos antes de que se terminen las vidas del jugador. Las puntuaciones de cada juego se guardan junto con un nombre al terminarse la última vida y las más altas se almacenan para ser mostradas en la pantalla de “Puntuaciones Más Altas”.
+
+El elemento de éxito del proyecto es el nivel de adicción generado en el usuario con cada juego, haciéndolo querer superarse cada vez que termina una partida y, como cada una es diferente porque los enemigos se producen de manera semi-aleatoria, siempre es una experiencia nueva e igual de divertida que la vez anterior. Al terminar cada juego se ofrece al usuario la opción de iniciar de nuevo, esta vez sin ver los controles mostrados cuando se presionó el botón “Jugar” del menú principal.
